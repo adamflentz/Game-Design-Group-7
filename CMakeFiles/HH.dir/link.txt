@@ -1,0 +1,1 @@
+/usr/bin/c++    -std=c++11 -g   CMakeFiles/HH.dir/bin/HH.cpp.o  -o HH -rdynamic -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network libHouseHaunters_core.a -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network 

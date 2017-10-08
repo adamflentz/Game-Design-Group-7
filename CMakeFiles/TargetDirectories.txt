@@ -1,0 +1,4 @@
+/mnt/c/Users/Khauri/Desktop/HouseHaunters/debug/CMakeFiles/rebuild_cache.dir
+/mnt/c/Users/Khauri/Desktop/HouseHaunters/debug/CMakeFiles/edit_cache.dir
+/mnt/c/Users/Khauri/Desktop/HouseHaunters/debug/CMakeFiles/HH.dir
+/mnt/c/Users/Khauri/Desktop/HouseHaunters/debug/CMakeFiles/HouseHaunters_core.dir
