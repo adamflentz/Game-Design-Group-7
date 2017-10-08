@@ -1,1 +1,3 @@
-Game Design Project for Group 7
+# House Haunters
+
+Hunt or be Haunted
