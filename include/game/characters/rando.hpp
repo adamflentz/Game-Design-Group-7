@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include "engine/Engine.hpp"
 #include "components/SpriteAnimation.hpp"
+#include "components/Hitbox.hpp"
+
 ////////////////
 // rando.hpp
 //
@@ -24,5 +26,7 @@ protected:
     SpriteAnimation walk_down;
     SpriteAnimation walk_left;
     SpriteAnimation walk_right;
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+    // create a hitbox at bottom half of 32x32 character
+    Hitbox hbox;
+    void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

@@ -4,12 +4,6 @@
 
 void Rando::init()
 {
-    long seed;
-    PlantSeeds(-1);
-    GetSeed(&seed);
-    SelectStream(1);
-    std::cout << Equilikely(0, 720) << std::endl;
-    std::cout << seed << std::endl;
     // load the sprite map
     sprite_map.loadFromFile("../resources/sprites/rando.png");
     // add animation frames
@@ -73,9 +67,8 @@ void Rando::onUpdate(float dt)
     curr->nextFrame(dt);
 }
 
-void Rando::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void Rando::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    states.transform *= this->getTransform();
     // draw the current sprite
     target.draw(*curr, states);
 }

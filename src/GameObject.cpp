@@ -15,7 +15,8 @@ void GameObject::update(float dt)
 // Initiates the render for all children
 void GameObject::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    this->onDraw(target/*, states*/);
+    states.transform *= this->getTransform();
+    this->onDraw(target, states);
     for(auto a = this->children.begin(); a != this->children.end(); a++){
         target.draw(**a, states);
     }

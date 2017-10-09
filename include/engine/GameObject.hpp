@@ -19,7 +19,7 @@ public:
     GameObject();
     virtual void init(){};
     virtual void onUpdate(float dt){};
-    virtual void onDraw(sf::RenderTarget& ctx/*, sf::RenderStates states/**/) const{};
+    virtual void onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const{};
     /*void addHitbox(AbstractHitbox h);/**/
     void addChild(GameObjectPtr o);
     void removeChild();
