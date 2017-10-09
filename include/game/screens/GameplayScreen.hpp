@@ -1,6 +1,7 @@
 #include <memory>
 #include "engine/Engine.hpp"
 #include "game/characters/rando.hpp"
+#include "game/rooms/Room.hpp"
 
 //////////////////////////
 // PlayScreen.hpp
@@ -26,4 +27,7 @@ public:
     void init();
 protected:
     std::unique_ptr<GameObject> rando;
+    std::unique_ptr<GameObject> room;
+    std::vector<std::unique_ptr<GameObject> > roomFac;
+    void GenerateRoomGrid(int RoomCount);
 };
