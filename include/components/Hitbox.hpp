@@ -22,9 +22,11 @@ public:
     void init();
     void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
     void onUpdate(float dt);
-    void setDebugMode(bool mode) { this->isDebugMode = mode; }
+    void setDebugMode(bool mode) { this->isDebugMode = mode; };
+    void follow(GameObject* o){tracker = o;};
 private:
     sf::RectangleShape shape;
+    GameObject* tracker = NULL;
     bool isDebugMode = true;
 };
 

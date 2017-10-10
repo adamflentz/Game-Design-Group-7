@@ -28,6 +28,6 @@ protected:
     SpriteAnimation walk_left;
     SpriteAnimation walk_right;
     // create a hitbox at bottom half of 32x32 character
-    std::unique_ptr<GameObject> hbox;
+    std::unique_ptr<Hitbox> hbox;
     void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

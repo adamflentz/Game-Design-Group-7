@@ -14,24 +14,23 @@
 class GameObject: public sf::Transformable, public sf::Drawable
 {
 public:
-    //friend class GameEngine;
     typedef std::unique_ptr<GameObject> GameObjectPtr;
     GameObject();
+    // Virtual Methods
     virtual void init(){};
     virtual void onUpdate(float dt){};
     virtual void onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const{};
-    /*void addHitbox(AbstractHitbox h);/**/
+    // Adders
     void addChild(GameObjectPtr o);
+    // Removers
     void removeChild();
     void forEachChild(std::function<void()>& lambda);
-    /*void setGame(GameEngine* g){ game = g; };*/
     void update(float dt);
+    sf::Vector2f velocity{0, 0};
 protected:
     GameObject* parent;
-    //GameEngine* game;
     std::list<GameObjectPtr> children;
-    /*std::list<AbstractHitbox> hitboxes;/**/
-    void updateHitboxes(); // recalculate relative hitbox positions
+    /*std::list< Hitbox* > m_hitboxes;/**/
     /*void drawHitboxes(sf::RenderWindow* ctx);/**/
     void setParent(GameObject* o);
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

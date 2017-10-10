@@ -11,6 +11,8 @@ void Hitbox::init()
 
 void Hitbox::onUpdate(float dt)
 {
+    if(this->tracker)
+        this->setPosition(tracker->getPosition() + sf::Vector2f(this->left, this->top));
     if(this->isDebugMode)
         shape.setPosition(this->getPosition());
 }

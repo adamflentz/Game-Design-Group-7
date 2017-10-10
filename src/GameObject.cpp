@@ -9,6 +9,8 @@ void GameObject::update(float dt)
 {
     this->onUpdate(dt);
     for(auto a = this->children.begin(); a != this->children.end(); a++){
+        // move the children relative to parent
+        //(*a)->setPosition();
         (*a)->update(dt);
     }
 }
@@ -21,12 +23,18 @@ void GameObject::draw(sf::RenderTarget& target, sf::RenderStates states) const
         target.draw(**a, states);
     }
 }
-
+// adds children
 void GameObject::addChild(GameObjectPtr o)
 {
     o->init();
     this->children.push_back(std::move(o));
 }
+// adds hitboxes
+/*
+void GameObject::addHitbox(Hitbox* h)
+{
 
+}
+/**/
 void removeChild(){}
 void forEachChild(std::function<void()>& lambda){}
