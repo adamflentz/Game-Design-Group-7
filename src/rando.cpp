@@ -24,6 +24,10 @@ void Rando::init()
     walk_up.addFrames(up_frames, 32, 32);
     // set default animation
     curr = &walk_down;
+
+    // load the hitbox
+    hbox = std::unique_ptr<Hitbox>(new Hitbox(0, 16, 32, 32));
+    this->addChild(std::move(hbox));
 }
 
 void Rando::onUpdate(float dt)
