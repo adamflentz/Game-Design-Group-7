@@ -1,0 +1,74 @@
+{
+    "clues": {
+        "fire": {
+            "defenseHigh": {
+                "item": "flamethrower",
+                "specific": "X died in a fire.",
+                "vague": "There are scorch marks in the house."
+            },
+            "defenseLow": {
+                "item": "candle",
+                "specific": "X is detered by candles.",
+                "vague": "X is accustomed to the dark."
+            },
+            "info": {
+                "1": "X refused to attend BBQs.",
+                "2": "A painful burn marked X's left hand.",
+                "3": "X ."
+            }
+        },
+        "blades": {
+            "defenseHigh": {
+                "item": "sword",
+                "specific": "X's medieval sword was the most dangerous item in the house.",
+                "vague": "X collected prized antique weapons."
+            },
+            "defenseLow": {
+                "item": "dagger",
+                "specific": "If you use a dagger against X, you must be fast.",
+                "vague": "Be careful, X lost a dagger around here somewhere..."
+            },
+            "info": {
+                "1": "Medieval weaponry was one of X's favorite topics.",
+                "2": "X can make a mean chopped salad.",
+                "3": "X only had nine and a half fingers after an unfortunate chopping incedent."
+            }
+        },
+        "water": {
+            "defenseHigh": {
+                "item": "",
+                "specific": "",
+                "vague": ""
+            },
+            "defenseLow": {
+                "item": "",
+                "specific": "",
+                "vague": ""
+            },
+            "info": {
+                "1": "",
+                "2": "",
+                "3": ""
+            }
+        }
+    }
+}
+
+/**
+TEMPLATE
+    "defenseHigh": {
+        "item": "",
+        "specific": "",
+        "vague": ""
+    },
+    "defenseLow": {
+        "item": "",
+        "specific": "",
+        "vague": ""
+    },
+    "info": {
+        "1": "",
+        "2": "",
+        "3": ""
+    }
+ **/
