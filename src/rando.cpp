@@ -4,6 +4,7 @@
 
 void Rando::init()
 {
+    this->setPosition(132, 132);
     // load the sprite map
     sprite_map.loadFromFile("../resources/sprites/rando.png");
     // add animation frames

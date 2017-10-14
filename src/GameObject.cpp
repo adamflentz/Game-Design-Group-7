@@ -1,5 +1,7 @@
 #include "engine/GameObject.hpp"
 
+int GameObject::objectCount = 0;
+
 GameObject::GameObject()
 {
 
@@ -26,6 +28,10 @@ void GameObject::draw(sf::RenderTarget& target, sf::RenderStates states) const
 // adds children
 void GameObject::addChild(GameObjectPtr o)
 {
+    // give the gameObject an id
+    o->objectID = "GameObject_" + std::to_string(objectCount);
+    objectCount++;
+    o->setParent(this);
     o->init();
     this->children.push_back(std::move(o));
 }
@@ -36,5 +42,5 @@ void GameObject::addHitbox(Hitbox* h)
 
 }
 /**/
-void removeChild(){}
+void GameObject::removeChild(GameObjectPtr o){}
 void forEachChild(std::function<void()>& lambda){}

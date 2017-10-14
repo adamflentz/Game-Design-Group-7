@@ -19,7 +19,7 @@
 
 // Game creation
 #include "engine/GameObject.hpp"
-//#include "engine/Events.hpp"
+#include "engine/Events.hpp"
 #include "engine/GameScreen.hpp"
 #include "engine/GameEngine.hpp"
 
