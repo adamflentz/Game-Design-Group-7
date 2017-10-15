@@ -27,7 +27,7 @@ public:
     // GameObject* coll2; 
 };
 
-class EventManager
+class Events
 {
 public:
     static void addEventListener(std::function<void (BasicEvent)> listener);

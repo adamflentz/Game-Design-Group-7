@@ -1,16 +1,16 @@
 #include "engine/EventManager.hpp"
 
-void EventManager::addEventListener(std::function<void (BasicEvent)> listener)
+void Events::addEventListener(std::function<void (BasicEvent)> listener)
 { 
     listeners.push_back(listener); 
 };
 
-void EventManager::postEvent(BasicEvent e)
+void Events::postEvent(BasicEvent e)
 { 
     events.push(e); 
 };
 
-void EventManager::notify()
+void Events::notify()
 {
     while(!events.empty()) {
         for (auto l = listeners.begin(); l != listeners.end(); l++) {
@@ -20,7 +20,7 @@ void EventManager::notify()
     }
 };
 
-void EventManager::removeEventListener(long id)
+void Events::removeEventListener(long id)
 {
 
 };
