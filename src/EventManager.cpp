@@ -1,8 +1,9 @@
 #include "engine/EventManager.hpp"
 
-void Events::addEventListener(std::function<void (BasicEvent)> listener)
+long Events::addEventListener(std::function<void (BasicEvent)> listener)
 { 
     listeners.push_back(listener); 
+    return 0;
 };
 
 void Events::postEvent(BasicEvent e)

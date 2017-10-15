@@ -30,7 +30,7 @@ public:
 class Events
 {
 public:
-    static void addEventListener(std::function<void (BasicEvent)> listener);
+    static long addEventListener(std::function<void (BasicEvent)> listener);
     static void removeEventListener(long id);
     static void postEvent(BasicEvent e);
     static void notify();
