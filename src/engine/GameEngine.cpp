@@ -89,7 +89,7 @@ void GameEngine::handleEvents()
     }
 
     // notify of all events that took place last frame
-    //ebus.notify();
+    Events::notify();
 }
 /**
 * Gives you a chance to prevent the game from exiting and/or do

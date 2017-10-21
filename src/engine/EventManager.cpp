@@ -1,6 +1,9 @@
 #include "engine/EventManager.hpp"
 
+// define static members
 long Events::listener_id = 0;
+std::map< std::string, event_list > Events::listeners_map;
+std::queue<BasicEvent> Events::events;
 
 long Events::addEventListener(std::string type, std::function<void (BasicEvent)> listener)
 { 
