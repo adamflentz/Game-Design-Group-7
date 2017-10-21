@@ -1,27 +1,46 @@
 #include "engine/EventManager.hpp"
 
-long Events::addEventListener(std::function<void (BasicEvent)> listener)
+long Events::listener_id = 0;
+
+long Events::addEventListener(std::string type, std::function<void (BasicEvent)> listener)
 { 
-    listeners.push_back(listener); 
-    return 0;
+    // if event type not in map, add it (?)
+    if(listeners_map.count(type) == 0) 
+        listeners_map[type] = event_list(); 
+    listeners_map[type].push_back(listener);
+    // not sure where to put this id yet
+    // maybe make the listener's map a map too(?)
+    return listener_id++;
 };
 
-void Events::postEvent(BasicEvent e)
+void Events::postEvent(std::string type, BasicEvent e)
 { 
-    events.push(e); 
+    e.setType(type);
+    events.push(e);
 };
 
 void Events::notify()
 {
     while(!events.empty()) {
-        for (auto l = listeners.begin(); l != listeners.end(); l++) {
-            (*l)(events.front());
+        // get event in front
+        auto e = events.front();
+        std::string type = e.getType();
+        if(listeners_map.count(type) == 1){
+            // iterate through listeners for that type
+            auto list = listeners_map[type];
+            for(auto it = list.begin(); it != list.end(); it++){
+                // call function with event
+                (*it)(e);
+            }
+        }else{
+            // fail silently b/c no event listeners(?)
         }
+        // go on to the next event
         events.pop();
     }
 };
 
 void Events::removeEventListener(long id)
 {
-
+    
 };

@@ -5,6 +5,7 @@
 /////////////////////////
 #include <queue>
 #include <list>
+#include <map>
 #include <string>
 #include <functional>
 
@@ -14,7 +15,10 @@ public:
     BasicEvent(){};
     BasicEvent(std::string m) : message(m){};
     std::string getMessage() {return message;};
-private:
+    void setType(std::string t) { this->type = t; };
+    std::string getType(){ return this->type; };
+private: 
+    std::string type;
     std::string message;
 };
 // To access the two colliders the basic event must be
@@ -27,15 +31,18 @@ public:
     // GameObject* coll2; 
 };
 
+typedef std::list< std::function<void (BasicEvent)> > event_list;
+
 class Events
 {
 public:
-    static long addEventListener(std::function<void (BasicEvent)> listener);
+    static long listener_id;
+    static long addEventListener(std::string type, std::function<void (BasicEvent)> listener);
     static void removeEventListener(long id);
-    static void postEvent(BasicEvent e);
+    static void postEvent(std::string, BasicEvent e);
     static void notify();
 private:
-    static std::list<std::function<void (BasicEvent)>> listeners;
+    static std::map< std::string, event_list > listeners_map;
     static std::queue<BasicEvent> events;
 };
 
