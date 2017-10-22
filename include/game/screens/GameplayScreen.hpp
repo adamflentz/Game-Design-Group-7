@@ -27,7 +27,7 @@ public:
     void init();
 protected:
     std::unique_ptr<GameObject> rando;
-    std::unique_ptr<GameObject> room;
-    std::vector<std::unique_ptr<GameObject> > roomFac;
+    std::unique_ptr<Room> currRoom;
+    std::vector<std::unique_ptr<Room> > roomFac;
     void GenerateRoomGrid(int RoomCount);
 };

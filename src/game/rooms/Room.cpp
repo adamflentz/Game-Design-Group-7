@@ -3,7 +3,6 @@
 
 void Room::init()
 {
-    rect.setPosition(50, 50);
     rect.setFillColor(sf::Color::Blue);
     rect.setOutlineColor(sf::Color::White);
     rect.setOutlineThickness(20);
@@ -14,4 +13,9 @@ void Room::draw(sf::RenderTarget& target, sf::RenderStates states) const
     states.transform *= this->getTransform();
     // draw the current sprite
     target.draw(rect, states);
+}
+
+void Room::setRoomPosition(int x, int y)
+{
+    rect.setPosition(x, y);
 }
