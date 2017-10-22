@@ -1,5 +1,5 @@
 {
-    "damageHigh": [
+    "high": [
         {
             "name": "flamethrower",
             "type": "fire",
@@ -25,7 +25,7 @@
             }
         }
     ],
-    "damageLow": [
+    "low": [
         {
             "name": "candle",
             "type": "fire",
