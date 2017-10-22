@@ -13,14 +13,15 @@ class ClueReader {
 public:
     void readFile(std::string file);
     void selectItems();
-    void populateClues();
     Item itemHigh;
     Item itemLow;
-    // std::vector<std::string> info;
-    // std::vector<std::string> cluesSpec;
-    // std::vector<std::string> cluesVague;
+    std::vector<std::string> info;
+    std::vector<std::string> cluesSpec;
+    std::vector<std::string> cluesVague;
 
 private:
+    void populateClues(std::string y, int z);
+    void populateInfo();
     nlohmann::json j;
 };
 
