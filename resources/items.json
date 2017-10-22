@@ -1,0 +1,71 @@
+{
+    "damageHigh": [
+        {
+            "name": "flamethrower",
+            "type": "fire",
+            "clues": {
+                "specific": "X died in a fire.",
+                "vague": "There are scorch marks in the house."
+            }
+        },
+        {
+            "name": "sword",
+            "type": "blades",
+            "clues": {
+                "specific": "X's medieval sword was the most dangerous item in the house.",
+                "vague": "X collected prized antique weapons."
+            }
+        },
+        {
+            "name": "hose",
+            "type": "water",
+            "clues": {
+                "specific": "X drowned in a well. Might not enjoy being wet...",
+                "vague": "X drowned in a well."
+            }
+        }
+    ],
+    "damageLow": [
+        {
+            "name": "candle",
+            "type": "fire",
+            "clues": {
+                "specific": "X is detered by candles.",
+                "vague": "X is accustomed to the dark."
+            }
+        },
+        {
+            "name": "dagger",
+            "type": "blades",
+            "clues": {
+                "specific": "If you use a dagger against X, you must be fast.",
+                "vague": "Be careful, X lost a dagger around here somewhere..."
+            }
+        },
+        {
+            "name": "bucket",
+            "type": "water",
+            "clues": {
+                "specific": "something",
+                "vague": "something"
+            }
+        }
+    ],
+    "info": {
+        "fire": [
+            "X refused to attend BBQs.",
+            "A painful burn marked X's left hand.",
+            "something"
+        ],
+        "blades": [
+            "Medieval weaponry was one of X's favorite topics.",
+            "X can make a mean chopped salad.",
+            "X only had nine and a half fingers after an unfortunate chopping incedent."
+        ],
+        "water": [
+            "X cried easily.",
+            "A terrible rainstorm occured the night X was born.",
+            "No one enjoyed shaking X's hand, because it was always moist."
+        ]
+    }
+}
