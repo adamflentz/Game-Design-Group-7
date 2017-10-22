@@ -2,7 +2,7 @@
     "clues": {
         "fire": {
             "defenseHigh": {
-                "item": "flamethrower",
+                "item": "flame thrower",
                 "specific": "X died in a fire.",
                 "vague": "There are scorch marks in the house."
             },
@@ -41,7 +41,7 @@
                 "vague": ""
             },
             "defenseLow": {
-                "item": "",
+                "item": "water bucket",
                 "specific": "",
                 "vague": ""
             },
@@ -50,25 +50,23 @@
                 "2": "",
                 "3": ""
             }
+        },
+        "template": {
+            "defenseHigh": {
+                "item": "",
+                "specific": "",
+                "vague": ""
+            },
+            "defenseLow": {
+                  "item": "",
+                  "specific": "",
+                  "vague": ""
+            },
+            "info": {
+                  "1": "",
+                  "2": "",
+                  "3": ""
+            }
         }
     }
 }
-
-/**
-TEMPLATE
-    "defenseHigh": {
-        "item": "",
-        "specific": "",
-        "vague": ""
-    },
-    "defenseLow": {
-        "item": "",
-        "specific": "",
-        "vague": ""
-    },
-    "info": {
-        "1": "",
-        "2": "",
-        "3": ""
-    }
- **/
