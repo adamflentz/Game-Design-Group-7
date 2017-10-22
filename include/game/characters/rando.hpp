@@ -3,7 +3,7 @@
 #include "engine/Engine.hpp"
 #include "components/SpriteAnimation.hpp"
 #include "components/Hitbox.hpp"
-
+#include "game/rooms/RoomGroup.hpp"
 ////////////////
 // rando.hpp
 //
@@ -18,7 +18,10 @@ class Rando: public GameObject
 public:
     void init();
     void onUpdate(float dt);
+    void setGroup(RoomGroup* group) { g = group; };
 protected:
+    RoomGroup* g;
+    sf::View v;
     sf::Texture sprite_map;
     SpriteAnimation* curr;
     // create 4 sprite animations representing walking 

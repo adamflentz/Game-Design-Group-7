@@ -5,8 +5,8 @@ void Room::init()
 {
     rect.setFillColor(sf::Color::Blue);
     rect.setOutlineColor(sf::Color::White);
-    rect.setOutlineThickness(20);
-    rect.setSize(sf::Vector2f(620, 380));
+    rect.setOutlineThickness(0);
+    rect.setSize(sf::Vector2f(30, 30));
 }
 void Room::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {

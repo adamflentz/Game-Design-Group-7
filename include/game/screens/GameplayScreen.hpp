@@ -1,7 +1,9 @@
+#include <SFML/Graphics.hpp>
 #include <memory>
 #include "engine/Engine.hpp"
 #include "game/characters/rando.hpp"
 #include "game/rooms/Room.hpp"
+#include "game/rooms/RoomGroup.hpp"
 
 //////////////////////////
 // PlayScreen.hpp
@@ -25,9 +27,12 @@ class GameplayScreen: public GameScreen
 {
 public:
     void init();
+    void onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const;
 protected:
-    std::unique_ptr<GameObject> rando;
+    std::unique_ptr<Rando> rando;
     std::unique_ptr<Room> currRoom;
-    std::vector<std::unique_ptr<Room> > roomFac;
+    // std::vector<std::unique_ptr<Room> > roomFac;
+    RoomGroup group;
+    std::vector<sf::View> views;
     void GenerateRoomGrid(int RoomCount);
 };

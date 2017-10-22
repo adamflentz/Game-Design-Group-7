@@ -1,15 +1,21 @@
 #include "game/screens/GameplayScreen.hpp"
 #include "engine/Random.hpp"
+#include <iostream>
 #include <time.h>
 
 void GameplayScreen::init()
 {
     rando = std::unique_ptr<Rando>(new Rando());
-    this->GenerateRoomGrid(3);
-    this->addChild(std::move(roomFac[0]));
+    rando->setGroup(&group);
     this->addChild(std::move(rando));
-
+    this->GenerateRoomGrid(3);
 }
+
+void GameplayScreen::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const
+{
+    // ctx.draw(group, states);
+}
+
 
 void GameplayScreen::GenerateRoomGrid(int RoomCount)
 {
@@ -46,8 +52,8 @@ void GameplayScreen::GenerateRoomGrid(int RoomCount)
             if(roomGrid[i][j] == 1)
             {
                 currRoom = std::unique_ptr<Room>(new Room());
-                currRoom->setRoomPosition((620 * i), (380 * j));
-                roomFac.push_back(std::move(currRoom));
+                currRoom->setRoomPosition((32 * i + 1), (32 * j + 1));
+                group.addChild(std::move(currRoom));
             }
         }
     }

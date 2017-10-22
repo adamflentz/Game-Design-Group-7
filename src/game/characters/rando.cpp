@@ -5,6 +5,14 @@
 void Rando::init()
 {
     this->setPosition(132, 132);
+    // 1p width, height
+    // 2p width/2 height
+    // 3p, 4p width/2 height/2
+    v.reset(sf::FloatRect(0,0,360,480));
+    v.setCenter(this->getPosition());
+    v.zoom(0.5f);
+    v.setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
+    // v.setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
     // load the sprite map
     sprite_map.loadFromFile("../resources/sprites/rando.png");
     // add animation frames
@@ -69,11 +77,14 @@ void Rando::onUpdate(float dt)
         curr->stop();
     }
     // make the animation go to the next frame
+    v.setCenter(this->getPosition());
     curr->nextFrame(dt);
 }
 
 void Rando::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     // draw the current sprite
+    target.setView(v);
+    target.draw(*g);
     target.draw(*curr, states);
 }

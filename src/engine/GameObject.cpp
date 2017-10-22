@@ -11,8 +11,6 @@ void GameObject::update(float dt)
 {
     this->onUpdate(dt);
     for(auto a = this->children.begin(); a != this->children.end(); a++){
-        // move the children relative to parent
-        //(*a)->setPosition();
         (*a)->update(dt);
     }
 }
