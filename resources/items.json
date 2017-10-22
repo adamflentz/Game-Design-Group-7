@@ -1,4 +1,5 @@
 {
+    "comment": "reserve 'is killed by' clues for high damage items",
     "high": [
         {
             "name": "flamethrower",
@@ -46,8 +47,8 @@
             "name": "bucket",
             "type": "water",
             "clues": {
-                "specific": "something",
-                "vague": "something"
+                "specific": "X does not like water.",
+                "vague": "X didn't enjoy swimming."
             }
         }
     ],
@@ -55,7 +56,7 @@
         "fire": [
             "X refused to attend BBQs.",
             "A painful burn marked X's left hand.",
-            "something"
+            "X prefered the night to the day."
         ],
         "blades": [
             "Medieval weaponry was one of X's favorite topics.",
