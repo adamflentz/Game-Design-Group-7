@@ -8,6 +8,7 @@
 
 #include "engine/GameObject.hpp"
 #include "engine/GameScreen.hpp"
+#include "engine/EventManager.hpp"
 
 // Basically a state manager
 class GameEngine

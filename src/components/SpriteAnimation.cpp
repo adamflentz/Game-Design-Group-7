@@ -1,4 +1,5 @@
 #include "components/SpriteAnimation.hpp"
+#include <iostream>
 
 void SpriteAnimation::setSpriteSheet(sf::Texture& t)
 {
@@ -46,10 +47,8 @@ void SpriteAnimation::nextFrame(float dt)
     this->time = 0;
 }
 
-void SpriteAnimation::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void SpriteAnimation::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    // apply transformations
-    states.transform *= this->getTransform();
     // draw sprite
     target.draw(sprite, states);
 }

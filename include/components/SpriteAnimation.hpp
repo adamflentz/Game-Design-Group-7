@@ -5,13 +5,15 @@
 #include <SFML/Graphics.hpp>
 #include "engine/Engine.hpp"
 
-class SpriteAnimation: public sf::Drawable, public sf::Transformable
+class SpriteAnimation: public GameObject
 {
 public:
     SpriteAnimation(){};
     void setSpriteSheet(sf::Texture& t);
     void addFrames(std::vector< std::vector<int> > frames, int tilew, int tileh);
     void addFrame(std::vector<int> frame, int tilew, int tileh);
+    //void onUpdate(float dt){ sprite.setPosition(this->getPosition()); };
+    void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
     // controls
     void nextFrame(float dt);
     void gotoFrame();
@@ -27,7 +29,6 @@ protected:
     sf::Texture* texture;
     std::vector<sf::IntRect> m_frames;
 private:
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
 #endif
