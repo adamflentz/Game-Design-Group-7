@@ -1,5 +1,5 @@
 #include "HouseHaunters.hpp"
-#include "engine/ClueReader.hpp"
+// #include "engine/Engine.hpp"
 #include <iostream>
 
 ////////////////////////
@@ -22,7 +22,7 @@ void HouseHauntersGame::init()
     this->changeGameScreen(std::move(screen_gameplay));
 
     PlantSeeds(-1);
-    ClueReader reader;
-    reader.readFile("../resources/items.json");
-    reader.selectItems();
+    // ClueReader reader;
+    // reader.readFile("../resources/items.json");
+    // reader.selectItems();
 }
