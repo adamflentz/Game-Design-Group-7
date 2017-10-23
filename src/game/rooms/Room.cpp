@@ -3,19 +3,21 @@
 
 void Room::init()
 {
+    hbox = Hitbox(rect.getPosition().x, rect.getPosition().y, rect.getSize().x, rect.getSize().y);
+    hbox.init();
     rect.setFillColor(sf::Color::Blue);
     rect.setOutlineColor(sf::Color::White);
-    rect.setOutlineThickness(20);
-    rect.setSize(sf::Vector2f(620, 380));
+    rect.setOutlineThickness(3);
 }
-void Room::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void Room::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    states.transform *= this->getTransform();
+    // states.transform *= this->getTransform();
     // draw the current sprite
-    target.draw(rect, states);
+    target.draw(rect);
+    target.draw(hbox);
 }
 
-void Room::setRoomPosition(int x, int y)
-{
-    rect.setPosition(x, y);
-}
+// void Room::setRoomPosition(int x, int y)
+// {
+//     rect.setPosition(x, y);
+// }

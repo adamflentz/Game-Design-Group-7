@@ -38,14 +38,13 @@ public:
     void update(float dt);
     void checkHitboxes();
     // static methods
-    
+    std::list<GameObjectPtr> children;
 protected:
     std::string objectID;
     // Relative position
     sf::Vector2f relPos{0, 0};
     // Parent GameObject
     GameObject* m_parent;
-    std::list<GameObjectPtr> children;
     std::list<GameObjectPtr> m_hitboxes;
     // inherited from sf::Drawable
     void setParent(GameObject* p){ this->m_parent = this; };

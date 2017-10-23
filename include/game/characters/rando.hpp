@@ -3,7 +3,8 @@
 #include "engine/Engine.hpp"
 #include "components/SpriteAnimation.hpp"
 #include "components/Hitbox.hpp"
-
+#include "game/rooms/Room.hpp"
+#include "game/rooms/RoomGroup.hpp"
 ////////////////
 // rando.hpp
 //
@@ -18,7 +19,10 @@ class Rando: public GameObject
 public:
     void init();
     void onUpdate(float dt);
+    void setGroup(RoomGroup* group) { g = group; };
 protected:
+    RoomGroup* g;
+    sf::View v;
     sf::Texture sprite_map;
     SpriteAnimation* curr;
     // create 4 sprite animations representing walking 
@@ -28,6 +32,6 @@ protected:
     SpriteAnimation walk_left;
     SpriteAnimation walk_right;
     // create a hitbox at bottom half of 32x32 character
-    std::unique_ptr<Hitbox> hbox;
+    Hitbox hbox;
     void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
 };

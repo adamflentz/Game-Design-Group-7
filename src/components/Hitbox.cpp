@@ -2,24 +2,25 @@
 
 void Hitbox::init()
 {
-    shape.setPosition(this->getPosition());
+    offset = sf::Vector2f(this->left, this->top);
+    shape.setPosition(this->left, this->top);
     shape.setFillColor(sf::Color(0,0,0,0));
     shape.setOutlineColor(sf::Color::Yellow);
     shape.setOutlineThickness(5);
-    shape.setSize(sf::Vector2f(32, 16));
+    shape.setSize(sf::Vector2f(this->width, this->height));
 }
 
 void Hitbox::onUpdate(float dt)
 {
     if(this->tracker)
-        this->setPosition(tracker->getPosition() + sf::Vector2f(this->left, this->top));
+        this->top = tracker->getPosition().y + offset.y;
+        this->left = tracker->getPosition().x + offset.x; 
     if(this->isDebugMode)
-        shape.setPosition(this->getPosition());
+        shape.setPosition(this->left, this->top);
 }
 
-void Hitbox::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
+void Hitbox::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    states.transform *= this->getTransform();
     if(this->isDebugMode){
         target.draw(shape);
     }
