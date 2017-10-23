@@ -1,10 +1,12 @@
 #include "HouseHaunters.hpp"
+#include "engine/ClueReader.hpp"
+#include <iostream>
 
 ////////////////////////
 // HouseHaunters.cpp
 //
 // This is where we perform our game setup. You can do things like add game screens
-// create 
+// create
 //
 // Next check out the file include/game/screens/GameplayScreen.hpp
 ///////////////////////
@@ -18,4 +20,9 @@ void HouseHauntersGame::init()
     // Add the game screen
     // since it's a unique pointer we have to move it first
     this->changeGameScreen(std::move(screen_gameplay));
+
+    PlantSeeds(-1);
+    ClueReader reader;
+    reader.readFile("../resources/items.json");
+    reader.selectItems();
 }
