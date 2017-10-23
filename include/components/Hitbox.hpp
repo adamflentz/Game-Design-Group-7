@@ -14,20 +14,21 @@
 #include <SFML/Graphics.hpp>
 #include "engine/GameObject.hpp"
 
-class Hitbox: public sf::FloatRect, public GameObject
+class Hitbox: public sf::FloatRect, public sf::Drawable
 {
 public:
     Hitbox(){};
     Hitbox(float x, float y, float w, float h) : sf::FloatRect(x, y, w, h) {};
     void init();
-    void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
     void onUpdate(float dt);
     void setDebugMode(bool mode) { this->isDebugMode = mode; };
     void follow(GameObject* o){tracker = o;};
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 private:
+    sf::Vector2f offset;
     sf::RectangleShape shape;
     GameObject* tracker = NULL;
-    bool isDebugMode = false;
+    bool isDebugMode = true;
 };
 
 #endif

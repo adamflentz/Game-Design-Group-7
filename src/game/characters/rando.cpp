@@ -4,14 +4,16 @@
 
 void Rando::init()
 {
-    this->setPosition(132, 132);
+    // Make sure player starts inside first room(?)
+    // could also make them start inside a random room
+    this->setPosition(g->rooms.front()->getPosition().x + 20, g->rooms.front()->getPosition().y + 20);
     // 1p width, height
     // 2p width/2 height
     // 3p, 4p width/2 height/2
-    v.reset(sf::FloatRect(0,0,360,480));
+    v.reset(sf::FloatRect(0,0,720,480));
     v.setCenter(this->getPosition());
     v.zoom(0.5f);
-    v.setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
+    // v.setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
     // v.setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
     // load the sprite map
     sprite_map.loadFromFile("../resources/sprites/rando.png");
@@ -34,14 +36,16 @@ void Rando::init()
     // set default animation
     curr = &walk_down;
     // set the hitbox up to follow this object
-    hbox = std::unique_ptr<Hitbox>(new Hitbox(0,16,32,16));
-    hbox->follow(this);
-    this->addChild(std::move(hbox));
+    hbox = Hitbox(0,16,32,16);
+    hbox.follow(this);
+    hbox.init();
 }
 
 void Rando::onUpdate(float dt)
 {   
     float speed = 100.0;
+    float dx = 0;
+    float dy = 0;
     bool noKeyWasPressed = true;
     // TODO: We shouldn't query the keyboard directly here
     //       instead we should use the Joystick class or something
@@ -49,35 +53,43 @@ void Rando::onUpdate(float dt)
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
         curr = &walk_down;
-        this->move(0, speed * dt);
+        dy += speed * dt;
         noKeyWasPressed = false;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
         curr = &walk_up;
-        this->move(0, -speed * dt);
+        dy += -speed * dt;
         noKeyWasPressed = false;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
         curr = &walk_left;
-        this->move(-speed * dt, 0);
+        dx += -speed * dt;
         noKeyWasPressed = false;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
         curr = &walk_right;
-        this->move(speed * dt, 0);
+        dx += speed * dt;
         noKeyWasPressed = false;
     }
+    // check if inside room 
+    if(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height))){
+        this->move(dx, dy);
+    };
+
     curr->play();
 
     if(noKeyWasPressed)
     {
         curr->stop();
     }
-    // make the animation go to the next frame
+    // update the hitbox
+    hbox.onUpdate(dt);
+    // update the view
     v.setCenter(this->getPosition());
+    // make the animation go to the next frame
     curr->nextFrame(dt);
 }
 
@@ -85,6 +97,10 @@ void Rando::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     // draw the current sprite
     target.setView(v);
+    // draw the room group
     target.draw(*g);
+    // draw the animation
     target.draw(*curr, states);
+    // draw the hitbox
+    target.draw(hbox);
 }
