@@ -13,6 +13,7 @@ public:
    void generateRoomGrid(int roomCount);
    bool isInsideRoom(sf::FloatRect hbox);
    std::list<std::unique_ptr<Room>> rooms;
+   std::list<std::unique_ptr<Room>> doors;
 protected:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
