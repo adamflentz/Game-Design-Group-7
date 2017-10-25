@@ -1,5 +1,5 @@
 #include <iostream>
-#include "engine/Joystick.hpp"
+#include "engine/Gamepad.hpp"
 
 void GameController::setLayout(LAYOUT layout)
 {

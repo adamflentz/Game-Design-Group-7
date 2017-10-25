@@ -9,7 +9,7 @@
 #include "engine/GameObject.hpp"
 #include "engine/GameScreen.hpp"
 #include "engine/EventManager.hpp"
-#include "engine/Joystick.hpp"
+#include "engine/Gamepad.hpp"
 
 // Basically a state manager
 class GameEngine

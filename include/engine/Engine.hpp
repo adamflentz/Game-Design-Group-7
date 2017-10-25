@@ -14,7 +14,7 @@
 
 // Utilities
 #include "engine/Interpolate.hpp"
-#include "engine/Joystick.hpp"
+#include "engine/Gamepad.hpp"
 #include "engine/Random.hpp"
 
 // Game creation
