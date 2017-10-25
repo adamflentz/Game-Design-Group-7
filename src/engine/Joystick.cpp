@@ -18,7 +18,8 @@ void GameController::setLayout(LAYOUT layout)
             break;
         case LAYOUT::PS4:
             break;
-        case LAYOUT::XBONE:
+        case LAYOUT::XB360:
+        case LAYOUT::XB1:
             break;
         case LAYOUT::GENERIC:
             break;

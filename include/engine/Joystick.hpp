@@ -24,10 +24,10 @@ class GameController
 {
 public:
     ControllerLayout controls;
-    enum LAYOUT {GENERIC, PS4, XBONE, KEYBOARD};
-    void setControllerIndex(int i){ controllerIndex = i; };
+    enum LAYOUT {GENERIC, PS4, XB1, XB360, KEYBOARD};
+    void setController(int i){ controllerIndex = i; };
     void setLayout(LAYOUT layout); // lazily set a layout using enums
-    void guessLayout(int cIndex); // guess the controller layout(?)
+    void guessLayout(int cIndex);  // guess the controller layout(?)
 protected:
     int controllerIndex = -1;
 };

@@ -9,6 +9,7 @@
 #include "engine/GameObject.hpp"
 #include "engine/GameScreen.hpp"
 #include "engine/EventManager.hpp"
+#include "engine/Joystick.hpp"
 
 // Basically a state manager
 class GameEngine
@@ -29,13 +30,16 @@ public:
     
     /*void pushGameScreen(std::unique_ptr<GameScreen> s);/**/
     /*void popGameScreen(std::unique_ptr<GameScreen> s);/**/
+    void addController(); 
+    void removeController(int id);
     
     bool isRunning(){ return running; };
-    
     sf::RenderWindow* getContext(){ return &window; };
 private:
     bool running;
     bool isDebugMode = false;
+    // list of game controllers
+    std::map<int, GameController> controllers;
     sf::IntRect winDim;//(0, 0, 720, 480);
     sf::RenderWindow window;
     std::string name = "New_Game";
@@ -48,7 +52,6 @@ private:
     virtual bool onExit(){ return true; };
     void handleEvents();
     virtual void onEvent(){};
-
 };
 
 #endif

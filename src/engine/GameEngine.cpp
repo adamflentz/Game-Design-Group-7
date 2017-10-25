@@ -91,6 +91,14 @@ void GameEngine::handleEvents()
     // notify of all events that took place last frame
     Events::notify();
 }
+
+void GameEngine::addController(){
+
+}
+void GameEngine::removeController(int id){
+    
+}
+
 /**
 * Gives you a chance to prevent the game from exiting and/or do
 * some cleanup before the window closes
