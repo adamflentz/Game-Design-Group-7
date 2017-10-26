@@ -3,6 +3,7 @@
 
 void Gamepad::setLayout(LAYOUT layout)
 {
+    this->layout = layout;
     switch(layout){
         case LAYOUT::KEYBOARD:
             controls = {
@@ -17,6 +18,16 @@ void Gamepad::setLayout(LAYOUT layout)
             };
             break;
         case LAYOUT::PS4:
+            controls = {
+                12, 
+                13,
+                14,
+                15,
+                0,
+                1,
+                2,
+                3
+            };
             break;
         case LAYOUT::XB360:
         case LAYOUT::XB1:
@@ -62,6 +73,39 @@ Gamepad::LAYOUT Gamepad::guessLayout()
     }
 }
 
+void Gamepad::update()
+{
+    if(!sf::Joystick::isConnected(controllerIndex)){
+        std::cout << "Gamepad disconnected from index " << controllerIndex << std::endl;
+    }else{
+
+        float povx = sf::Joystick::getAxisPosition(controllerIndex, sf::Joystick::PovX);
+        float povy = sf::Joystick::getAxisPosition(controllerIndex, sf::Joystick::PovY);
+
+        if(povx == 100){
+            std::cout << "RIGHT BUTTON PRESSED " << std::endl;
+        }
+        else if (povx == -100)
+        {
+            std::cout << "LEFT BUTTON PRESSED" << std::endl;
+        }
+
+        if(povy == -100){
+            std::cout << "UP BUTTON PRESSED " << std::endl;
+        }
+        else if (povy == 100)
+        {
+            std::cout << "DOWN BUTTON PRESSED" << std::endl;
+        }
+
+        for(int i = 0; i < sf::Joystick::getButtonCount(controllerIndex); i++){
+            if(sf::Joystick::isButtonPressed(controllerIndex, i)){
+                std::cout << i << " BUTTON PRESSED " << std::endl; 
+            }
+        }
+    }
+}
+
 int GamepadController::addGamepads()
 {
     // Make sure connected joysticks up to date 
@@ -85,5 +129,7 @@ void GamepadController::removeGamepad(int id)
 
 void GamepadController::update()
 {
-    
+    for(auto it = gamepads.begin(); it != gamepads.end(); it++){
+        (*it).second.update();
+    }
 }
