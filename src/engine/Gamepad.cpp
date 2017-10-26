@@ -78,7 +78,7 @@ void Gamepad::update()
     if(!sf::Joystick::isConnected(controllerIndex)){
         std::cout << "Gamepad disconnected from index " << controllerIndex << std::endl;
     }else{
-
+        // sfml treats the d-pad as an axis for some reason
         float povx = sf::Joystick::getAxisPosition(controllerIndex, sf::Joystick::PovX);
         float povy = sf::Joystick::getAxisPosition(controllerIndex, sf::Joystick::PovY);
 
@@ -89,6 +89,10 @@ void Gamepad::update()
         {
             std::cout << "LEFT BUTTON PRESSED" << std::endl;
         }
+        else
+        {
+
+        }
 
         if(povy == -100){
             std::cout << "UP BUTTON PRESSED " << std::endl;
@@ -96,6 +100,10 @@ void Gamepad::update()
         else if (povy == 100)
         {
             std::cout << "DOWN BUTTON PRESSED" << std::endl;
+        }
+        else
+        {
+
         }
 
         for(int i = 0; i < sf::Joystick::getButtonCount(controllerIndex); i++){

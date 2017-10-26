@@ -6,6 +6,7 @@
 //
 ////////////
 #include <SFML/Graphics.hpp>
+#include "engine/EventManager.hpp"
 
 struct ControllerLayout
 {
@@ -47,7 +48,7 @@ public:
     void removeGamepad(int id);
     void disableGamepads(std::vector<int> ids); // Disable 0 or more gamepads
     void enableGamepads(std::vector<int> ids);  // Disable 1 or more gamepads
-    Gamepad* getGamepad(int index);
+    Gamepad* getGamepad(int index){return &gamepads[index]; };
     // Query button presses(?)
     void update();
 private:
