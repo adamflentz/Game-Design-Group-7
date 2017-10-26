@@ -3,6 +3,9 @@
 
 void GameEngine::start()
 {
+    // Find and initialize gamepads
+    int gpcount = gpcontroller.addGamepads();
+    std::cout << gpcount << " Gamepads Found" << std::endl;
     // initialize game
     this->init();
     // create window
@@ -91,14 +94,6 @@ void GameEngine::handleEvents()
     // notify of all events that took place last frame
     Events::notify();
 }
-
-void GameEngine::addController(){
-
-}
-void GameEngine::removeController(int id){
-    
-}
-
 /**
 * Gives you a chance to prevent the game from exiting and/or do
 * some cleanup before the window closes

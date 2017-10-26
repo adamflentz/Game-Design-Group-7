@@ -30,16 +30,13 @@ public:
     
     /*void pushGameScreen(std::unique_ptr<GameScreen> s);/**/
     /*void popGameScreen(std::unique_ptr<GameScreen> s);/**/
-    void addController(); 
-    void removeController(int id);
     
     bool isRunning(){ return running; };
     sf::RenderWindow* getContext(){ return &window; };
 private:
     bool running;
     bool isDebugMode = false;
-    // list of game controllers
-    std::map<int, GameController> controllers;
+    GamepadController gpcontroller;
     sf::IntRect winDim;//(0, 0, 720, 480);
     sf::RenderWindow window;
     std::string name = "New_Game";

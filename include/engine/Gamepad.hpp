@@ -1,7 +1,12 @@
 #ifndef JOYSTICK_CONTROLS_HPP
 #define JOYSTICK_CONTROLS_HPP
-
+///////////
+// A very rough layout of how we might
+// decide to extrapolate the joystick controls
+//
+////////////
 #include <SFML/Graphics.hpp>
+
 struct ControllerLayout
 {
     int up;
@@ -14,22 +19,36 @@ struct ControllerLayout
     int button2;
     int button3;
 };
-/*
-* GameController that wraps the sf::Keyboard and sf::Joystick class.
-* Useful for easily mapping common controller types (PS4/XBONE/KB&M)
-* Can be modified to send events instead of being directly queried
-* (may create overhead).
-*/
-class GameController
+
+class Gamepad
 {
 public:
+    Gamepad(){};
+    Gamepad(int index) : controllerIndex(index) {};
     ControllerLayout controls;
-    enum LAYOUT {GENERIC, PS4, XB1, XB360, KEYBOARD};
+    enum LAYOUT {GENERIC, PS4, PS3, XB1, XB360, KEYBOARD};
     void setController(int i){ controllerIndex = i; };
-    void setLayout(LAYOUT layout); // lazily set a layout using enums
-    void guessLayout(int cIndex);  // guess the controller layout(?)
+    // set layout based on enum values
+    void setLayout(LAYOUT layout);
 protected:
+    // guess the controller layout by checking vendor id/name
+    void guessLayout();
     int controllerIndex = -1;
+};
+
+class GamepadController
+{
+public:
+    int addGamepads();                           // add a gamepad and  return the id of added gamepad 
+    void removeGamepad(int id);
+    void disableGamepads(std::vector<int> ids); // Disable 0 or more gamepads
+    void enableGamepads(std::vector<int> ids);  // Disable 1 or more gamepads
+    Gamepad* getGamepad(int index);
+    // Query button presses(?)
+    void update();
+private:
+    // list of game controllers
+    std::map<int, Gamepad> gamepads;
 };
 
 #endif

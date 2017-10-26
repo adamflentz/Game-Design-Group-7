@@ -1,7 +1,7 @@
 #include <iostream>
 #include "engine/Gamepad.hpp"
 
-void GameController::setLayout(LAYOUT layout)
+void Gamepad::setLayout(LAYOUT layout)
 {
     switch(layout){
         case LAYOUT::KEYBOARD:
@@ -24,4 +24,22 @@ void GameController::setLayout(LAYOUT layout)
         case LAYOUT::GENERIC:
             break;
     };
+}
+
+int GamepadController::addGamepads(){
+    std::cout << "Searching for Gamepads..." << std::endl;
+    int count = 0;
+    for(int i = 0; i < sf::Joystick::Count; i++){
+        if(sf::Joystick::isConnected(i)){
+            std::cout << "Gamepad found at index " << i << std::endl;
+            gamepads[i] = Gamepad(i);
+
+            count++;
+        }
+    }
+    return count;
+}
+
+void GamepadController::removeGamepad(int id){
+    
 }
