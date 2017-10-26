@@ -26,20 +26,64 @@ void Gamepad::setLayout(LAYOUT layout)
     };
 }
 
-int GamepadController::addGamepads(){
+Gamepad::LAYOUT Gamepad::guessLayout()
+{
+    // If no index for this gamepad, fail soft(?)
+    if(controllerIndex < 0)
+        return LAYOUT::GENERIC;
+
+    std::cout << "Guessing Layout for controller at index " << controllerIndex << std::endl;
+
+    sf::Joystick::Identification id = sf::Joystick::getIdentification(controllerIndex);
+
+    switch(id.vendorId){
+        // Playstation
+        case 0x054c:
+            switch(id.productId){
+                case 0x05c4: // ps4 conroller
+                    std::cout << "PS4 Controller(?)" << std::endl;
+                    return LAYOUT::PS4;
+                    break;
+            }
+            break;
+        // Microsoft
+        case 0x045e:
+            switch(id.productId){
+                case 0x02ea:
+                    std::cout << "XBONE Controller(?)" << std::endl;
+                    return LAYOUT::XB1;
+                    break;
+            }
+            break;
+        default:
+            std::cout << "Couldn't Determine Specific Controller" << std::endl;
+            return LAYOUT::GENERIC;
+            break;
+    }
+}
+
+int GamepadController::addGamepads()
+{
+    // Make sure connected joysticks up to date 
+    sf::Joystick::update(); 
     std::cout << "Searching for Gamepads..." << std::endl;
     int count = 0;
     for(int i = 0; i < sf::Joystick::Count; i++){
         if(sf::Joystick::isConnected(i)){
             std::cout << "Gamepad found at index " << i << std::endl;
             gamepads[i] = Gamepad(i);
-
             count++;
         }
     }
     return count;
 }
 
-void GamepadController::removeGamepad(int id){
+void GamepadController::removeGamepad(int id)
+{
+    
+}
+
+void GamepadController::update()
+{
     
 }

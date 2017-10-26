@@ -24,7 +24,7 @@ class Gamepad
 {
 public:
     Gamepad(){};
-    Gamepad(int index) : controllerIndex(index) {};
+    Gamepad(int index) : controllerIndex(index) { this->guessLayout(); };
     ControllerLayout controls;
     enum LAYOUT {GENERIC, PS4, PS3, XB1, XB360, KEYBOARD};
     void setController(int i){ controllerIndex = i; };
@@ -32,7 +32,7 @@ public:
     void setLayout(LAYOUT layout);
 protected:
     // guess the controller layout by checking vendor id/name
-    void guessLayout();
+    LAYOUT guessLayout();
     int controllerIndex = -1;
 };
 
