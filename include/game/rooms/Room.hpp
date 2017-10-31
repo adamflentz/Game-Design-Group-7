@@ -1,7 +1,7 @@
 #ifndef ROOM_HPP
 #define ROOM_HPP
 
-#include "engine/Engine.hpp" 
+#include "engine/Engine.hpp"
 #include <SFML/Graphics.hpp>
 #include "components/Hitbox.hpp"
 
