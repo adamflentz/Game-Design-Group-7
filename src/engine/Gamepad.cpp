@@ -23,10 +23,10 @@ void Gamepad::setLayout(LAYOUT layout)
                 13,
                 14,
                 15,
-                0,
                 1,
                 2,
-                3
+                3,
+                0
             };
             break;
         case LAYOUT::XB360:
@@ -89,10 +89,6 @@ void Gamepad::update()
         {
             std::cout << "LEFT BUTTON PRESSED" << std::endl;
         }
-        else
-        {
-
-        }
 
         if(povy == -100){
             std::cout << "UP BUTTON PRESSED " << std::endl;
@@ -101,15 +97,25 @@ void Gamepad::update()
         {
             std::cout << "DOWN BUTTON PRESSED" << std::endl;
         }
-        else
-        {
 
+        if(sf::Joystick::isButtonPressed(controllerIndex, controls.button0))
+        {
+            std::cout << "A BUTTON PRESSED" << std::endl;
         }
 
-        for(int i = 0; i < sf::Joystick::getButtonCount(controllerIndex); i++){
-            if(sf::Joystick::isButtonPressed(controllerIndex, i)){
-                std::cout << i << " BUTTON PRESSED " << std::endl; 
-            }
+        if(sf::Joystick::isButtonPressed(controllerIndex, controls.button1))
+        {
+            std::cout << "B BUTTON PRESSED" << std::endl;
+        }
+
+        if(sf::Joystick::isButtonPressed(controllerIndex, controls.button2))
+        {
+            std::cout << "Y BUTTON PRESSED" << std::endl;
+        }
+
+        if(sf::Joystick::isButtonPressed(controllerIndex, controls.button3))
+        {
+            std::cout << "X BUTTON PRESSED" << std::endl;
         }
     }
 }
