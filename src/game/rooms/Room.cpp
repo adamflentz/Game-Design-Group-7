@@ -6,8 +6,8 @@ void Room::init()
     hbox = Hitbox(rect.getPosition().x, rect.getPosition().y, rect.getSize().x, rect.getSize().y);
     hbox.init();
     rect.setFillColor(sf::Color::Blue);
-    rect.setOutlineColor(sf::Color::White);
-    rect.setOutlineThickness(3);
+    //rect.setOutlineColor(sf::Color::White);
+    //rect.setOutlineThickness(3);
 }
 void Room::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 {
