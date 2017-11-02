@@ -1,8 +1,15 @@
 #include <iostream>
+#include <typeinfo>       // std::bad_cast
 #include "engine/GameEngine.hpp"
 
 void GameEngine::start()
 {
+    // Add event listener using lambda function
+    Events::addEventListener("change_screen", [=](base_event_type event){
+        // Try to dynamically cast to string event
+        auto e = dynamic_cast< Event<std::string>& >(*event);
+        this->changeGameScreen(e.data);
+    });
     // initialize game
     this->init();
     // create window

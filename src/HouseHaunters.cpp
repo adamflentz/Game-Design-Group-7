@@ -22,7 +22,8 @@ void HouseHauntersGame::init()
     // since it's a unique pointer we have to move it first
     this->addGameScreen("Title", std::move(screen_gametitle) );
     this->addGameScreen("GamePlay", std::move(screen_gameplay) );
-
+    
+    // start off at title screen
     this->changeGameScreen("Title");
 
     PlantSeeds(-1);

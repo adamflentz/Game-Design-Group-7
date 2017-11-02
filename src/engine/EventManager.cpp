@@ -3,9 +3,9 @@
 // define static members
 long Events::listener_id = 0;
 std::map< std::string, event_list > Events::listeners_map;
-std::queue<BasicEvent> Events::events;
+std::queue< base_event_type > Events::events;
 
-long Events::addEventListener(std::string type, std::function<void (BasicEvent)> listener)
+long Events::addEventListener(std::string type, std::function<void (base_event_type)> listener)
 { 
     // if event type not in map, add it (?)
     if(listeners_map.count(type) == 0) 
@@ -16,9 +16,9 @@ long Events::addEventListener(std::string type, std::function<void (BasicEvent)>
     return listener_id++;
 };
 
-void Events::postEvent(std::string type, BasicEvent e)
+void Events::postEvent(std::string type, base_event_type e)
 { 
-    e.setType(type);
+    e->setType(type);
     events.push(e);
 };
 
@@ -27,7 +27,7 @@ void Events::notify()
     while(!events.empty()) {
         // get event in front
         auto e = events.front();
-        std::string type = e.getType();
+        std::string type = e->getType();
         if(listeners_map.count(type) == 1){
             // iterate through listeners for that type
             auto list = listeners_map[type];
