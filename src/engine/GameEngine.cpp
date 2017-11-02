@@ -66,7 +66,7 @@ void GameEngine::addGameScreen(std::string id, std::unique_ptr<GameScreen> s)
 void GameEngine::changeGameScreen(std::string s)
 {
     bool canChange = true;
-    std::cout << "changing screen" << std::endl;
+    std::cout << "Changing to screen: " << s << std::endl;
     if(this->currScene)
     {
         bool canChange = this->currScene->onExit();

@@ -12,7 +12,8 @@ void GametitleScreen::init()
 
   // create an event as a shared pointer with data type string
   auto event = std::make_shared< Event<std::string> >("GamePlay"); 
-  Events::postEvent("change_screen", event);           // Post the event
+  // add the event to the queue
+  Events::queueEvent("change_screen", event); 
 }
 
 void GametitleScreen::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const

@@ -21,7 +21,9 @@ public:
     static long listener_id;
     static long addEventListener(std::string type, std::function< void (base_event_type) > listener);
     static void removeEventListener(long id);
-    static void postEvent(std::string, base_event_type e);
+    static void queueEvent(std::string, base_event_type e);
+    // similar to post event except not added to a queue and immediately notifies
+    static void triggerEvent(std::string, base_event_type e);
     static void notify();
 private:
     static std::map< std::string, event_list > listeners_map;

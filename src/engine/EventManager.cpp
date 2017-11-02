@@ -16,11 +16,24 @@ long Events::addEventListener(std::string type, std::function<void (base_event_t
     return listener_id++;
 };
 
-void Events::postEvent(std::string type, base_event_type e)
+void Events::queueEvent(std::string type, base_event_type e)
 { 
     e->setType(type);
     events.push(e);
 };
+
+void Events::triggerEvent(std::string type, base_event_type e)
+{
+    e->setType(type);
+    if(listeners_map.count(type) == 1){
+        // iterate through listeners for that type
+        auto list = listeners_map[type];
+        for(auto it = list.begin(); it != list.end(); it++){
+            // call function with event
+            (*it)(e);
+        }
+    }
+}
 
 void Events::notify()
 {
