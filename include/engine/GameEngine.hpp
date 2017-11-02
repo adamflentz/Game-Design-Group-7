@@ -5,6 +5,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <map>
 
 #include "engine/GameObject.hpp"
 #include "engine/GameScreen.hpp"
@@ -17,21 +18,22 @@ public:
     void start();
     void stop(); // pause
     void exit(); // exit the game
-    
+
     void update(float dt);
     void draw();
-    
-    void changeGameScreen(std::unique_ptr<GameScreen> s);
+
+    void changeGameScreen(std::string s);
+    void addGameScreen(std::string id, std::unique_ptr<GameScreen> s);
     void setDebugMode(bool m){ isDebugMode = m; };
 
     void setWindowRect(sf::IntRect dim){ winDim = dim; };
     void setWindowRect(int t, int l, int w, int h){ winDim = sf::IntRect(t, l, w, h); };
-    
+
     /*void pushGameScreen(std::unique_ptr<GameScreen> s);/**/
     /*void popGameScreen(std::unique_ptr<GameScreen> s);/**/
-    
+
     bool isRunning(){ return running; };
-    
+
     sf::RenderWindow* getContext(){ return &window; };
 private:
     bool running;
@@ -39,8 +41,9 @@ private:
     sf::IntRect winDim;//(0, 0, 720, 480);
     sf::RenderWindow window;
     std::string name = "New_Game";
+    std::map <std::string, std::unique_ptr<GameScreen> > screens;
     //std::vector<std::unique_ptr<GameScreen>> scenes; // scene stack
-    std::unique_ptr<GameScreen> currScene;
+    GameScreen* currScene = NULL;
     virtual void init(){}; // aka onStart
     //virtual void onStop(){};
     //virtual void onResume(){};

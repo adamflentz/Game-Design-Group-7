@@ -17,7 +17,7 @@ public:
     std::string getMessage() {return message;};
     void setType(std::string t) { this->type = t; };
     std::string getType(){ return this->type; };
-private: 
+private:
     std::string type;
     std::string message;
 };
@@ -28,7 +28,7 @@ class CollisionEvent : public BasicEvent
 {
 public:
     // GameObject* coll1;
-    // GameObject* coll2; 
+    // GameObject* coll2;
 };
 
 typedef std::list< std::function<void (BasicEvent)> > event_list;

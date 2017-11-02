@@ -50,17 +50,24 @@ void GameEngine::draw()
     }
     window.display();
 }
+void GameEngine::addGameScreen(std::string id, std::unique_ptr<GameScreen> s)
+{
+  s->setEngine(this);
+  screens[id] = std::move(s);
 
-void GameEngine::changeGameScreen(std::unique_ptr<GameScreen> s)
+}
+void GameEngine::changeGameScreen(std::string s)
 {
     bool canChange = true;
+    std::cout << "changing screen" << std::endl;
     if(this->currScene)
     {
         bool canChange = this->currScene->onExit();
     }
+
     if(canChange)
     {
-        this->currScene = std::move(s);
+        this->currScene = screens[s].get();
         if(this->currScene)
         {
             //this->currScene->setGame(this);
