@@ -5,28 +5,21 @@
 // decide to extrapolate the joystick controls
 //
 ////////////
+#include <string>
+#include <map>
 #include <SFML/Graphics.hpp>
 #include "engine/EventManager.hpp"
 
-struct ControllerLayout
-{
-    int up;
-    int down;
-    int left;
-    int right;
-
-    int button0;
-    int button1;
-    int button2;
-    int button3;
-};
+typedef struct {
+    int button;
+    bool isDown;    
+} BUTTON_S;
 
 class Gamepad
 {
 public:
     Gamepad(){};
     Gamepad(int index) : controllerIndex(index) { setLayout(guessLayout()); };
-    ControllerLayout controls;
     enum LAYOUT {GENERIC, PS4, PS3, XB1, XB360, KEYBOARD};
     void setController(int i){ controllerIndex = i; setLayout(guessLayout()); };
     // set layout based on enum values
@@ -39,6 +32,8 @@ protected:
     // layout
     LAYOUT layout;
     int controllerIndex = -1;
+    std::map<std::string, BUTTON_S> button_map;
+    bool connected;
 };
 
 class GamepadController
