@@ -39,12 +39,13 @@ void PlayerView::onUpdate(float dt)
 
 void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+    // draw each individual character
+    for(auto it = charVector->begin(); it != charVector->end(); it++)
+    {
+        target.draw(**it);
+    }
     // draw the current view
     target.setView(v);
-    // draw each individual character
-    for(int i=0; i<charVector->size(); i++)
-    {
-        std::shared_ptr<Character> currentCharacter = this->charVector->at(i);
-        charVector->at(i)->onDraw(target, states);
-    }
+
+
 }
