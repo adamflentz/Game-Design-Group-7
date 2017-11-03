@@ -26,6 +26,7 @@ public:
     void setLayout(LAYOUT layout);
     LAYOUT getLayout(){ return layout; };
     void update();
+    int playerIndex = -1;
 protected:
     // guess the controller layout by checking vendor id/name
     LAYOUT guessLayout();
@@ -33,7 +34,7 @@ protected:
     LAYOUT layout;
     int controllerIndex = -1;
     std::map<std::string, BUTTON_S> button_map;
-    bool connected;
+    bool isConnected;
 };
 
 class GamepadController

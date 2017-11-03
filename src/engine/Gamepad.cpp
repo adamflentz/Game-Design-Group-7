@@ -11,6 +11,10 @@ void Gamepad::setLayout(LAYOUT layout)
             button_map["B"] = BUTTON_S{sf::Keyboard::X, false};
             button_map["X"] = BUTTON_S{sf::Keyboard::C, false};
             button_map["Y"] = BUTTON_S{sf::Keyboard::V, false};
+            button_map["UP"]    = BUTTON_S{sf::Keyboard::Up,    false};
+            button_map["LEFT"]  = BUTTON_S{sf::Keyboard::Left,  false};
+            button_map["RIGHT"] = BUTTON_S{sf::Keyboard::Right, false};
+            button_map["DOWN"]  = BUTTON_S{sf::Keyboard::Down,  false};
             break;
         case LAYOUT::PS4:
             button_map["A"]     = BUTTON_S{1,  false};
@@ -61,7 +65,9 @@ Gamepad::LAYOUT Gamepad::guessLayout()
             }
             break;
         default:
-            std::cout << "Couldn't Determine Specific Controller" << std::endl;
+            std::cout << "Couldn't Determine Specific Controller. Consider adding it." << std::endl;
+            std::cout << "Vendor ID: " << id.vendorId << " Product ID: " << id.productId << std::endl;
+            std::cout << "Defaulting to generic controller layout." << std::endl;
             return LAYOUT::GENERIC;
             break;
     }
@@ -69,10 +75,21 @@ Gamepad::LAYOUT Gamepad::guessLayout()
 
 void Gamepad::update()
 {
-    if(this->layout == LAYOUT::KEYBOARD || !sf::Joystick::isConnected(controllerIndex)){
-        // std::cout << "Gamepad disconnected from index " << controllerIndex << std::endl;
-    }else{
-        // sfml treats the d-pad as an axis for some reason
+    if(this->layout == LAYOUT::KEYBOARD){
+        // handle keyboard stuff
+    }
+    else if(!sf::Joystick::isConnected(controllerIndex)){
+        if(this->isConnected){
+            std::cout << "CONTROLLER DISCONNECTED" << std::endl;
+            this->isConnected = false;
+        }
+    }
+    else{
+        if(!this->isConnected){
+            this->isConnected = true;
+            std::cout << "CONTROLLER CONNECTED AT INDEX " << controllerIndex << std::endl;
+        }
+        // SFML treats the d-pad as an axis for some reason....
         float povx = sf::Joystick::getAxisPosition(controllerIndex, sf::Joystick::PovX);
         float povy = sf::Joystick::getAxisPosition(controllerIndex, sf::Joystick::PovY);
 
@@ -80,9 +97,9 @@ void Gamepad::update()
         {
             std::string button = it->first;
             bool isPressed = false;
-            // special cases for up, down, left, and right
-            if( (button == "UP" && povy == -100)    || 
-                (button == "DOWN" && povy == 100)   ||
+            // Special cases for up, down, left, and right
+            if( (button == "UP" && povy == -100)     || 
+                (button == "DOWN" && povy == 100)    ||
                 (button == "LEFT" && povx == -100)   || 
                 (button == "RIGHT" && povx == 100)  
             )
@@ -92,16 +109,16 @@ void Gamepad::update()
                     isPressed = sf::Joystick::isButtonPressed(controllerIndex, it->second.button);
             }
             bool wasPressed = it->second.isDown; 
-            if( isPressed && !wasPressed ) // if button pressed, but not already pressed
+            if( isPressed && !wasPressed ) // If button pressed, but not already pressed
             {
-                // send button pressed event
-                std::cout << button << " Button Pressed" << std::endl;
+                // Send button pressed event
+                std::cout << controllerIndex << ": " << button << " Button Pressed" << controllerIndex << std::endl;
                 it->second.isDown = true;
             }
             else if(!isPressed && wasPressed)
             {
-                // send button released event
-                std::cout << it->first << " Button Released" << std::endl;
+                // Send button released event
+                std::cout << controllerIndex << ": " << button << " Button Released"  << std::endl;
                 it->second.isDown = false;
             }
             else if(!isPressed)
