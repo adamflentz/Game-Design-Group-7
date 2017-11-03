@@ -5,6 +5,8 @@ void RoomGroup::generateRoomGrid(int roomCount)
     srand (time(NULL));
     // TODO:  Figure out total grid size based on difficulty: for now demo is size 3
     std::unique_ptr<Room> currRoom;
+    std::unique_ptr<Room> rightDoor;
+    std::unique_ptr<Room> bottomDoor;
     int houseHeight = 3;
     int houseWidth = 3;
     int roomGrid [houseWidth][houseHeight];
@@ -40,7 +42,31 @@ void RoomGroup::generateRoomGrid(int roomCount)
                 currRoom->rect.setPosition((256+10) * i, (160+10) * j);
                 currRoom->setPosition(currRoom->rect.getPosition());
                 currRoom->init();
+                if(i+1 < houseWidth && roomGrid[i+1][j] == 1){
+                  rightDoor = std::unique_ptr<Room>(new Room());
+                  rightDoor->rect.setSize(sf::Vector2f(32, 64));
+                  rightDoor->rect.setPosition(currRoom->getPosition().x + 256 - 16, currRoom->getPosition().y + 80 - 32);
+                  rightDoor->setPosition(rightDoor->rect.getPosition());
+                }
+
+                if(j+1 < houseHeight && roomGrid[i][j+1] == 1){
+                  bottomDoor = std::unique_ptr<Room>(new Room());
+                  bottomDoor->rect.setSize(sf::Vector2f(64, 32));
+                  bottomDoor->rect.setPosition(currRoom->getPosition().x + 128 - 32, currRoom->getPosition().y + 160 - 16);
+                  bottomDoor->setPosition(bottomDoor->rect.getPosition());
+                }
+
                 this->rooms.push_back(std::move(currRoom));
+                if(rightDoor)
+                {
+                  rightDoor->init();
+                  this->doors.push_back(std::move(rightDoor));
+                }
+                if(bottomDoor)
+                {
+                  bottomDoor->init();
+                  this->doors.push_back(std::move(bottomDoor));
+                }
             }
         }
     }
@@ -60,6 +86,16 @@ bool RoomGroup::isInsideRoom(sf::FloatRect hbox)
             return true;
         }
     }
+    for(auto r = doors.begin(); r != doors.end(); r++){
+        sf::FloatRect hbox2 = (*r)->hbox;
+        // check if hbox is inside room hitbox
+        if(
+            hbox2.intersects(hbox)
+        )
+        {
+            return true;
+        }
+    }
     return false;
 }
 
@@ -68,4 +104,9 @@ void RoomGroup::draw(sf::RenderTarget& target, sf::RenderStates states) const
     for(auto a = rooms.begin(); a != rooms.end(); a++){
         target.draw(**a);
     }
+
+    for(auto a = doors.begin(); a != doors.end(); a++){
+        target.draw(**a);
+    }
+
 }

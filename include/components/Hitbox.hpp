@@ -3,7 +3,7 @@
 //
 // A pretty basic hitbox class.
 // Hitboxes can be made visibile by setting the debug mode to true.
-// Wraps sf::Rect<Float> which has useful methods for 
+// Wraps sf::Rect<Float> which has useful methods for
 // checking rectangular intersections as well as point intersections
 //
 ///////////////////////////
