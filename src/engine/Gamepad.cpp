@@ -7,14 +7,14 @@ void Gamepad::setLayout(LAYOUT layout)
     this->layout = layout;
     switch(layout){
         case LAYOUT::KEYBOARD:
-            button_map["A"]     = BUTTON_S{sf::Keyboard::Z,     false};
-            button_map["B"]     = BUTTON_S{sf::Keyboard::X,     false};
-            button_map["X"]     = BUTTON_S{sf::Keyboard::C,     false};
-            button_map["Y"]     = BUTTON_S{sf::Keyboard::V,     false};
-            button_map["UP"]    = BUTTON_S{sf::Keyboard::Up,    false};
-            button_map["LEFT"]  = BUTTON_S{sf::Keyboard::Left,  false};
-            button_map["RIGHT"] = BUTTON_S{sf::Keyboard::Right, false};
-            button_map["DOWN"]  = BUTTON_S{sf::Keyboard::Down,  false};
+            kbutton_map["A"]     = KBUTTON_S{sf::Keyboard::Key::Z,     false};
+            kbutton_map["B"]     = KBUTTON_S{sf::Keyboard::Key::X,     false};
+            kbutton_map["X"]     = KBUTTON_S{sf::Keyboard::Key::C,     false};
+            kbutton_map["Y"]     = KBUTTON_S{sf::Keyboard::Key::V,     false};
+            kbutton_map["UP"]    = KBUTTON_S{sf::Keyboard::Key::Up,    false};
+            kbutton_map["LEFT"]  = KBUTTON_S{sf::Keyboard::Key::Left,  false};
+            kbutton_map["RIGHT"] = KBUTTON_S{sf::Keyboard::Key::Right, false};
+            kbutton_map["DOWN"]  = KBUTTON_S{sf::Keyboard::Key::Down,  false};
             break;
         case LAYOUT::PS4:
             button_map["A"]     = BUTTON_S{ 1,  false};
@@ -84,7 +84,37 @@ Gamepad::LAYOUT Gamepad::guessLayout()
 void Gamepad::update()
 {
     if(this->layout == LAYOUT::KEYBOARD){
-        // handle keyboard stuff
+        for (auto it = kbutton_map.begin(); it != kbutton_map.end(); it++)
+        {
+            std::string button = it->first;
+            bool isPressed = sf::Keyboard::isKeyPressed(it->second.button);
+
+            bool wasPressed = it->second.isDown; 
+            if( isPressed && !wasPressed ) // If button pressed, but not already pressed
+            {
+                // Send button pressed event
+                auto event = std::make_shared<GamepadEvent>();
+                event->button = button;
+                event->type = GamepadEvent::TYPE::PRESSED;
+                event->index = controllerIndex;
+                Events::queueEvent("gamepad_event", event);
+                it->second.isDown = true;
+            }
+            else if(!isPressed && wasPressed)
+            {
+                // Send button released event
+                auto event = std::make_shared<GamepadEvent>();
+                event->button = button;
+                event->type = GamepadEvent::TYPE::RELEASED;
+                event->index = controllerIndex;
+                Events::queueEvent("gamepad_event", event);
+                it->second.isDown = false;
+            }
+            else if(!isPressed)
+            {
+                it->second.isDown = false;
+            }
+        }
     }
     else if(!sf::Joystick::isConnected(controllerIndex)){
         if(this->isConnected){
@@ -165,6 +195,7 @@ int GamepadController::addGamepads()
 
     // Default last gamepad to keyboard
     gamepads[count] = Gamepad();
+    gamepads[count].setIndex(count);
     gamepads[count].setLayout(Gamepad::LAYOUT::KEYBOARD);
 
     return count;

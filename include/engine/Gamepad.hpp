@@ -25,6 +25,11 @@ typedef struct {
     bool isDown;    
 } BUTTON_S;
 
+typedef struct {
+    sf::Keyboard::Key button;
+    bool isDown;
+} KBUTTON_S;
+
 class Gamepad
 {
 public:
@@ -32,6 +37,7 @@ public:
     Gamepad(int index) : controllerIndex(index) { setLayout(guessLayout()); };
     enum LAYOUT {GENERIC, PS4, PS3, XB1, XB360, KEYBOARD};
     void setController(int i){ controllerIndex = i; setLayout(guessLayout()); };
+    void setIndex(int i){ this->controllerIndex = i; };
     // set layout based on enum values
     void setLayout(LAYOUT layout);
     LAYOUT getLayout(){ return layout; };
@@ -44,6 +50,7 @@ protected:
     LAYOUT layout;
     int controllerIndex = -1;
     std::map<std::string, BUTTON_S> button_map;
+    std::map<std::string, KBUTTON_S> kbutton_map; // for keyboards b/c 
     bool isConnected;
 };
 
