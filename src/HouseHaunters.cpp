@@ -1,5 +1,4 @@
 #include "HouseHaunters.hpp"
-// #include "engine/Engine.hpp"
 #include <iostream>
 
 ////////////////////////
@@ -16,10 +15,15 @@ void HouseHauntersGame::init()
     // Setup the window position and dimensions
     this->setWindowRect(100, 100, 720, 480);
     // Initialize the game screen
-    screen_gameplay = std::unique_ptr<GameScreen>(new GameplayScreen());
+    std::unique_ptr<GameScreen> screen_gameplay  = std::unique_ptr<GameScreen>(new GameplayScreen());
+    std::unique_ptr<GameScreen> screen_gametitle = std::unique_ptr<GameScreen>(new GametitleScreen());
     // Add the game screen
     // since it's a unique pointer we have to move it first
-    this->changeGameScreen(std::move(screen_gameplay));
+    this->addGameScreen("Title", std::move(screen_gametitle) );
+    this->addGameScreen("GamePlay", std::move(screen_gameplay) );
+    
+    // start off at title screen
+    this->changeGameScreen("Title");
 
     PlantSeeds(-1);
     // ClueReader reader;

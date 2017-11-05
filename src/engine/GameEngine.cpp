@@ -1,4 +1,5 @@
 #include <iostream>
+#include <typeinfo>       // std::bad_cast
 #include "engine/GameEngine.hpp"
 
 void GameEngine::start()
@@ -6,6 +7,12 @@ void GameEngine::start()
     // Find and initialize gamepads
     int gpcount = gpcontroller.addGamepads();
     std::cout << gpcount << " Gamepads Found" << std::endl;
+    // Add event listener using lambda function
+    Events::addEventListener("change_screen", [=](base_event_type event){
+        // Try to dynamically cast to string event
+        auto e = dynamic_cast< Event<std::string>& >(*event);
+        this->changeGameScreen(e.data);
+    });
     // initialize game
     this->init();
     // create window
@@ -53,17 +60,24 @@ void GameEngine::draw()
     }
     window.display();
 }
+void GameEngine::addGameScreen(std::string id, std::unique_ptr<GameScreen> s)
+{
+  s->setEngine(this);
+  screens[id] = std::move(s);
 
-void GameEngine::changeGameScreen(std::unique_ptr<GameScreen> s)
+}
+void GameEngine::changeGameScreen(std::string s)
 {
     bool canChange = true;
+    std::cout << "Changing to screen: " << s << std::endl;
     if(this->currScene)
     {
         bool canChange = this->currScene->onExit();
     }
+
     if(canChange)
     {
-        this->currScene = std::move(s);
+        this->currScene = screens[s].get();
         if(this->currScene)
         {
             //this->currScene->setGame(this);
