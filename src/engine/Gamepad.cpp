@@ -7,27 +7,35 @@ void Gamepad::setLayout(LAYOUT layout)
     this->layout = layout;
     switch(layout){
         case LAYOUT::KEYBOARD:
-            button_map["A"] = BUTTON_S{sf::Keyboard::Z, false};
-            button_map["B"] = BUTTON_S{sf::Keyboard::X, false};
-            button_map["X"] = BUTTON_S{sf::Keyboard::C, false};
-            button_map["Y"] = BUTTON_S{sf::Keyboard::V, false};
+            button_map["A"]     = BUTTON_S{sf::Keyboard::Z,     false};
+            button_map["B"]     = BUTTON_S{sf::Keyboard::X,     false};
+            button_map["X"]     = BUTTON_S{sf::Keyboard::C,     false};
+            button_map["Y"]     = BUTTON_S{sf::Keyboard::V,     false};
             button_map["UP"]    = BUTTON_S{sf::Keyboard::Up,    false};
             button_map["LEFT"]  = BUTTON_S{sf::Keyboard::Left,  false};
             button_map["RIGHT"] = BUTTON_S{sf::Keyboard::Right, false};
             button_map["DOWN"]  = BUTTON_S{sf::Keyboard::Down,  false};
             break;
         case LAYOUT::PS4:
-            button_map["A"]     = BUTTON_S{1,  false};
-            button_map["B"]     = BUTTON_S{2,  false};
-            button_map["Y"]     = BUTTON_S{3,  false};
-            button_map["X"]     = BUTTON_S{0,  false};
-            button_map["UP"]    = BUTTON_S{-1, false};
-            button_map["LEFT"]  = BUTTON_S{-1, false};
-            button_map["RIGHT"] = BUTTON_S{-1, false};
-            button_map["DOWN"]  = BUTTON_S{-1, false};
+            button_map["A"]     = BUTTON_S{ 1,  false};
+            button_map["B"]     = BUTTON_S{ 2,  false};
+            button_map["Y"]     = BUTTON_S{ 3,  false};
+            button_map["X"]     = BUTTON_S{ 0,  false};
+            button_map["UP"]    = BUTTON_S{-1,  false};
+            button_map["LEFT"]  = BUTTON_S{-1,  false};
+            button_map["RIGHT"] = BUTTON_S{-1,  false};
+            button_map["DOWN"]  = BUTTON_S{-1,  false};
             break;
         case LAYOUT::XB360:
         case LAYOUT::XB1:
+            button_map["A"]     = BUTTON_S{ 1,  false};
+            button_map["B"]     = BUTTON_S{ 2,  false};
+            button_map["Y"]     = BUTTON_S{ 3,  false};
+            button_map["X"]     = BUTTON_S{ 0,  false};
+            button_map["UP"]    = BUTTON_S{-1,  false};
+            button_map["LEFT"]  = BUTTON_S{-1,  false};
+            button_map["RIGHT"] = BUTTON_S{-1,  false};
+            button_map["DOWN"]  = BUTTON_S{-1,  false};
             break;
         case LAYOUT::GENERIC:
         default:
@@ -112,13 +120,21 @@ void Gamepad::update()
             if( isPressed && !wasPressed ) // If button pressed, but not already pressed
             {
                 // Send button pressed event
-                std::cout << controllerIndex << ": " << button << " Button Pressed" << controllerIndex << std::endl;
+                auto event = std::make_shared<GamepadEvent>();
+                event->button = button;
+                event->type = GamepadEvent::TYPE::PRESSED;
+                event->index = controllerIndex;
+                Events::queueEvent("gamepad_event", event);
                 it->second.isDown = true;
             }
             else if(!isPressed && wasPressed)
             {
                 // Send button released event
-                std::cout << controllerIndex << ": " << button << " Button Released"  << std::endl;
+                auto event = std::make_shared<GamepadEvent>();
+                event->button = button;
+                event->type = GamepadEvent::TYPE::RELEASED;
+                event->index = controllerIndex;
+                Events::queueEvent("gamepad_event", event);
                 it->second.isDown = false;
             }
             else if(!isPressed)
@@ -131,6 +147,9 @@ void Gamepad::update()
 
 int GamepadController::addGamepads()
 {
+    // Set up events
+    
+    // Events::addEventListener("gamepad_button_released", [=](base_event_type e){});
     // Make sure connected joysticks up to date 
     sf::Joystick::update(); 
     std::cout << "Searching for Gamepads..." << std::endl;
@@ -144,7 +163,7 @@ int GamepadController::addGamepads()
         }
     }
 
-    // default last gamepad to keyboard
+    // Default last gamepad to keyboard
     gamepads[count] = Gamepad();
     gamepads[count].setLayout(Gamepad::LAYOUT::KEYBOARD);
 

@@ -18,13 +18,13 @@ long Events::addEventListener(std::string type, std::function<void (base_event_t
 
 void Events::queueEvent(std::string type, base_event_type e)
 { 
-    e->setType(type);
+    e->setEventType(type);
     events.push(e);
 };
 
 void Events::triggerEvent(std::string type, base_event_type e)
 {
-    e->setType(type);
+    e->setEventType(type);
     if(listeners_map.count(type) == 1){
         // iterate through listeners for that type
         auto list = listeners_map[type];
@@ -40,7 +40,7 @@ void Events::notify()
     while(!events.empty()) {
         // get event in front
         auto e = events.front();
-        std::string type = e->getType();
+        std::string type = e->getEventType();
         if(listeners_map.count(type) == 1){
             // iterate through listeners for that type
             auto list = listeners_map[type];

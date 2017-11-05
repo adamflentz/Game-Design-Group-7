@@ -9,6 +9,16 @@
 #include <map>
 #include <SFML/Graphics.hpp>
 #include "engine/EventManager.hpp"
+#include "engine/EngineEvents.hpp"
+
+class GamepadEvent : public BasicEvent
+{
+public:
+    enum TYPE {PRESSED, RELEASED, DISCONNECT, CONNECT};
+    int index;
+    TYPE type;
+    std::string button;
+};
 
 typedef struct {
     int button;

@@ -9,6 +9,7 @@ void GameplayScreen::init()
     for(int i=0; i < numplayers; i++)
     {
         view = std::unique_ptr<PlayerView>(new PlayerView());
+        view->setRoomGroup(&group);
         character = std::shared_ptr<Character>(new Character());
         character->setGroup(&group);
         character->init();
