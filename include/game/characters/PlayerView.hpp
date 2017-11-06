@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "engine/Engine.hpp"
 #include "game/characters/Character.hpp"
+#include "game/rooms/RoomGroup.hpp"
 
 ////////////////
 // PlayerView.hpp
@@ -13,11 +14,13 @@ class PlayerView: public GameObject
     public:
         void init();
         void onUpdate(float dt);
-        void setCharacter(std::shared_ptr<Character> activeChar) {c = activeChar;}
-        void setCharacterList(std::vector<std::shared_ptr<Character>>* characterList) {charVector = characterList;}
-        void setPlayerNumber(int number){playernumber = number;}
-        void setTotalPlayers(int totalnumber){totalplayernumber = totalnumber;}
+        void setCharacter(std::shared_ptr<Character> activeChar) {c = activeChar;};
+        void setCharacterList(std::vector<std::shared_ptr<Character>>* characterList) {charVector = characterList;};
+        void setPlayerNumber(int number){playernumber = number;};
+        void setTotalPlayers(int totalnumber){totalplayernumber = totalnumber;};
+        void setRoomGroup(RoomGroup* g){this->rooms = g;};
     protected:
+        RoomGroup* rooms;
         int playernumber;
         int totalplayernumber;
         std::shared_ptr<Character> c;

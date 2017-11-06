@@ -1,9 +1,11 @@
 #include <vector>
 #include <iostream>
+#include <string>
 #include "game/characters/Character.hpp"
 
 void Character::init()
 {
+    this->direction = sf::Vector2f(0,0);
     // Make sure player starts inside first room(?)
     // could also make them start inside a random room
     this->setPosition(g->rooms.front()->getPosition().x + 20, g->rooms.front()->getPosition().y + 20);
@@ -32,6 +34,8 @@ void Character::init()
     walk_up.addFrames(up_frames, 32, 32);
     // set default animation
     curr = &walk_down;
+    // Don't automatically play the animation
+    curr->stop();
     // set the hitbox up to follow this object
     hbox = Hitbox(0,16,32,16);
     hbox.follow(this);
@@ -40,51 +44,20 @@ void Character::init()
 
 void Character::onUpdate(float dt)
 {   
-    float speed = 100.0;
-    float dx = 0;
-    float dy = 0;
-    bool noKeyWasPressed = true;
-    // TODO: We shouldn't query the keyboard directly here
-    //       instead we should use the Joystick class or something
-    //       but I haven't figured out the best way for this yet
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-    {
-        curr = &walk_down;
-        dy += speed * dt;
-        noKeyWasPressed = false;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-    {
-        curr = &walk_up;
-        dy += -speed * dt;
-        noKeyWasPressed = false;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-    {
-        curr = &walk_left;
-        dx += -speed * dt;
-        noKeyWasPressed = false;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-    {
-        curr = &walk_right;
-        dx += speed * dt;
-        noKeyWasPressed = false;
-    }
+    float dx = this->direction.x * speed * dt;
+    float dy = this->direction.y * speed * dt;
     // check if inside room 
     if(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height))){
         this->move(dx, dy);
     };
-
-    curr->play();
-
-    if(noKeyWasPressed)
-    {
+    // if we're not moving don't animate anything
+    if(dx == 0 && dy == 0){
         curr->stop();
+    }else{
+        curr->play();
     }
     // update the hitbox
     hbox.onUpdate(dt);
-    // update the view
     
     // make the animation go to the next frame
     curr->nextFrame(dt);
@@ -92,10 +65,44 @@ void Character::onUpdate(float dt)
 
 void Character::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    // draw the room group
-    target.draw(*g);
     // draw the animation
     target.draw(*curr, states);
     // draw the hitbox
     target.draw(hbox);
+}
+
+void Character::onGamepadEvent(GamepadEvent e)
+{
+    switch(e.type){
+        case GamepadEvent::TYPE::RELEASED:
+            // in c++ you can't switch/case a string
+            if(e.button == "UP" || e.button == "DOWN")
+                this->direction.y = 0;
+            else if(e.button == "LEFT" || e.button == "RIGHT")
+                this->direction.x = 0;
+            else if(e.button == "X") // stop running
+                this->speed /= 2;
+            break;
+        case GamepadEvent::TYPE::PRESSED:
+            if(e.button == "UP"){
+                curr = &walk_up;
+                this->direction.y = -1;
+            }
+            if(e.button == "DOWN"){
+                curr = &walk_down;
+                this->direction.y = 1;
+            }
+            if(e.button == "LEFT"){
+                curr = &walk_left;
+                this->direction.x = -1;
+            }
+            if(e.button == "RIGHT"){
+                curr = &walk_right;
+                this->direction.x = 1;
+            }
+            if(e.button == "X"){ // run
+                this->speed *= 2;
+            }
+            break;
+    }
 }

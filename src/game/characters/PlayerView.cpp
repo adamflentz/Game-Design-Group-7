@@ -4,6 +4,18 @@
 
 void PlayerView::init()
 {
+    // setup event listeners (lazy method)
+    Events::addEventListener("gamepad_event", [=](base_event_type e){
+        // We'll need to delete this listener in the destructor or we'll have segfaults/undefined behavior eventually
+        // Cast to gamepad event
+        auto gpe = dynamic_cast< GamepadEvent& >(*e);
+        // Check that the index matches our player
+        if(gpe.index == playernumber){
+            // Call our listener function personally
+            c->onGamepadEvent(gpe);
+        }
+    });
+
     std::cout << totalplayernumber << std::endl;
     std::cout << playernumber << std::endl;
     switch(totalplayernumber){
@@ -39,6 +51,7 @@ void PlayerView::onUpdate(float dt)
 
 void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+    target.draw(*rooms);
     // draw each individual character
     for(auto it = charVector->begin(); it != charVector->end(); it++)
     {

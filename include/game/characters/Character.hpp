@@ -23,9 +23,12 @@ public:
     void init();
     void onUpdate(float dt);
     void setGroup(RoomGroup* group) { g = group; };
+    void onGamepadEvent(GamepadEvent e);
     void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
 protected:
     RoomGroup* g;
+    double speed = 100;
+    sf::Vector2f direction;
     sf::Texture sprite_map;
     SpriteAnimation* curr;
     // create 4 sprite animations representing walking 
