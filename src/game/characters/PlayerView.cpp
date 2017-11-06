@@ -4,8 +4,6 @@
 
 void PlayerView::init()
 {
-    std::cout << totalplayernumber << std::endl;
-    std::cout << playernumber << std::endl;
     switch(totalplayernumber){
         case 1: v.reset(sf::FloatRect(0,0,720,480));
         v.setCenter(c->getPosition());
@@ -20,7 +18,6 @@ void PlayerView::init()
             case 1:v.setViewport(sf::FloatRect(0.5f,0,0.5f,1.0f));
             v.setSize(720/2, 360);
             v.setCenter(c->getPosition());
-            std::cout << "hello" << std::endl;
             v.zoom(0.5f);
             break;
     
