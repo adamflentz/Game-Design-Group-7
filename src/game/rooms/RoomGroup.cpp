@@ -110,9 +110,4 @@ void RoomGroup::draw(sf::RenderTarget& target, sf::RenderStates states) const
     for(auto a = rooms.begin(); a != rooms.end(); a++){
         target.draw(**a);
     }
-
-    for(auto a = doors.begin(); a != doors.end(); a++){
-        target.draw(**a);
-    }
-
 }
