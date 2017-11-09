@@ -16,15 +16,16 @@ class PlayerView: public GameObject
         void onUpdate(float dt);
         void setCharacter(std::shared_ptr<Character> activeChar) {c = activeChar;};
         void setCharacterList(std::vector<std::shared_ptr<Character>>* characterList) {charVector = characterList;};
+        void setView(sf::FloatRect dimensions, sf::FloatRect viewport);
         void setPlayerNumber(int number){playernumber = number;};
-        void setTotalPlayers(int totalnumber){totalplayernumber = totalnumber;};
         void setRoomGroup(RoomGroup* g){this->rooms = g;};
     protected:
         RoomGroup* rooms;
         int playernumber;
-        int totalplayernumber;
         std::shared_ptr<Character> c;
         std::vector<std::shared_ptr<Character>>* charVector;
         sf::View v;
+        // Heads up display (Items, Health(?), etc)
+        sf::View HUD;
         void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
