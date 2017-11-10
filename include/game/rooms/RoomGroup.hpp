@@ -14,7 +14,7 @@ public:
    bool isInsideRoom(sf::FloatRect hbox);
    std::list<std::unique_ptr<Room>> rooms;
 protected:
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+    void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
 #endif
