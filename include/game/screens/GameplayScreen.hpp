@@ -30,7 +30,7 @@ public:
     void onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const;
 protected:
     void createViews(int numPlayers);
-    int numplayers = 2;
+    int numplayers = 3;
     std::vector<std::shared_ptr<Character>> activeCharacters;
     RoomGroup group;
 };

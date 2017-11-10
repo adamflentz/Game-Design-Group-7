@@ -8,7 +8,7 @@ void GameplayScreen::init()
     group.generateRoomGrid(8);
     // If we let the playerview set its own viewport
     // then we end up running the same code over and over inside PlayerView#init
-    this->createViews(4);
+    this->createViews(numplayers);
     
 }
 
@@ -46,7 +46,7 @@ void GameplayScreen::createViews(int numPlayers)
             sf::FloatRect(0, 0, 720 * ratio_w, 480 * ratio_h), 
             sf::FloatRect((ratio_w + gutterx) * x, (ratio_h  + guttery) * y, ratio_w - gutterx * (1.0 - x), ratio_h - guttery * (1.0 - y))
         );
-        
+
         character = std::shared_ptr<Character>(new Character());
         character->setGroup(&group);
         character->init();

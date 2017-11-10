@@ -86,6 +86,7 @@ void Character::onGamepadEvent(GamepadEvent e)
             break;
         case GamepadEvent::TYPE::PRESSED:
             if(e.button == "UP"){
+                // check if a y velocity
                 curr = &walk_up;
                 this->direction.y = -1;
             }
