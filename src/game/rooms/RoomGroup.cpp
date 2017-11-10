@@ -3,12 +3,13 @@
 void RoomGroup::generateRoomGrid(int roomCount)
 {
     srand (time(NULL));
+    roomCount = 200;
     // TODO:  Figure out total grid size based on difficulty: for now demo is size 3
     std::unique_ptr<Room> currRoom;
     std::unique_ptr<Room> currDoor;
 
-    int houseHeight = 3;
-    int houseWidth = 3;
+    int houseHeight = 20,
+        houseWidth  = 20;
 
     int roomGrid[houseWidth][houseHeight];
     
@@ -28,8 +29,8 @@ void RoomGroup::generateRoomGrid(int roomCount)
     while(roomsGenerated != roomCount)
     {
         // select random room with 0
-        int x = rand() % 3;
-        int y = rand() % 3;
+        int x = rand() % houseWidth;
+        int y = rand() % houseHeight;
         if (roomGrid[x][y] == 0)
         {
             roomGrid[x][y] = 1;
