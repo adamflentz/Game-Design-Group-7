@@ -73,3 +73,23 @@ void ClueReader::selectItems() {
         }
     }
 }
+
+std::vector<std::string> ClueReader::getInfo() {
+    return info;
+}
+
+std::vector<std::string> ClueReader::getCluesSpec() {
+    return cluesSpec;
+}
+
+std::vector<std::string> ClueReader::getCluesVague() {
+    return cluesVague;
+}
+
+Item ClueReader::getItemHigh() {
+    return itemHigh;
+}
+
+Item ClueReader::getItemLow() {
+    return itemLow;
+}
