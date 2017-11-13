@@ -1,19 +1,27 @@
 #include "game/screens/GameplayScreen.hpp"
+#include "engine/Random.hpp"
+#include "game/characters/Character.hpp"
+#include <iostream>
 
 void GameplayScreen::init()
 {
-    rando = std::unique_ptr<Rando>(new Rando());
-    this->GenerateRoomGrid(3);
-    this->addChild(std::move(roomFac[0]));
-    this->addChild(std::move(rando));
-
-}
-
-void GameplayScreen::GenerateRoomGrid(int RoomCount)
-{
-    for(int i=0; i < 3; i++){
-        // TODO: Add specific roomcount option
-        room = std::unique_ptr<Room>(new Room());
-        roomFac.push_back(std::move(room));
+    group.generateRoomGrid(8);
+    for(int i=0; i < numplayers; i++)
+    {
+        view = std::unique_ptr<PlayerView>(new PlayerView());
+        view->setRoomGroup(&group);
+        character = std::shared_ptr<Character>(new Character());
+        character->setGroup(&group);
+        character->init();
+        this->activeCharacters.push_back(std::move(character));
+        view->setTotalPlayers(numplayers);
+        view->setPlayerNumber(i);
+        view->setCharacter(activeCharacters[i]);
+        view->setCharacterList(&activeCharacters);
+        this->addChild(std::move(view));
     }
+}
+void GameplayScreen::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const
+{
+    // ctx.draw(group, states);
 }

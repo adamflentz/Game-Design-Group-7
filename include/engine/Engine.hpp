@@ -14,14 +14,15 @@
 
 // Utilities
 #include "engine/Interpolate.hpp"
-#include "engine/Joystick.hpp"
+#include "engine/Gamepad.hpp"
 #include "engine/Random.hpp"
 
 // Game creation
 #include "engine/GameObject.hpp"
+#include "engine/EngineEvents.hpp"
 #include "engine/EventManager.hpp"
 #include "engine/GameScreen.hpp"
 #include "engine/GameEngine.hpp"
-#include "engine/ClueReader.hpp"
+// #include "engine/ClueReader.hpp"
 
 #endif

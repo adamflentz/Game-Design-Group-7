@@ -1,3 +1,11 @@
+/////////////////
+// SpriteAnimation.hpp
+//
+// Create an animated sprite
+//
+////////////////
+
+
 #ifndef ANIMATED_SPRITE_HPP
 #define ANIMATED_SPRITE_HPP
 
