@@ -49,7 +49,6 @@ void ClueReader::selectItems() {
 
     // select a random low damage item
     int randL = Equilikely(0, getNumChild(root->first_node("low") - 1));
-    std::cout << randL << std::endl;
     n = 0;
     xml_node<> *itemL = root->first_node("low")->first_node();
     while(n != randL){

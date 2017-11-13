@@ -1,4 +1,5 @@
 #include "HouseHaunters.hpp"
+#include "engine/ClueReader.hpp"
 #include <iostream>
 
 ////////////////////////
