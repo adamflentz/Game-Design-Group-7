@@ -2,6 +2,7 @@
 #include <memory>
 #include "engine/Engine.hpp"
 #include "game/characters/Character.hpp"
+#include "game/characters/Villain.hpp"
 #include "game/rooms/RoomGroup.hpp"
 #include "game/characters/PlayerView.hpp"
 
@@ -33,6 +34,7 @@ protected:
     std::unique_ptr<PlayerView> view;
     std::vector<std::shared_ptr<Character>> activeCharacters;
     std::shared_ptr<Character> character;
+    std::shared_ptr<Villain> ghost;
     // std::vector<std::unique_ptr<Room> > roomFac;
     RoomGroup group;
 };

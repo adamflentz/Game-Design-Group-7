@@ -7,43 +7,27 @@
 #include <list>
 #include <map>
 #include <string>
+#include <memory>
 #include <functional>
+#include "engine/EngineEvents.hpp"
 
-class BasicEvent
-{
-public:
-    BasicEvent(){};
-    BasicEvent(std::string m) : message(m){};
-    std::string getMessage() {return message;};
-    void setType(std::string t) { this->type = t; };
-    std::string getType(){ return this->type; };
-private: 
-    std::string type;
-    std::string message;
-};
-// To access the two colliders the basic event must be
-// casted to a GameObject(?)
-// TODO: This kind of thing should be in another folder(?)
-class CollisionEvent : public BasicEvent
-{
-public:
-    // GameObject* coll1;
-    // GameObject* coll2; 
-};
-
-typedef std::list< std::function<void (BasicEvent)> > event_list;
+// We have to use a shared_ptr to prevent object slicing
+typedef std::shared_ptr<BasicEvent> base_event_type;
+typedef std::list< std::function<void (base_event_type)> > event_list;
 
 class Events
 {
 public:
     static long listener_id;
-    static long addEventListener(std::string type, std::function<void (BasicEvent)> listener);
+    static long addEventListener(std::string type, std::function< void (base_event_type) > listener);
     static void removeEventListener(long id);
-    static void postEvent(std::string, BasicEvent e);
+    static void queueEvent(std::string, base_event_type e);
+    // similar to post event except not added to a queue and immediately notifies
+    static void triggerEvent(std::string, base_event_type e);
     static void notify();
 private:
     static std::map< std::string, event_list > listeners_map;
-    static std::queue<BasicEvent> events;
+    static std::queue< base_event_type > events;
 };
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef CHARACTER_H
-#define CHARACTER_H
+#ifndef VILLAIN_H
+#define VILLAIN_H
 
 #include <memory>
 #include <SFML/Graphics.hpp>
@@ -17,7 +17,7 @@
 //
 ////////////////
 
-class Character: public GameObject 
+class Villain: public GameObject 
 {
 public:
     void init();

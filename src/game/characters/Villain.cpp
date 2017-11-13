@@ -1,37 +1,37 @@
 #include <vector>
 #include <iostream>
 #include <string>
-#include "game/characters/Character.hpp"
+#include "game/characters/Villain.hpp"
 
-void Character::init()
+void Villain::init()
 {
     this->direction = sf::Vector2f(0,0);
     // Make sure player starts inside first room(?)
     // could also make them start inside a random room
-    this->setPosition(g->rooms.front()->getPosition().x + 20, g->rooms.front()->getPosition().y + 20);
+    this->setPosition(g->rooms.front()->getPosition().x + 40, g->rooms.front()->getPosition().y + 40);
     // 1p width, height
     // 2p width/2 height
     // 3p, 4p width/2 height/2
     // v.setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
     // v.setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
     // load the sprite map
-    sprite_map.loadFromFile("../resources/sprites/rando.png");
+    sprite_map.loadFromFile("../resources/sprites/ghost.png");
     // add animation frames
     std::vector< std::vector<int> > down_frames = { {1}, {2}, {1}, {0} };
     walk_down.setSpriteSheet(sprite_map);
-    walk_down.addFrames(down_frames, 32, 32);
+    walk_down.addFrames(down_frames, 32, 48);
 
     std::vector< std::vector<int> > left_frames = { {4}, {5}, {4}, {3} };
     walk_left.setSpriteSheet(sprite_map);
-    walk_left.addFrames(left_frames, 32, 32);
+    walk_left.addFrames(left_frames, 32, 48);
 
     std::vector< std::vector<int> > right_frames = { {7}, {8}, {7}, {6} };
     walk_right.setSpriteSheet(sprite_map);
-    walk_right.addFrames(right_frames, 32, 32);
+    walk_right.addFrames(right_frames, 32, 48);
 
     std::vector< std::vector<int> > up_frames = { {10}, {11}, {10}, {9} };
     walk_up.setSpriteSheet(sprite_map);
-    walk_up.addFrames(up_frames, 32, 32);
+    walk_up.addFrames(up_frames, 32, 48);
     // set default animation
     curr = &walk_down;
     // Don't automatically play the animation
@@ -42,7 +42,7 @@ void Character::init()
     hbox.init();
 }
 
-void Character::onUpdate(float dt)
+void Villain::onUpdate(float dt)
 {   
     float dx = this->direction.x * speed * dt;
     float dy = this->direction.y * speed * dt;
@@ -63,7 +63,7 @@ void Character::onUpdate(float dt)
     curr->nextFrame(dt);
 }
 
-void Character::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
+void Villain::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     // draw the animation
     target.draw(*curr, states);
@@ -71,7 +71,7 @@ void Character::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
     target.draw(hbox);
 }
 
-void Character::onGamepadEvent(GamepadEvent e)
+void Villain::onGamepadEvent(GamepadEvent e)
 {
     switch(e.type){
         case GamepadEvent::TYPE::RELEASED:
