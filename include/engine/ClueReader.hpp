@@ -1,6 +1,7 @@
 #ifndef CLUEREADER_HPP
 #define CLUEREADER_HPP
-#include "engine/json.hpp"
+#include "rapidxml/rapidxml.hpp"
+#include "rapidxml/rapidxml_utils.hpp"
 #include <string>
 #include <vector>
 
@@ -11,7 +12,7 @@ struct Item {
 
 class ClueReader {
 public:
-    void readFile(std::string file);
+    void readFile(std::string filename);
     void selectItems();
     Item itemHigh;
     Item itemLow;
@@ -20,9 +21,10 @@ public:
     std::vector<std::string> cluesVague;
 
 private:
-    void populateClues(std::string y, int z);
-    void populateInfo();
-    nlohmann::json j;
+    int getNumChild(rapidxml::xml_node<> *parent);
+    std::string items;
+    rapidxml::xml_document<> doc;
+    rapidxml::xml_node<> *root; // xml root node
 };
 
 #endif

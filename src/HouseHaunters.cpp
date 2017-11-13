@@ -23,6 +23,6 @@ void HouseHauntersGame::init()
 
     PlantSeeds(-1);
     ClueReader reader;
-    reader.readFile("../resources/items.json");
+    reader.readFile("../resources/items.xml");
     reader.selectItems();
 }
