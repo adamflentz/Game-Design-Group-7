@@ -24,7 +24,6 @@ class PlayerView: public GameObject
     protected:
         RoomGroup* rooms;
         int playernumber;
-        int totalplayernumber;
         std::shared_ptr<Villain> g;
         std::shared_ptr<Character> c;
         std::vector<std::shared_ptr<Character>>* charVector;
