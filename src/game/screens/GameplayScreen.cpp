@@ -12,8 +12,8 @@ void GameplayScreen::init()
     this->createViews(numplayers);
     
 }
-    
-
+void GameplayScreen::createViews(int numPlayers)
+{
     double ratio_w = 1.0;
     double ratio_h = 1.0;
     double gutter  = 5.0; // space between player views in pixels
@@ -33,12 +33,12 @@ void GameplayScreen::init()
     // so they shouldn't be members
     std::unique_ptr<PlayerView> view;
     std::shared_ptr<Character> character;
-    
-    group.generateRoomGrid(20);
-    ghost = std::shared_ptr<Villain>(new Villain());
-    ghost->setGroup(&group);
-    ghost->init();
-    for(int i=0; i < numplayers; i++)
+    std::shared_ptr<Villain> ghost;
+    // ghost = std::shared_ptr<Villain>(new Villain());
+    // ghost->setGroup(&group);
+    // ghost->init();
+
+    for(int i=0; i < numPlayers; i++)
     {
         // Map i to a 2d array [2][2]
         int x = i % 2;
@@ -55,16 +55,15 @@ void GameplayScreen::init()
         character->setGroup(&group);
         character->init();
         this->activeCharacters.push_back(std::move(character));
-        view->setGhost(ghost);
-        view->setTotalPlayers(numplayers);
         view->setPlayerNumber(i);
         view->setCharacter(activeCharacters[i]);
         view->setCharacterList(&activeCharacters);
+        // view->setGhost(ghost);
         this->addChild(std::move(view));
     }
-    
-}
+}   
 
+  
 void GameplayScreen::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const
 {
     // ctx.draw(group, states);
