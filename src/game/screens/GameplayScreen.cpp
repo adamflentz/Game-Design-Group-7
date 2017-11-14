@@ -6,6 +6,11 @@
 
 void GameplayScreen::init()
 {
+    double ratio_w = 1.0;
+    double ratio_h = 1.0;
+    double gutter  = 5.0; // space between player views in pixels
+    double gutterx = gutter / 720.0 / 2;
+    double guttery = gutter / 480.0 / 2;
     group.generateRoomGrid(20);
     ghost = std::shared_ptr<Villain>(new Villain());
     ghost->setGroup(&group);
