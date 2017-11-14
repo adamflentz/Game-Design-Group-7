@@ -6,6 +6,13 @@
 
 void GameplayScreen::init()
 {
+    group.generateRoomGrid(8);
+    // If we let the playerview set its own viewport
+    // then we end up running the same code over and over inside PlayerView#init
+    this->createViews(numplayers);
+    
+}
+    
 
     double ratio_w = 1.0;
     double ratio_h = 1.0;
