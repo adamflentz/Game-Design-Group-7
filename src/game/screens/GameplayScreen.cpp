@@ -58,7 +58,7 @@ void GameplayScreen::createViews(int numPlayers)
         view->setPlayerNumber(i);
         view->setCharacter(activeCharacters[i]);
         view->setCharacterList(&activeCharacters);
-        // view->setGhost(ghost);
+        view->setGhost(ghost);
         this->addChild(std::move(view));
     }
 }   
