@@ -6,6 +6,7 @@
 void Character::init()
 {
     this->direction = sf::Vector2f(0,0);
+    this->setOrigin(16, 16);
     // Make sure player starts inside first room(?)
     // could also make them start inside a random room
     this->setPosition(g->rooms.front()->getPosition().x + 20, g->rooms.front()->getPosition().y + 20);
@@ -37,7 +38,7 @@ void Character::init()
     // Don't automatically play the animation
     curr->stop();
     // set the hitbox up to follow this object
-    hbox = Hitbox(0,16,32,16);
+    hbox = Hitbox(-8,0,16,16);
     hbox.follow(this);
     hbox.init();
 }
@@ -85,6 +86,7 @@ void Character::onGamepadEvent(GamepadEvent e)
             break;
         case GamepadEvent::TYPE::PRESSED:
             if(e.button == "UP"){
+                // check if a y velocity
                 curr = &walk_up;
                 this->direction.y = -1;
             }

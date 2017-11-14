@@ -117,14 +117,14 @@ void Gamepad::update()
         }
     }
     else if(!sf::Joystick::isConnected(controllerIndex)){
-        if(this->isConnected){
+        if(this->isConnected()){
             std::cout << "CONTROLLER DISCONNECTED" << std::endl;
-            this->isConnected = false;
+            this->isConnected_b = false;
         }
     }
     else{
-        if(!this->isConnected){
-            this->isConnected = true;
+        if(!this->isConnected()){
+            this->isConnected_b = true;
             std::cout << "CONTROLLER CONNECTED AT INDEX " << controllerIndex << std::endl;
         }
         // SFML treats the d-pad as an axis for some reason....
@@ -193,11 +193,11 @@ int GamepadController::addGamepads()
         }
     }
 
-    // Default last gamepad to keyboard
+    // Default last gamepad to keyboard secretly
     gamepads[count] = Gamepad();
     gamepads[count].setIndex(count);
     gamepads[count].setLayout(Gamepad::LAYOUT::KEYBOARD);
-
+    this->count = count;
     return count;
 }
 
