@@ -4,8 +4,7 @@
 void SpriteAnimation::setSpriteSheet(sf::Texture& t)
 {
     texture = &t; 
-    sprite.setTexture(t); 
-}
+    sprite.setTexture(t);  }
 
 void SpriteAnimation::addFrames(std::vector< std::vector<int> > frames, int tilew, int tileh)
 {

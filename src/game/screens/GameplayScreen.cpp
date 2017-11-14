@@ -1,6 +1,7 @@
 #include "game/screens/GameplayScreen.hpp"
 #include "engine/Random.hpp"
 #include "game/characters/Character.hpp"
+#include "game/characters/Villain.hpp"
 #include <iostream>
 
 void GameplayScreen::init()
@@ -11,7 +12,6 @@ void GameplayScreen::init()
     this->createViews(numplayers);
     
 }
-
 void GameplayScreen::createViews(int numPlayers)
 {
     double ratio_w = 1.0;
@@ -33,6 +33,10 @@ void GameplayScreen::createViews(int numPlayers)
     // so they shouldn't be members
     std::unique_ptr<PlayerView> view;
     std::shared_ptr<Character> character;
+    std::shared_ptr<Villain> ghost;
+    ghost = std::shared_ptr<Villain>(new Villain());
+    ghost->setGroup(&group);
+    ghost->init();
 
     for(int i=0; i < numPlayers; i++)
     {
@@ -54,10 +58,12 @@ void GameplayScreen::createViews(int numPlayers)
         view->setPlayerNumber(i);
         view->setCharacter(activeCharacters[i]);
         view->setCharacterList(&activeCharacters);
+        view->setGhost(ghost);
         this->addChild(std::move(view));
     }
-}
+}   
 
+  
 void GameplayScreen::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const
 {
     // ctx.draw(group, states);

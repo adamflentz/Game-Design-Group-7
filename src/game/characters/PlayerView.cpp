@@ -15,22 +15,19 @@ void PlayerView::init()
             c->onGamepadEvent(gpe);
         }
     });
-    // center the view around the character
-    // TODO: This is actually the top-left corner of the character
-    v.setCenter(c->getPosition());
-    // zoom out a little
-    v.zoom(0.5f);    
-}
-
-void PlayerView::setView(sf::FloatRect dimensions, sf::FloatRect viewport){
-    v.reset(dimensions);
-    v.setViewport(viewport);
+    
 }
 
 void PlayerView::onUpdate(float dt)
 {
     c->onUpdate(dt);
+    g->onUpdate(dt);
     v.setCenter(c->getPosition());
+}
+
+void PlayerView::setView(sf::FloatRect dimensions, sf::FloatRect viewport){
+    v.reset(dimensions);
+    v.setViewport(viewport);
 }
 
 void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -41,6 +38,7 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
     {
         target.draw(**it);
     }
+    target.draw(*g);
     // draw the current view
     target.setView(v);
 

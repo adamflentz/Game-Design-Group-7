@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "engine/Engine.hpp"
 #include "game/characters/Character.hpp"
+#include "game/characters/Villain.hpp"
 #include "game/rooms/RoomGroup.hpp"
 
 ////////////////
@@ -14,6 +15,7 @@ class PlayerView: public GameObject
     public:
         void init();
         void onUpdate(float dt);
+        void setGhost(std::shared_ptr<Villain> ghost) {g = ghost;};
         void setCharacter(std::shared_ptr<Character> activeChar) {c = activeChar;};
         void setCharacterList(std::vector<std::shared_ptr<Character>>* characterList) {charVector = characterList;};
         void setView(sf::FloatRect dimensions, sf::FloatRect viewport);
@@ -22,6 +24,7 @@ class PlayerView: public GameObject
     protected:
         RoomGroup* rooms;
         int playernumber;
+        std::shared_ptr<Villain> g;
         std::shared_ptr<Character> c;
         std::vector<std::shared_ptr<Character>>* charVector;
         sf::View v;
