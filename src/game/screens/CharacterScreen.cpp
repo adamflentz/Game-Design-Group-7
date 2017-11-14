@@ -1,11 +1,11 @@
-#include "game/screens/GametitleScreen.hpp"
+#include "game/screens/CharacterScreen.hpp"
 #include <iostream>
 
-void GametitleScreen::init()
+void CharacterScreen::init()
 {
-  std::cout<< "TitleScreen" << std::endl;
+  std::cout<< "CharacterScreen" << std::endl;
 
-  if (!title.loadFromFile("../resources/titlescreen.png"))
+  if (!title.loadFromFile("../resources/character.png"))
   {
       return;
   }
@@ -31,7 +31,7 @@ void GametitleScreen::init()
 
 }
 
-void GametitleScreen::onUpdate(float dt){
+void CharacterScreen::onUpdate(float dt){
   // if alpha != 0
   // variable = clock.reset()
   // if(variable > some amount)
@@ -45,7 +45,7 @@ void GametitleScreen::onUpdate(float dt){
   }
 };
 
-void GametitleScreen::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const
+void CharacterScreen::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const
 {
     // ctx.draw(group, states);
     ctx.draw(sprite);
