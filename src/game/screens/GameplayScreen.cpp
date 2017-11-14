@@ -6,44 +6,11 @@
 
 void GameplayScreen::init()
 {
-<<<<<<< HEAD
     group.generateRoomGrid(20);
     ghost = std::shared_ptr<Villain>(new Villain());
     ghost->setGroup(&group);
     ghost->init();
     for(int i=0; i < numplayers; i++)
-=======
-    group.generateRoomGrid(8);
-    // If we let the playerview set its own viewport
-    // then we end up running the same code over and over inside PlayerView#init
-    this->createViews(numplayers);
-    
-}
-
-void GameplayScreen::createViews(int numPlayers)
-{
-    double ratio_w = 1.0;
-    double ratio_h = 1.0;
-    double gutter  = 5.0; // space between player views in pixels
-    double gutterx = gutter / 720.0 / 2;
-    double guttery = gutter / 480.0 / 2;
-    
-
-    if(numPlayers >= 3){
-        ratio_w /= 2;
-        ratio_h /= 2;
-    }
-    else if(numPlayers == 2){
-        ratio_w /= 2;
-    }
-    // We don't need to store these in our class definition
-    // we won't use these variables after we're done here
-    // so they shouldn't be members
-    std::unique_ptr<PlayerView> view;
-    std::shared_ptr<Character> character;
-
-    for(int i=0; i < numPlayers; i++)
->>>>>>> 92ab6c9dcfd4ca8502ea816340ed2ff44c955aa4
     {
         // Map i to a 2d array [2][2]
         int x = i % 2;
@@ -60,11 +27,8 @@ void GameplayScreen::createViews(int numPlayers)
         character->setGroup(&group);
         character->init();
         this->activeCharacters.push_back(std::move(character));
-<<<<<<< HEAD
         view->setGhost(ghost);
         view->setTotalPlayers(numplayers);
-=======
->>>>>>> 92ab6c9dcfd4ca8502ea816340ed2ff44c955aa4
         view->setPlayerNumber(i);
         view->setCharacter(activeCharacters[i]);
         view->setCharacterList(&activeCharacters);
