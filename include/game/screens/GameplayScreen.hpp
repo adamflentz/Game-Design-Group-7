@@ -33,8 +33,6 @@ protected:
     void createViews(int numPlayers);
     int numplayers = 3;
     std::vector<std::shared_ptr<Character>> activeCharacters;
-    std::shared_ptr<Character> character;
-    std::shared_ptr<Villain> ghost;
     // std::vector<std::unique_ptr<Room> > roomFac;
     RoomGroup group;
 };

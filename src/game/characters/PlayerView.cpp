@@ -15,27 +15,6 @@ void PlayerView::init()
             c->onGamepadEvent(gpe);
         }
     });
-    switch(totalplayernumber){
-        case 1: v.reset(sf::FloatRect(0,0,720,480));
-        v.setCenter(c->getPosition());
-        v.zoom(0.5f);
-        break;
-        case 2:switch(playernumber){
-            case 0:v.setViewport(sf::FloatRect(0,0,0.5f,1.0f));
-            v.setSize(720/2, 360);
-            v.setCenter(c->getPosition());
-            v.zoom(0.5f);
-            break;
-            case 1:v.setViewport(sf::FloatRect(0.5f,0,0.5f,1.0f));
-            v.setSize(720/2, 360);
-            v.setCenter(c->getPosition());
-            v.zoom(0.5f);
-            break;
-    
-        break;
-        }
-
-    }
     
 }
 
