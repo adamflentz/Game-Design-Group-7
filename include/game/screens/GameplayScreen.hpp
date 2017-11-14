@@ -30,7 +30,7 @@ public:
     void init();
     void onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const;
 protected:
-    int numplayers = 1;
+    int numplayers = 2;
     std::unique_ptr<PlayerView> view;
     std::vector<std::shared_ptr<Character>> activeCharacters;
     std::shared_ptr<Character> character;

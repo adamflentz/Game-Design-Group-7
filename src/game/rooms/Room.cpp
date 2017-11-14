@@ -16,8 +16,3 @@ void Room::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
     target.draw(rect);
     target.draw(hbox);
 }
-
-// void Room::setRoomPosition(int x, int y)
-// {
-//     rect.setPosition(x, y);
-// }

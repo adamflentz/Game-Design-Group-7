@@ -6,7 +6,7 @@
 
 void GameplayScreen::init()
 {
-    group.generateRoomGrid(8);
+    group.generateRoomGrid(20);
     ghost = std::shared_ptr<Villain>(new Villain());
     ghost->setGroup(&group);
     ghost->init();

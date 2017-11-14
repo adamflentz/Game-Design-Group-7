@@ -2,10 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "engine/Engine.hpp"
 #include "game/characters/Character.hpp"
-<<<<<<< HEAD
 #include "game/characters/Villain.hpp"
-=======
->>>>>>> 72f383503a641408cc6a8c5925836ed9e38b6585
 #include "game/rooms/RoomGroup.hpp"
 
 ////////////////

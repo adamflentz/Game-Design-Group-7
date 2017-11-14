@@ -44,21 +44,21 @@ void RoomGroup::generateRoomGrid(int roomCount)
             if(roomGrid[i][j] == 1)
             {
                 currRoom = std::unique_ptr<Room>(new Room());
-                currRoom->rect.setSize(sf::Vector2f(256, 160));
-                currRoom->rect.setPosition((256+10) * i, (160+10) * j);
+                currRoom->rect.setSize(sf::Vector2f(512, 320));
+                currRoom->rect.setPosition((512+10) * i, (320+10) * j);
                 currRoom->setPosition(currRoom->rect.getPosition());
                 currRoom->init();
                 if(i+1 < houseWidth && roomGrid[i+1][j] == 1){
                   rightDoor = std::unique_ptr<Room>(new Room());
                   rightDoor->rect.setSize(sf::Vector2f(32, 64));
-                  rightDoor->rect.setPosition(currRoom->getPosition().x + 256 - 16, currRoom->getPosition().y + 80 - 32);
+                  rightDoor->rect.setPosition(currRoom->getPosition().x + 512 - 16, currRoom->getPosition().y + 160 - 32);
                   rightDoor->setPosition(rightDoor->rect.getPosition());
                 }
 
                 if(j+1 < houseHeight && roomGrid[i][j+1] == 1){
                   bottomDoor = std::unique_ptr<Room>(new Room());
                   bottomDoor->rect.setSize(sf::Vector2f(64, 32));
-                  bottomDoor->rect.setPosition(currRoom->getPosition().x + 128 - 32, currRoom->getPosition().y + 160 - 16);
+                  bottomDoor->rect.setPosition(currRoom->getPosition().x + 256 - 32, currRoom->getPosition().y + 320 - 16);
                   bottomDoor->setPosition(bottomDoor->rect.getPosition());
                 }
 

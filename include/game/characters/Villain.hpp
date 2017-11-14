@@ -2,6 +2,7 @@
 #define VILLAIN_H
 
 #include <memory>
+#include <string>
 #include <SFML/Graphics.hpp>
 #include "engine/Engine.hpp"
 #include "components/SpriteAnimation.hpp"
@@ -23,12 +24,18 @@ public:
     void init();
     void onUpdate(float dt);
     void setGroup(RoomGroup* group) { g = group; };
-    void onGamepadEvent(GamepadEvent e);
     void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
+    void wander();
+    void setDirection();
 protected:
+    int randint;
+    std:: string previousString;
+    std::vector<std::string> possiblerooms;
     RoomGroup* g;
-    double speed = 100;
+    double speed = 120;
     sf::Vector2f direction;
+    float previousLocationX;
+    float previousLocationY;
     sf::Texture sprite_map;
     SpriteAnimation* curr;
     // create 4 sprite animations representing walking 

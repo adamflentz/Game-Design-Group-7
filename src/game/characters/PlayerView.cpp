@@ -15,9 +15,6 @@ void PlayerView::init()
             c->onGamepadEvent(gpe);
         }
     });
-
-    std::cout << totalplayernumber << std::endl;
-    std::cout << playernumber << std::endl;
     switch(totalplayernumber){
         case 1: v.reset(sf::FloatRect(0,0,720,480));
         v.setCenter(c->getPosition());
@@ -45,6 +42,7 @@ void PlayerView::init()
 void PlayerView::onUpdate(float dt)
 {
     c->onUpdate(dt);
+    g->onUpdate(dt);
     v.setCenter(c->getPosition());
 }
 
