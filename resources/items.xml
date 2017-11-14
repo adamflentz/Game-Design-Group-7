@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<items>
+    <comment>Reserve 'is killed by' clues for high damage items</comment>
+    <high>
+        <item>
+            <name>flamethrower</name>
+            <type>fire</type>
+            <clues>
+                <specific>X died in a fire.</specific>
+                <vague>There are scorch marks in the house.</vague>
+            </clues>
+        </item>
+        <item>
+            <name>sword</name>
+            <type>blades</type>
+            <clues>
+                <specific>X's medieval sword was the most dangerous item in the house.</specific>
+                <vague>X collected prized antique weapons.</vague>
+            </clues>
+        </item>
+        <item>
+            <name>hose</name>
+            <type>water</type>
+            <clues>
+                <specific>X drowned in a well. Might not enjoy being wet...</specific>
+                <vague>X drowned in a well.</vague>
+            </clues>
+        </item>
+    </high>
+    <low>
+        <item>
+            <name>candle</name>
+            <type>fire</type>
+            <clues>
+                <specific>X is detered by candles.</specific>
+                <vague>X is accustomed to the dark.</vague>
+            </clues>
+        </item>
+        <item>
+            <name>dagger</name>
+            <type>blades</type>
+            <clues>
+                <specific>If you use a dagger against X, you must be fast.</specific>
+                <vague>Be careful, X lost a dagger around here somewhere...</vague>
+            </clues>
+        </item>
+        <item>
+            <name>bucket</name>
+            <type>water</type>
+            <clues>
+                <specific>X does not like water.</specific>
+                <vague>X didn't enjoy swimming.</vague>
+            </clues>
+        </item>
+    </low>
+    <info>
+        <blades>
+            <ARRAY>Medieval weaponry was one of X's favorite topics.</ARRAY>
+            <ARRAY>X can make a mean chopped salad.</ARRAY>
+            <ARRAY>X only had nine and a half fingers after an unfortunate chopping incedent.</ARRAY>
+        </blades>
+        <fire>
+            <ARRAY>X refused to attend BBQs.</ARRAY>
+            <ARRAY>A painful burn marked X's left hand.</ARRAY>
+            <ARRAY>X prefered the night to the day.</ARRAY>
+        </fire>
+        <water>
+            <ARRAY>X cried easily.</ARRAY>
+            <ARRAY>A terrible rainstorm occured the night X was born.</ARRAY>
+            <ARRAY>No one enjoyed shaking X's hand, because it was always moist.</ARRAY>
+        </water>
+    </info>
+</items>
