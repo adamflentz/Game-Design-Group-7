@@ -6,28 +6,31 @@ void RoomGroup::generateRoomGrid(int roomCount)
     roomCount = 200;
     // TODO:  Figure out total grid size based on difficulty: for now demo is size 3
     std::unique_ptr<Room> currRoom;
-    std::unique_ptr<Room> rightDoor;
-    std::unique_ptr<Room> bottomDoor;
-    int houseHeight = 10;
-    int houseWidth = 10;
-    int roomGrid [houseWidth][houseHeight];
-    for(int i = 0; i < houseWidth; i++){
-        for(int j = 0; j < houseHeight; j++){
-            roomGrid[i][j] = -1;
-        }
-    }
-    // set values around center to 0
-    roomGrid[4][4] = 1;
-    roomGrid[3][4] = 0;
-    roomGrid[5][4] = 0;
-    roomGrid[4][3] = 0;
-    roomGrid[4][5] = 0;
+    std::unique_ptr<Room> currDoor;
+
+    int houseHeight = 20,
+        houseWidth  = 20;
+
+    int roomGrid[houseWidth][houseHeight];
+    
+    // initialize all values in grid to -1 to remove junk data
+    for(int i = 0; i < houseWidth * houseHeight; i++) 
+        roomGrid[i % houseWidth][i / houseHeight] = -1;
+    int cx = (houseWidth-1) / 2,
+        cy = (houseHeight-1) / 2;
+    // since we're building from the center we set values around center to 0
+    roomGrid[cx][cy]   = 1;
+    roomGrid[cx-1][cy] = 0;
+    roomGrid[cx+1][cy] = 0;
+    roomGrid[cx][cy-1] = 0;
+    roomGrid[cx][cy+1] = 0;
+
     int roomsGenerated = 1;
     while(roomsGenerated != roomCount)
     {
         // select random room with 0
-        int x = rand() % houseHeight;
-        int y = rand() % houseWidth;
+        int x = rand() % houseWidth;
+        int y = rand() % houseHeight;
         if (roomGrid[x][y] == 0)
         {
             roomGrid[x][y] = 1;
@@ -45,25 +48,29 @@ void RoomGroup::generateRoomGrid(int roomCount)
             if(roomGrid[i][j] == 1)
             {
                 currRoom = std::unique_ptr<Room>(new Room());
-                currRoom->rect.setSize(sf::Vector2f(512, 320));
-                currRoom->rect.setPosition((512+10) * i, (320+10) * j);
+                currRoom->rect.setSize(sf::Vector2f(256, 160));
+                currRoom->rect.setPosition((256+10) * i, (160+10) * j);
                 currRoom->setPosition(currRoom->rect.getPosition());
                 currRoom->init();
                 // When adding doors we have to make sure they extend into each room
                 // approximately the size of our character hitboxes
                 // Add right facing-door
                 if(i+1 < houseWidth && roomGrid[i+1][j] == 1){
-                  rightDoor = std::unique_ptr<Room>(new Room());
-                  rightDoor->rect.setSize(sf::Vector2f(32, 64));
-                  rightDoor->rect.setPosition(currRoom->getPosition().x + 512 - 16, currRoom->getPosition().y + 160 - 32);
-                  rightDoor->setPosition(rightDoor->rect.getPosition());
+                    currDoor = std::unique_ptr<Room>(new Room());
+                    currDoor->rect.setSize(sf::Vector2f(32 * 3, 64));
+                    currDoor->rect.setPosition(currRoom->getPosition().x + 256 - 32, currRoom->getPosition().y + 80 - 32);
+                    currDoor->setPosition(currRoom->rect.getPosition());
+                    currDoor->init();
+                    this->rooms.push_back(std::move(currDoor));
                 }
                 // Add bottom facing door
                 if(j+1 < houseHeight && roomGrid[i][j+1] == 1){
-                  bottomDoor = std::unique_ptr<Room>(new Room());
-                  bottomDoor->rect.setSize(sf::Vector2f(64, 32));
-                  bottomDoor->rect.setPosition(currRoom->getPosition().x + 256 - 32, currRoom->getPosition().y + 320 - 16);
-                  bottomDoor->setPosition(bottomDoor->rect.getPosition());
+                    currDoor = std::unique_ptr<Room>(new Room());
+                    currDoor->rect.setSize(sf::Vector2f(64, 32 * 3));
+                    currDoor->rect.setPosition(currRoom->getPosition().x + 128 - 32, currRoom->getPosition().y + 160 - 16);
+                    currDoor->setPosition(currRoom->rect.getPosition());
+                    currDoor->init();
+                    this->rooms.push_back(std::move(currDoor));
                 }
 
                 this->rooms.push_back(std::move(currRoom));

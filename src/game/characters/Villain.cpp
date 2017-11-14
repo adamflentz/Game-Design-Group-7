@@ -8,7 +8,7 @@ void Villain::init()
     this->direction = sf::Vector2f(0,0);
     // Make sure player starts inside first room(?)
     // could also make them start inside a random room
-    this->setPosition(g->rooms.front()->getPosition().x + (256 - 16), g->rooms.front()->getPosition().y + (160 - 24));
+    this->setPosition(g->rooms.front()->getPosition().x + (128 - 16), g->rooms.front()->getPosition().y + (80 - 24));
     this->previousLocationX = this->getPosition().x;
     this->previousLocationY = this->getPosition().y;
     this->setDirection();
@@ -86,7 +86,7 @@ void Villain::wander(){
     std::cout << this->previousLocationY;
     std::cout << " ";
     std::cout << yloc << std:: endl;
-    if(this->previousLocationX + 522 == xloc  && this->getPosition().y == this->previousLocationY){
+    if(this->previousLocationX + 266 == xloc  && this->getPosition().y == this->previousLocationY){
         std::cout << "switch" << std::endl;
         this->previousLocationX = xloc + 1;
         this->previousLocationY = yloc;
@@ -103,7 +103,7 @@ void Villain::wander(){
         std::cout << yloc << std:: endl;
 
     }
-    else if(this->previousLocationX - 522 == xloc  && this->getPosition().y == this->previousLocationY){
+    else if(this->previousLocationX - 266 == xloc  && this->getPosition().y == this->previousLocationY){
         std::cout << "switch" << std::endl;
         this->previousLocationX = xloc - 1;
         this->previousLocationY = yloc;    
@@ -119,7 +119,7 @@ void Villain::wander(){
         std::cout << " ";
         std::cout << yloc << std:: endl;
     }
-    else if(this->previousLocationY + 330 == yloc && this->getPosition().x == this->previousLocationX){
+    else if(this->previousLocationY + 170 == yloc && this->getPosition().x == this->previousLocationX){
         std::cout << "switch" << std::endl;
         this->previousLocationX = xloc;
         this->previousLocationY = yloc + 1;  
@@ -135,7 +135,7 @@ void Villain::wander(){
         std::cout << " ";
         std::cout << yloc << std:: endl;
     }   
-    else if(this->previousLocationY - 330 == yloc && this->getPosition().x == this->previousLocationX){
+    else if(this->previousLocationY - 170 == yloc && this->getPosition().x == this->previousLocationX){
         std::cout << "switch" << std::endl;
         this->previousLocationX = xloc;
         this->previousLocationY = yloc - 1;
