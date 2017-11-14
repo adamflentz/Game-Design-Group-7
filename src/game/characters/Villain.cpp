@@ -153,19 +153,19 @@ void Villain::wander(){
     }
 }
 void Villain::setDirection(){  
-    if(g->isInsideRoom(sf::FloatRect(this->getPosition().x + 512, this->getPosition().y, hbox.width, hbox.height)) && previousString != "right"){
+    if(g->isInsideRoom(sf::FloatRect(this->getPosition().x + 256, this->getPosition().y, hbox.width, hbox.height)) && previousString != "right"){
         std::cout << "right" << std::endl;
         this->possiblerooms.push_back("right");
     }
-    if(g->isInsideRoom(sf::FloatRect(this->getPosition().x - 512, this->getPosition().y, hbox.width, hbox.height))&& previousString != "left"){
+    if(g->isInsideRoom(sf::FloatRect(this->getPosition().x - 256, this->getPosition().y, hbox.width, hbox.height))&& previousString != "left"){
         std::cout << "left" << std::endl;
         this->possiblerooms.push_back("left");
     }
-    if(g->isInsideRoom(sf::FloatRect(this->getPosition().x, this->getPosition().y + 320, hbox.width, hbox.height))&& previousString != "down"){
+    if(g->isInsideRoom(sf::FloatRect(this->getPosition().x, this->getPosition().y + 160, hbox.width, hbox.height))&& previousString != "down"){
         std::cout << "down" << std::endl;
         this->possiblerooms.push_back("down");
     }
-    if(g->isInsideRoom(sf::FloatRect(this->getPosition().x, this->getPosition().y - 320, hbox.width, hbox.height))&& previousString != "up"){
+    if(g->isInsideRoom(sf::FloatRect(this->getPosition().x, this->getPosition().y - 160, hbox.width, hbox.height))&& previousString != "up"){
         std::cout << "up" << std::endl;
         this->possiblerooms.push_back("up");
     }
