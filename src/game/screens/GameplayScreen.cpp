@@ -34,9 +34,9 @@ void GameplayScreen::createViews(int numPlayers)
     std::unique_ptr<PlayerView> view;
     std::shared_ptr<Character> character;
     std::shared_ptr<Villain> ghost;
-    // ghost = std::shared_ptr<Villain>(new Villain());
-    // ghost->setGroup(&group);
-    // ghost->init();
+    ghost = std::shared_ptr<Villain>(new Villain());
+    ghost->setGroup(&group);
+    ghost->init();
 
     for(int i=0; i < numPlayers; i++)
     {
