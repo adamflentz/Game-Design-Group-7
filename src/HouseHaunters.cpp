@@ -1,4 +1,5 @@
 #include "HouseHaunters.hpp"
+#include "engine/ClueReader.hpp"
 #include <iostream>
 
 ////////////////////////
@@ -21,12 +22,12 @@ void HouseHauntersGame::init()
     // since it's a unique pointer we have to move it first
     this->addGameScreen("Title", std::move(screen_gametitle) );
     this->addGameScreen("GamePlay", std::move(screen_gameplay) );
-    
+
     // start off at title screen
     this->changeGameScreen("Title");
 
     PlantSeeds(-1);
-    // ClueReader reader;
-    // reader.readFile("../resources/items.json");
-    // reader.selectItems();
+    ClueReader reader;
+    reader.readFile("../resources/items.xml");
+    reader.selectItems();
 }
