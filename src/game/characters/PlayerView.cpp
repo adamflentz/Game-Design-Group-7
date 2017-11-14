@@ -25,6 +25,11 @@ void PlayerView::onUpdate(float dt)
     v.setCenter(c->getPosition());
 }
 
+void PlayerView::setView(sf::FloatRect dimensions, sf::FloatRect viewport){
+    v.reset(dimensions);
+    v.setViewport(viewport);
+}
+
 void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     target.draw(*rooms);
