@@ -1,8 +1,9 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include "engine/Engine.hpp"
-#include "game/characters/rando.hpp"
+#include "game/characters/Character.hpp"
 #include "game/rooms/RoomGroup.hpp"
+#include "game/characters/PlayerView.hpp"
 
 //////////////////////////
 // PlayScreen.hpp
@@ -28,7 +29,8 @@ public:
     void init();
     void onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const;
 protected:
-    std::unique_ptr<Rando> rando;
-    // std::vector<std::unique_ptr<Room> > roomFac;
+    void createViews(int numPlayers);
+    int numplayers = 3;
+    std::vector<std::shared_ptr<Character>> activeCharacters;
     RoomGroup group;
 };

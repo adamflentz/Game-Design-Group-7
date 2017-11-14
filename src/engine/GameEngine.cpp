@@ -1,8 +1,18 @@
 #include <iostream>
+#include <typeinfo>       // std::bad_cast
 #include "engine/GameEngine.hpp"
 
 void GameEngine::start()
 {
+    // Find and initialize gamepads
+    int gpcount = gpcontroller.addGamepads();
+    std::cout << gpcount << " Gamepads Found" << std::endl;
+    // Add event listener using lambda function
+    Events::addEventListener("change_screen", [=](base_event_type event){
+        // Try to dynamically cast to string event
+        auto e = dynamic_cast< Event<std::string>& >(*event);
+        this->changeGameScreen(e.data);
+    });
     // initialize game
     this->init();
     // create window
@@ -35,6 +45,8 @@ void GameEngine::start()
 
 void GameEngine::update(float dt)
 {
+    // update controllers
+    gpcontroller.update();
     if(this->currScene)
     {
         this->currScene->update(dt);
@@ -59,7 +71,7 @@ void GameEngine::addGameScreen(std::string id, std::unique_ptr<GameScreen> s)
 void GameEngine::changeGameScreen(std::string s)
 {
     bool canChange = true;
-    std::cout << "changing screen" << std::endl;
+    std::cout << "Changing to screen: " << s << std::endl;
     if(this->currScene)
     {
         bool canChange = this->currScene->onExit();
@@ -89,9 +101,6 @@ void GameEngine::handleEvents()
             case sf::Event::Closed:
                 this->exit();
                 break;
-            //case sf::Event::MouseButtonReleased:
-                //this->ebus.postEvent(BasicEvent("MOUSEUP", mousePos.x, mousePos.y));
-            //    break;
         }
     }
 

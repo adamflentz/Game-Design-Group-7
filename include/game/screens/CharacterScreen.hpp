@@ -3,7 +3,7 @@
 #include "engine/Engine.hpp"
 
 
-class GametitleScreen: public GameScreen
+class CharacterScreen: public GameScreen
 {
 public:
     void init();

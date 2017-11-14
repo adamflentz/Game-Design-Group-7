@@ -10,6 +10,7 @@
 #include "engine/GameObject.hpp"
 #include "engine/GameScreen.hpp"
 #include "engine/EventManager.hpp"
+#include "engine/Gamepad.hpp"
 
 // Basically a state manager
 class GameEngine
@@ -33,11 +34,12 @@ public:
     /*void popGameScreen(std::unique_ptr<GameScreen> s);/**/
 
     bool isRunning(){ return running; };
-
+    
     sf::RenderWindow* getContext(){ return &window; };
 private:
     bool running;
     bool isDebugMode = false;
+    GamepadController gpcontroller;
     sf::IntRect winDim;//(0, 0, 720, 480);
     sf::RenderWindow window;
     std::string name = "New_Game";
@@ -51,7 +53,6 @@ private:
     virtual bool onExit(){ return true; };
     void handleEvents();
     virtual void onEvent(){};
-
 };
 
 #endif
