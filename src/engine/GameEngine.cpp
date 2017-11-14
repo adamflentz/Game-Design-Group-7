@@ -45,6 +45,8 @@ void GameEngine::start()
 
 void GameEngine::update(float dt)
 {
+    // update controllers
+    gpcontroller.update();
     if(this->currScene)
     {
         this->currScene->update(dt);
@@ -99,9 +101,6 @@ void GameEngine::handleEvents()
             case sf::Event::Closed:
                 this->exit();
                 break;
-            //case sf::Event::MouseButtonReleased:
-                //this->ebus.postEvent(BasicEvent("MOUSEUP", mousePos.x, mousePos.y));
-            //    break;
         }
     }
 

@@ -34,6 +34,7 @@ public:
     /*void popGameScreen(std::unique_ptr<GameScreen> s);/**/
 
     bool isRunning(){ return running; };
+    
     sf::RenderWindow* getContext(){ return &window; };
 private:
     bool running;

@@ -5,35 +5,53 @@
 // decide to extrapolate the joystick controls
 //
 ////////////
+#include <string>
+#include <map>
 #include <SFML/Graphics.hpp>
+#include "engine/EventManager.hpp"
+#include "engine/EngineEvents.hpp"
 
-struct ControllerLayout
+class GamepadEvent : public BasicEvent
 {
-    int up;
-    int down;
-    int left;
-    int right;
-
-    int button0;
-    int button1;
-    int button2;
-    int button3;
+public:
+    enum TYPE {PRESSED, RELEASED, DISCONNECT, CONNECT};
+    int index;
+    TYPE type;
+    std::string button;
 };
+
+typedef struct {
+    int button;
+    bool isDown;    
+} BUTTON_S;
+
+typedef struct {
+    sf::Keyboard::Key button;
+    bool isDown;
+} KBUTTON_S;
 
 class Gamepad
 {
 public:
     Gamepad(){};
-    Gamepad(int index) : controllerIndex(index) {};
-    ControllerLayout controls;
+    Gamepad(int index) : controllerIndex(index) { setLayout(guessLayout()); };
     enum LAYOUT {GENERIC, PS4, PS3, XB1, XB360, KEYBOARD};
-    void setController(int i){ controllerIndex = i; };
+    void setController(int i){ controllerIndex = i; setLayout(guessLayout()); };
+    void setIndex(int i){ this->controllerIndex = i; };
     // set layout based on enum values
     void setLayout(LAYOUT layout);
+    LAYOUT getLayout(){ return layout; };
+    void update();
+    int playerIndex = -1;
 protected:
     // guess the controller layout by checking vendor id/name
-    void guessLayout();
+    LAYOUT guessLayout();
+    // layout
+    LAYOUT layout;
     int controllerIndex = -1;
+    std::map<std::string, BUTTON_S> button_map;
+    std::map<std::string, KBUTTON_S> kbutton_map; // for keyboards b/c 
+    bool isConnected;
 };
 
 class GamepadController
@@ -43,7 +61,7 @@ public:
     void removeGamepad(int id);
     void disableGamepads(std::vector<int> ids); // Disable 0 or more gamepads
     void enableGamepads(std::vector<int> ids);  // Disable 1 or more gamepads
-    Gamepad* getGamepad(int index);
+    Gamepad* getGamepad(int index){return &gamepads[index]; };
     // Query button presses(?)
     void update();
 private:

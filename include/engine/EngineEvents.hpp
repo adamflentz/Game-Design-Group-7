@@ -7,10 +7,10 @@ class BasicEvent{
 public:
     BasicEvent(){};
     virtual ~BasicEvent(){};
-    std::string getType(){ return this->type; };
-    void setType(std::string t) { this->type = t; };
+    std::string getEventType(){ return this->eventType; };
+    void setEventType(std::string t) { this->eventType = t; };
 protected:
-    std::string type;
+    std::string eventType;
 };
 
 template< class Data_T >

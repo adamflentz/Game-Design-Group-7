@@ -7,20 +7,28 @@ void RoomGroup::generateRoomGrid(int roomCount)
     std::unique_ptr<Room> currRoom;
     std::unique_ptr<Room> rightDoor;
     std::unique_ptr<Room> bottomDoor;
-    int houseHeight = 3;
-    int houseWidth = 3;
+    int houseHeight = 10;
+    int houseWidth = 10;
     int roomGrid [houseWidth][houseHeight];
-    roomGrid[1][1] = 1;
-    roomGrid[0][1] = 0;
-    roomGrid[2][1] = 0;
-    roomGrid[1][0] = 0;
-    roomGrid[1][2] = 0;
+    // 
+    for(int i = 0; i < houseWidth; i++){
+        for(int j = 0; j < houseHeight; j++){
+            std::cout << roomGrid[i][j] << std::endl;
+            roomGrid[i][j] = -1;
+        }
+    }
+    // set values around center to 0
+    roomGrid[4][4] = 1;
+    roomGrid[3][4] = 0;
+    roomGrid[5][4] = 0;
+    roomGrid[4][3] = 0;
+    roomGrid[4][5] = 0;
     int roomsGenerated = 1;
     while(roomsGenerated != roomCount)
     {
         // select random room with 0
-        int x = rand() % 3;
-        int y = rand() % 3;
+        int x = rand() % houseHeight;
+        int y = rand() % houseWidth;
         if (roomGrid[x][y] == 0)
         {
             roomGrid[x][y] = 1;
