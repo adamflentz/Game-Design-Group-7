@@ -5,6 +5,23 @@ void GametitleScreen::init()
 {
   std::cout<< "TitleScreen" << std::endl;
 
+  if (!music.openFromFile("../resources/music/2049.flac"))
+    return; // error
+  music.play();
+
+  Events::addEventListener("gamepad_event", [=](base_event_type e){
+      // We'll need to delete this listener in the destructor or we'll have segfaults/undefined behavior eventually
+      // Cast to gamepad event
+      auto gpe = dynamic_cast< GamepadEvent& >(*e);
+      // Check that the index matches our player
+      this->onGamepadEvent(gpe);
+
+      // if(gpe.index == playernumber){
+      //     // Call our listener function personally
+      //     c->onGamepadEvent(gpe);
+      // }
+  });
+
   if (!title.loadFromFile("../resources/titlescreen.png"))
   {
       return;
@@ -32,18 +49,21 @@ void GametitleScreen::init()
 }
 
 void GametitleScreen::onUpdate(float dt){
-  // if alpha != 0
-  // variable = clock.reset()
-  // if(variable > some amount)
-  // subtract from alpha/transparency
-  // trans *= dt / 1200;
-  // blackness.setFillColor(sf::Color(0, 0, 0, trans));
+  // title screen emerges from darkness
 
   if (trans > 50) {
     trans -= dt/60;
     blackness.setFillColor(sf::Color(0, 0, 0, trans));
   }
 };
+
+void GametitleScreen::onGamepadEvent(GamepadEvent e){
+  if(this->changed)
+    return;
+  auto event = std::make_shared< Event<std::string> >("Character");
+  this->changed = true;
+  Events::triggerEvent("change_screen", event);
+}
 
 void GametitleScreen::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const
 {
