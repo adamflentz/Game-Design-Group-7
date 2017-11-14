@@ -6,11 +6,27 @@
 
 void GameplayScreen::init()
 {
+
     double ratio_w = 1.0;
     double ratio_h = 1.0;
     double gutter  = 5.0; // space between player views in pixels
     double gutterx = gutter / 720.0 / 2;
     double guttery = gutter / 480.0 / 2;
+    
+
+    if(numPlayers >= 3){
+        ratio_w /= 2;
+        ratio_h /= 2;
+    }
+    else if(numPlayers == 2){
+        ratio_w /= 2;
+    }
+    // We don't need to store these in our class definition
+    // we won't use these variables after we're done here
+    // so they shouldn't be members
+    std::unique_ptr<PlayerView> view;
+    std::shared_ptr<Character> character;
+    
     group.generateRoomGrid(20);
     ghost = std::shared_ptr<Villain>(new Villain());
     ghost->setGroup(&group);
