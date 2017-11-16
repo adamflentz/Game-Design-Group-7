@@ -78,14 +78,6 @@ void Villain::wander(){
     
     int xloc = this->getPosition().x;
     int yloc = this->getPosition().y;
-    std::cout << "x: ";
-    std::cout << this->previousLocationX;
-    std::cout << " ";
-    std::cout << xloc << std:: endl;
-    std::cout << "y: ";
-    std::cout << this->previousLocationY;
-    std::cout << " ";
-    std::cout << yloc << std:: endl;
     if(this->previousLocationX + 266 == xloc  && this->getPosition().y == this->previousLocationY){
         std::cout << "switch" << std::endl;
         this->previousLocationX = xloc + 1;
@@ -111,6 +103,13 @@ void Villain::wander(){
         this->direction.x = 0;
         this->setDirection();
         std::cout << "x: ";
+        std::cout << this->previousLocationX;
+        std::cout << " ";
+        std::cout << xloc << std:: endl;
+        std::cout << "y: ";
+        std::cout << this->previousLocationY;
+        std::cout << " ";
+        std::cout << yloc << std:: endl;std::cout << "x: ";
         std::cout << this->previousLocationX;
         std::cout << " ";
         std::cout << xloc << std:: endl;
@@ -165,7 +164,7 @@ void Villain::setDirection(){
         std::cout << "down" << std::endl;
         this->possiblerooms.push_back("down");
     }
-    if(g->isInsideRoom(sf::FloatRect(this->getPosition().x, this->getPosition().y - 160, hbox.width, hbox.height))&& previousString != "up"){
+    if(g->isInsideRoom(sf::FloatRect(this->getPosition().x, this->getPosition().y - 160,    hbox.width, hbox.height))&& previousString != "up"){
         std::cout << "up" << std::endl;
         this->possiblerooms.push_back("up");
     }
