@@ -27,7 +27,7 @@ public:
     void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
 protected:
     RoomGroup* g;
-    double speed = 100;
+    double speed = 120;
     sf::Vector2f direction;
     sf::Texture sprite_map;
     SpriteAnimation* curr;

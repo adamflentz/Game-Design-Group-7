@@ -30,11 +30,13 @@ public:
     void setWindowRect(sf::IntRect dim){ winDim = dim; };
     void setWindowRect(int t, int l, int w, int h){ winDim = sf::IntRect(t, l, w, h); };
 
+    void setName(std::string n){this->name = n;};
+
     /*void pushGameScreen(std::unique_ptr<GameScreen> s);/**/
     /*void popGameScreen(std::unique_ptr<GameScreen> s);/**/
 
     bool isRunning(){ return running; };
-    
+
     sf::RenderWindow* getContext(){ return &window; };
 private:
     bool running;

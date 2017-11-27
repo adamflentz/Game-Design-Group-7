@@ -2,6 +2,7 @@
 #include <memory>
 #include "engine/Engine.hpp"
 #include "game/characters/Character.hpp"
+#include "game/characters/Villain.hpp"
 #include "game/rooms/RoomGroup.hpp"
 #include "game/characters/PlayerView.hpp"
 
@@ -29,10 +30,9 @@ public:
     void init();
     void onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const;
 protected:
-    int numplayers = 2;
-    std::unique_ptr<PlayerView> view;
+    void createViews(int numPlayers);
+    int numplayers = 3;
     std::vector<std::shared_ptr<Character>> activeCharacters;
-    std::shared_ptr<Character> character;
     // std::vector<std::unique_ptr<Room> > roomFac;
     RoomGroup group;
 };

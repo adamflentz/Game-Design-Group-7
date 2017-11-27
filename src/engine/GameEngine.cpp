@@ -34,6 +34,7 @@ void GameEngine::start()
         {
             timeSinceLastUpdate -= timePerFrame;
             // maybe instead pass in timePerFrame as sf::Time
+
             this->update(timePerFrame.asSeconds());
         }
         this->draw();
@@ -41,6 +42,7 @@ void GameEngine::start()
         /*this->updateStats();/**/
     }
     this->running = false;
+    
 }
 
 void GameEngine::update(float dt)
