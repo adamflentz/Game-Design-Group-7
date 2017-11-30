@@ -1,9 +1,10 @@
 #include "game/rooms/RoomGroup.hpp"
 #include <iostream>
+#include <string>
 void RoomGroup::generateRoomGrid(int roomCount)
 {
     srand (time(NULL));
-    roomCount = 200;
+    roomCount = 10;
     // TODO:  Figure out total grid size based on difficulty: for now demo is size 3
     std::unique_ptr<Room> currRoom;
     std::unique_ptr<Room> currDoor;
@@ -41,15 +42,24 @@ void RoomGroup::generateRoomGrid(int roomCount)
             roomsGenerated++;
         }
     }
+    int count = 0;
     for(int i = 0; i < houseWidth; i++)
     {
         for(int j = 0; j < houseHeight; j++)
         {
             if(roomGrid[i][j] == 1)
             {
+                count++;
+                std::cout << "Room ";
+                std::cout << count << std::endl;
                 currRoom = std::unique_ptr<Room>(new Room());
                 currRoom->rect.setSize(sf::Vector2f(256, 160));
                 currRoom->rect.setPosition((256+10) * i, (160+10) * j);
+                std::cout << "center x: ";
+                std::cout << currRoom->rect.getPosition().x + (256 / 2) << std::endl;
+                std::cout << "center y: ";
+                std::cout << currRoom->rect.getPosition().y + (160 / 2) << std::endl;
+               
                 currRoom->setPosition(currRoom->rect.getPosition());
                 currRoom->init();
                 // When adding doors we have to make sure they extend into each room

@@ -5,6 +5,7 @@
 #include "game/characters/Villain.hpp"
 #include "game/rooms/RoomGroup.hpp"
 #include "game/characters/PlayerView.hpp"
+#include "game/resources/EntityGroup.hpp"
 
 //////////////////////////
 // PlayScreen.hpp
@@ -35,4 +36,5 @@ protected:
     std::vector<std::shared_ptr<Character>> activeCharacters;
     // std::vector<std::unique_ptr<Room> > roomFac;
     RoomGroup group;
+    EntityGroup entities;
 };

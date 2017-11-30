@@ -8,6 +8,8 @@
 #include "components/Hitbox.hpp"
 #include "game/rooms/Room.hpp"
 #include "game/rooms/RoomGroup.hpp"
+#include "game/resources/EntityGroup.hpp"
+#include "game/characters/Villain.hpp"
 ////////////////
 // Character.hpp
 //
@@ -23,10 +25,16 @@ public:
     void init();
     void onUpdate(float dt);
     void setGroup(RoomGroup* group) { g = group; };
+    void setEntities(EntityGroup* entities) {e = entities;};
+    void setGhost(std::shared_ptr<Villain> ghost) {v = ghost;}
+    void setCharacterList(std::list<std::shared_ptr<Character>>* characterList) {charVector = characterList;};
     void onGamepadEvent(GamepadEvent e);
     void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
 protected:
     RoomGroup* g;
+    std::shared_ptr<Villain> v;
+    EntityGroup* e;
+    std::list<std::shared_ptr<Character>>* charVector;
     double speed = 120;
     sf::Vector2f direction;
     sf::Texture sprite_map;

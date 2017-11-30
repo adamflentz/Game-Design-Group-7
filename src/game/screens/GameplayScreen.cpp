@@ -36,8 +36,10 @@ void GameplayScreen::createViews(int numPlayers)
     std::shared_ptr<Villain> ghost;
     ghost = std::shared_ptr<Villain>(new Villain());
     ghost->setGroup(&group);
+    ghost->setEntities(&entities);
     ghost->init();
-
+    entities.EntityList.push_back(ghost);
+    std::cout << "Finished Creating Ghost" << std::endl;
     for(int i=0; i < numPlayers; i++)
     {
         // Map i to a 2d array [2][2]
@@ -54,13 +56,31 @@ void GameplayScreen::createViews(int numPlayers)
         character = std::shared_ptr<Character>(new Character());
         character->setGroup(&group);
         character->init();
+        entities.EntityList.push_back(character);
+        character->setEntities(&entities);
         this->activeCharacters.push_back(std::move(character));
         view->setPlayerNumber(i);
         view->setCharacter(activeCharacters[i]);
         view->setCharacterList(&activeCharacters);
+        std::cout << "hello" << std::endl;
         view->setGhost(ghost);
         this->addChild(std::move(view));
     }
+    for (auto a = activeCharacters.begin(); a != activeCharacters.end(); a++){
+        std::cout << "oh no" << std::endl;
+        std::list<std::shared_ptr<Character>> otherCharacters;
+        for (auto b = activeCharacters.begin(); b != activeCharacters.end(); b++){
+            if(a == b){
+                continue;
+            }
+            else{
+                otherCharacters.push_back(*b);
+                std::cout << "success" << std::endl;
+            }
+            *a->setCharacterList(&otherCharacters);
+        }
+    }
+    ghost->setCharacterList(&activeCharacters);
 }   
 
   

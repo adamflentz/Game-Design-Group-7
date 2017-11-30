@@ -9,12 +9,14 @@
 #include "components/Hitbox.hpp"
 #include "game/rooms/Room.hpp"
 #include "game/rooms/RoomGroup.hpp"
+#include "game/resources/EntityGroup.hpp"
+#include "game/resources/CharacterGroup.hpp"
 ////////////////
-// Character.hpp
+// Villain.hpp
 //
-// This is just a regular character. He has no motivations, goals, or collision checking yet.
-// He likes to go for long walks in complete and utter darkness.
-// He's very animated.
+// This is a generic ghost.  He wants to hunt and kill the other character
+// present in the game.  He wanders the house looking for them, chases and attacks when 
+// a character is seen, and then wanders once again.
 //
 ////////////////
 
@@ -24,6 +26,8 @@ public:
     void init();
     void onUpdate(float dt);
     void setGroup(RoomGroup* group) { g = group; };
+    void setEntities(EntityGroup* entities) {e = entities;};
+    void setCharacterList(CharacterGroup* characterList) {cg = characterList;};
     void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
     void wander();
     void setDirection();
@@ -32,8 +36,12 @@ protected:
     std:: string previousString;
     std::vector<std::string> possiblerooms;
     RoomGroup* g;
+    EntityGroup* e;
+    CharacterGroup* cg;
     double speed = 120;
     sf::Vector2f direction;
+    int roomCenterX;
+    int roomCenterY;
     float previousLocationX;
     float previousLocationY;
     sf::Texture sprite_map;
