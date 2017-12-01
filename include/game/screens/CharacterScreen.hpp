@@ -12,8 +12,15 @@ public:
 protected:
     void onGamepadEvent(GamepadEvent e);
     bool changed;
-    sf::Sprite sprite;
+    sf::Sprite chara1;
+    sf::Sprite chara2;
+    sf::Sprite chara3;
+    sf::Sprite chara4;
+    sf::RectangleShape background;
+    sf::Text teamFont;
+    sf::Font font;
     sf::Texture title;
+    sf::Texture chara1_pic;
     sf::RectangleShape blackness;
     int trans = 255;
   // sf::Font font;

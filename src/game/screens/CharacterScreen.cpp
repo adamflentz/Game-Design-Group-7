@@ -18,15 +18,40 @@ void CharacterScreen::init()
       // }
   });
 
-  if (!title.loadFromFile("../resources/character.png"))
+
+  if (!chara1_pic.loadFromFile("../resources/white_chara.png"))
   {
       return;
   }
 
-  sprite.setTexture(title);
+  if (!font.loadFromFile("../resources/Underdog-Regular.ttf"))
+  {
+      return;
+  }
+
+  background.setSize(sf::Vector2f(720, 480));
+  background.setFillColor(sf::Color(30, 30, 30));
+
+  teamFont.setFont(font);
+  teamFont.setString("MAKE YOUR TEAM");
+  teamFont.setCharacterSize(24);
+  //teamFont.setColor(sf::Color::White);
+  teamFont.setStyle(sf::Text::Bold);
+  teamFont.setPosition(250, 50);
+
+  chara1.setPosition(sf::Vector2f(49, 90));
+  chara1.setTexture(chara1_pic);
+
+  chara2.setPosition(sf::Vector2f(207, 90));
+  chara2.setTexture(chara1_pic);
+
+  chara3.setPosition(sf::Vector2f(365, 90));
+  chara3.setTexture(chara1_pic);
+
+  chara4.setPosition(sf::Vector2f(523, 90));
+  chara4.setTexture(chara1_pic);
 
   blackness.setSize(sf::Vector2f(720, 480));
-
   blackness.setFillColor(sf::Color(0, 0, 0, trans));
 
   // this->engine->changeGameScreen("GamePlay");
@@ -56,16 +81,27 @@ void CharacterScreen::onUpdate(float dt){
 void CharacterScreen::onGamepadEvent(GamepadEvent e){
   if(e.type == GamepadEvent::RELEASED)
     return;
-  if(this->changed)
-    return;
-  auto event = std::make_shared< Event<std::string> >("GamePlay");
-  this->changed = true;
-  Events::triggerEvent("change_screen", event);
+  std::map<int, int> player_map;
+  // if player not in map
+  // increment number of players
+  // add player to the map with player number
+
+  // if player in map
+  // use the button event to change player's selected charaacter
+
+  // auto event = std::make_shared< Event<std::string> >("GamePlay");
+  // this->changed = true;
+  // Events::triggerEvent("change_screen", event);
 }
 
 void CharacterScreen::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const
 {
     // ctx.draw(group, states);
-    ctx.draw(sprite);
+    ctx.draw(background);
+    ctx.draw(teamFont);
+    ctx.draw(chara1);
+    ctx.draw(chara2);
+    ctx.draw(chara3);
+    ctx.draw(chara4);
     ctx.draw(blackness);
 }
