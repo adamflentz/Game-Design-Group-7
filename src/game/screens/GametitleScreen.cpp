@@ -22,12 +22,8 @@ void GametitleScreen::init()
       // }
   });
 
-  if (!title.loadFromFile("../resources/titlescreen.png"))
-  {
-      return;
-  }
 
-  sprite.setTexture(title);
+  sprite.setTexture(*ResourceManager::getTexture("../resources/titlescreen.png"));
 
   blackness.setSize(sf::Vector2f(720, 480));
 
