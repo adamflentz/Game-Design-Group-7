@@ -1,5 +1,5 @@
-#ifndef VILLAIN_H
-#define VILLAIN_H
+#ifndef VILLAIN_HPP
+#define VILLAIN_HPP
 
 #include <memory>
 #include <string>
@@ -10,7 +10,6 @@
 #include "game/rooms/Room.hpp"
 #include "game/rooms/RoomGroup.hpp"
 #include "game/resources/EntityGroup.hpp"
-#include "game/resources/CharacterGroup.hpp"
 ////////////////
 // Villain.hpp
 //
@@ -27,7 +26,6 @@ public:
     void onUpdate(float dt);
     void setGroup(RoomGroup* group) { g = group; };
     void setEntities(EntityGroup* entities) {e = entities;};
-    void setCharacterList(CharacterGroup* characterList) {cg = characterList;};
     void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
     void wander();
     void setDirection();
@@ -37,7 +35,6 @@ protected:
     std::vector<std::string> possiblerooms;
     RoomGroup* g;
     EntityGroup* e;
-    CharacterGroup* cg;
     double speed = 120;
     sf::Vector2f direction;
     int roomCenterX;

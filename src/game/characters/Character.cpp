@@ -1,6 +1,7 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include <mutex>
 #include "game/characters/Character.hpp"
 
 void Character::init()
@@ -9,7 +10,7 @@ void Character::init()
     this->setOrigin(16, 16);
     // Make sure player starts inside first room(?)
     // could also make them start inside a random room
-    this->setPosition(g->rooms.front()->getPosition().x + 20, g->rooms.front()->getPosition().y + 20);
+    this->setPosition(g->rooms.front()->getPosition().x + 20 + (32 * playernumber), g->rooms.front()->getPosition().y + 20);
     // 1p width, height
     // 2p width/2 height
     // 3p, 4p width/2 height/2
@@ -41,6 +42,14 @@ void Character::init()
     hbox = Hitbox(-8,0,16,16);
     hbox.follow(this);
     hbox.init();
+    std::cout << charVector->size() << std::endl;
+    for(auto a = charVector->begin(); a != charVector->end(); a++){
+        // if(this->hbox.intersects((*a)->hbox)){
+        //     std::cout << "oops" << std::endl;
+        // }
+        std::cout << (*a)->hbox.left << std::endl;
+    }
+
 }
 
 void Character::onUpdate(float dt)
@@ -48,7 +57,15 @@ void Character::onUpdate(float dt)
     float dx = this->direction.x * speed * dt;
     float dy = this->direction.y * speed * dt;
     // check if inside room 
+    // std::cout << "test" << std::endl;
     if(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height))){
+        for(auto a = charVector->begin(); a != charVector->end(); a++){
+            if((*a) == NULL){std::cout << "error" << std::endl;}
+            if(this->hbox.intersects((*a)->hbox)){
+                std::cout << "oops" << std::endl;
+            }
+        }
+        // if(this->hbox.intersects((*charVector->begin())->hbox)){std::cout << "collision" << std::endl;}
         this->move(dx, dy);
     };
     // if we're not moving don't animate anything

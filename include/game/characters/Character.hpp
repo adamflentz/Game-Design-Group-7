@@ -1,8 +1,9 @@
-#ifndef CHARACTER_H
-#define CHARACTER_H
+#ifndef CHARACTER_HPP
+#define CHARACTER_HPP
 
 #include <memory>
 #include <SFML/Graphics.hpp>
+#include <mutex>
 #include "engine/Engine.hpp"
 #include "components/SpriteAnimation.hpp"
 #include "components/Hitbox.hpp"
@@ -26,14 +27,16 @@ public:
     void onUpdate(float dt);
     void setGroup(RoomGroup* group) { g = group; };
     void setEntities(EntityGroup* entities) {e = entities;};
-    void setGhost(std::shared_ptr<Villain> ghost) {v = ghost;}
+    void setGhost(std::shared_ptr<Villain>* ghost) {v = ghost;}
     void setCharacterList(std::list<std::shared_ptr<Character>>* characterList) {charVector = characterList;};
+    void setPlayerNumber(int number){playernumber = number;};
     void onGamepadEvent(GamepadEvent e);
     void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
 protected:
     RoomGroup* g;
-    std::shared_ptr<Villain> v;
+    std::shared_ptr<Villain>* v;
     EntityGroup* e;
+    int playernumber;
     std::list<std::shared_ptr<Character>>* charVector;
     double speed = 120;
     sf::Vector2f direction;
@@ -47,6 +50,7 @@ protected:
     SpriteAnimation walk_right;
     // create a hitbox at bottom half of 32x32 character
     Hitbox hbox;
+    std::mutex mtx;
     
 };
 

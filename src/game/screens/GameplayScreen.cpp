@@ -55,32 +55,30 @@ void GameplayScreen::createViews(int numPlayers)
 
         character = std::shared_ptr<Character>(new Character());
         character->setGroup(&group);
-        character->init();
-        entities.EntityList.push_back(character);
+        character->setPlayerNumber(i);
         character->setEntities(&entities);
         this->activeCharacters.push_back(std::move(character));
-        view->setPlayerNumber(i);
         view->setCharacter(activeCharacters[i]);
         view->setCharacterList(&activeCharacters);
-        std::cout << "hello" << std::endl;
+        view->setPlayerNumber(i);
         view->setGhost(ghost);
         this->addChild(std::move(view));
     }
     for (auto a = activeCharacters.begin(); a != activeCharacters.end(); a++){
-        std::cout << "oh no" << std::endl;
+        int count = 0;
+        std::cout << (*a) << std::endl;
         std::list<std::shared_ptr<Character>> otherCharacters;
         for (auto b = activeCharacters.begin(); b != activeCharacters.end(); b++){
-            if(a == b){
+            if((*a) == (*b)){
                 continue;
             }
             else{
-                otherCharacters.push_back(*b);
-                std::cout << "success" << std::endl;
+                otherCharacters.push_back((*b));
             }
-            *a->setCharacterList(&otherCharacters);
         }
+        (*a)->setCharacterList(&otherCharacters);
+        (*a)->init();
     }
-    ghost->setCharacterList(&activeCharacters);
 }   
 
   
