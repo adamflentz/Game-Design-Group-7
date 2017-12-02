@@ -9,8 +9,7 @@
 #include "components/Hitbox.hpp"
 #include "game/rooms/Room.hpp"
 #include "game/rooms/RoomGroup.hpp"
-#include "game/resources/EntityGroup.hpp"
-#include "game/characters/Villain.hpp"
+#include "components/EntityGroup.hpp"
 ////////////////
 // Character.hpp
 //
@@ -23,24 +22,43 @@
 class Character: public GameObject 
 {
 public:
-    void init();
-    void onUpdate(float dt);
-    void setGroup(RoomGroup* group) { g = group; };
-    void setEntities(EntityGroup* entities) {e = entities;};
-    void setGhost(std::shared_ptr<Villain>* ghost) {v = ghost;}
-    void setCharacterList(std::list<std::shared_ptr<Character>>* characterList) {charVector = characterList;};
-    void setPlayerNumber(int number){playernumber = number;};
-    void onGamepadEvent(GamepadEvent e);
-    void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
+    Character(){};
+    void setEntities(EntityGroup* entities){entity_group = entities;};
+    /**
+    * Stores the room group.
+    *   *note*
+    *       Having this stored here is dangerous. There's a small possibility that we might
+    *       accidentally delete it before the character is done with it. 
+    *       We might consider storing a reference to the GameplayScreen (which houses the RoomGroup)
+    *       and then "asking" politely for the RoomGroup when we need it.
+    */
+    void setRoomGroup(RoomGroup* group) { g = group; };
+
+    void setPlayerNumber(int number){player_number = number;};
+    /**
+    * Captures gamepad events and updates the state of our 
+    * character accordingly
+    */
+    virtual void onGamepadEvent(GamepadEvent e);
+    /**
+    * Very simple collision checking
+    */
+    virtual void checkCollisions();
+
+    /* See GameObject Class*/
+    virtual void init();
+    virtual void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
+    virtual void onUpdate(float dt);
+    int player_number = -1;
 protected:
-    RoomGroup* g;
-    std::shared_ptr<Villain>* v;
-    EntityGroup* e;
-    int playernumber;
-    std::list<std::shared_ptr<Character>>* charVector;
+    // void checkCollisions(Character c);
+    int gamepad_index = -1;
     double speed = 120;
+    RoomGroup* g;
+    EntityGroup* entity_group;
     sf::Vector2f direction;
     sf::Texture sprite_map;
+    // The current animation
     SpriteAnimation* curr;
     // create 4 sprite animations representing walking 
     // in the 4 cardinal directions
@@ -50,8 +68,6 @@ protected:
     SpriteAnimation walk_right;
     // create a hitbox at bottom half of 32x32 character
     Hitbox hbox;
-    std::mutex mtx;
-    
 };
 
 #endif

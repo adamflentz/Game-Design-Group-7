@@ -16,7 +16,7 @@ class GameObject: public sf::Transformable, public sf::Drawable
 {
 public:
     static int objectCount;
-
+    int z_index = 0;
     typedef std::unique_ptr<GameObject> GameObjectPtr;
     GameObject();
     GameObject(sf::Vector2f p) : relPos(p) {};

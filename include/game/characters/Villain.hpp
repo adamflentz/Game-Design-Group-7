@@ -9,7 +9,8 @@
 #include "components/Hitbox.hpp"
 #include "game/rooms/Room.hpp"
 #include "game/rooms/RoomGroup.hpp"
-#include "game/resources/EntityGroup.hpp"
+// #include "game/resources/EntityGroup.hpp"
+#include "game/characters/Character.hpp"
 ////////////////
 // Villain.hpp
 //
@@ -19,13 +20,11 @@
 //
 ////////////////
 
-class Villain: public GameObject 
+class Villain: public Character 
 {
 public:
     void init();
     void onUpdate(float dt);
-    void setGroup(RoomGroup* group) { g = group; };
-    void setEntities(EntityGroup* entities) {e = entities;};
     void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
     void wander();
     void setDirection();
@@ -33,25 +32,10 @@ protected:
     int randint;
     std:: string previousString;
     std::vector<std::string> possiblerooms;
-    RoomGroup* g;
-    EntityGroup* e;
-    double speed = 120;
-    sf::Vector2f direction;
     int roomCenterX;
     int roomCenterY;
     float previousLocationX;
     float previousLocationY;
-    sf::Texture sprite_map;
-    SpriteAnimation* curr;
-    // create 4 sprite animations representing walking 
-    // in the 4 cardinal directions
-    SpriteAnimation walk_up;
-    SpriteAnimation walk_down;
-    SpriteAnimation walk_left;
-    SpriteAnimation walk_right;
-    // create a hitbox at bottom half of 32x32 character
-    Hitbox hbox;
-    
 };
 
 #endif

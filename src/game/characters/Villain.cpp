@@ -49,6 +49,11 @@ void Villain::onUpdate(float dt)
     int dy = this->direction.y * speed * dt;
     // check if inside room 
     this->wander();
+    // Set z index
+    this->z_index = this->getPosition().y + 20;
+
+    // check for collisions
+    this->checkCollisions();
     if(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height))){
         this->move(dx, dy);
     }
@@ -63,18 +68,18 @@ void Villain::onUpdate(float dt)
     
     // make the animation go to the next frame
     curr->nextFrame(dt);
-    
 }
 
 void Villain::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     // draw the animation
-    target.draw  (*curr, states);
+    target.draw(*curr, states);
     // draw the hitbox
     target.draw(hbox);
 }
 
-void Villain::wander(){
+void Villain::wander()
+{
     
     int xloc = this->getPosition().x;
     int yloc = this->getPosition().y;
