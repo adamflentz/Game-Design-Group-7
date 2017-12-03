@@ -7,12 +7,22 @@
 void GameplayScreen::init()
 {
     group.generateRoomGrid(8);
+
     num_players = config->num_players;
     // If we let the playerview set its own viewport
     // then we end up running the same code over and over inside PlayerView#init
     this->createViews(num_players);
     
+    // Create the ghost (this could easily be another function)
+    // this->createVillain()
+    ghost = std::make_shared<Villain>();
+    ghost->setPlayerNumber(-1);
+    ghost->setRoomGroup(&group);
+    ghost->setEntities(&entity_group);
+    entity_group.addCharacter(std::move(ghost));
+    entity_group.init();
 }
+
 void GameplayScreen::createViews(int numPlayers)
 {
     double ratio_w = 1.0;
@@ -21,7 +31,6 @@ void GameplayScreen::createViews(int numPlayers)
     double gutterx = gutter / 720.0 / 2;
     double guttery = gutter / 480.0 / 2;
     
-
     if(numPlayers >= 3){
         ratio_w /= 2;
         ratio_h /= 2;
@@ -33,17 +42,16 @@ void GameplayScreen::createViews(int numPlayers)
     // we won't use these variables after we're done here
     // so they shouldn't be members
     std::unique_ptr<PlayerView> view;
+
+    // Maybe turn this object into an "EntitiesGroup" obj
     std::shared_ptr<Character> character;
-    std::shared_ptr<Villain> ghost;
-    ghost = std::shared_ptr<Villain>(new Villain());
-    ghost->setGroup(&group);
-    ghost->init();
 
     for(int i=0; i < numPlayers; i++)
     {
         // Map i to a 2d array [2][2]
         int x = i % 2;
         int y = i / 2;
+        int playernum = i;
         view = std::unique_ptr<PlayerView>(new PlayerView());
         view->setRoomGroup(&group);
         // Define player view (using math)
@@ -51,21 +59,29 @@ void GameplayScreen::createViews(int numPlayers)
             sf::FloatRect(0, 0, 720 * ratio_w, 480 * ratio_h), 
             sf::FloatRect((ratio_w + gutterx) * x, (ratio_h  + guttery) * y, ratio_w - gutterx * (1.0 - x), ratio_h - guttery * (1.0 - y))
         );
+        // Create a new character
+        character = std::make_shared<Character>();
+        character->setRoomGroup(&group);
+        character->setPlayerNumber(playernum);
+        character->setEntities(&entity_group);
 
-        character = std::shared_ptr<Character>(new Character());
-        character->setGroup(&group);
-        character->init();
-        this->activeCharacters.push_back(std::move(character));
-        view->setPlayerNumber(i);
-        view->setCharacter(activeCharacters[i]);
-        view->setCharacterList(&activeCharacters);
-        view->setGhost(ghost);
+        // Add player to our entities map
+        entity_group.addCharacter(std::move(character));
+        view->setEntities(&entity_group);
+        view->setEntityNumber(playernum);
+        // Add child to this view
         this->addChild(std::move(view));
     }
+}
+
+void GameplayScreen::onUpdate(float dt)
+{
+    // Update the rooms (not really necessary though)
+    group.update(dt);
+    entity_group.update(dt);
 }   
 
-  
+
 void GameplayScreen::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const
 {
-    // ctx.draw(group, states);
 }

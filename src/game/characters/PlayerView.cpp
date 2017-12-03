@@ -23,7 +23,7 @@ void PlayerView::init()
         // Check that the index matches our player
         if(gpe.index == playernumber){
             // Call our listener function personally
-            c->onGamepadEvent(gpe);
+            entity_group->getCharacter(playernumber)->onGamepadEvent(gpe);
         }
     });
 
@@ -31,13 +31,11 @@ void PlayerView::init()
 
 void PlayerView::onUpdate(float dt)
 {
-    c->onUpdate(dt);
-    g->onUpdate(dt);
-    v.setCenter(c->getPosition());
-
+    v.setCenter(entity_group->getCharacter(playernumber)->getPosition());
 }
 
-void PlayerView::setView(sf::FloatRect dimensions, sf::FloatRect viewport){
+void PlayerView::setView(sf::FloatRect dimensions, sf::FloatRect viewport)
+{
     v.reset(dimensions);
     v.setViewport(viewport);
     HUD.reset(dimensions);
@@ -47,16 +45,15 @@ void PlayerView::setView(sf::FloatRect dimensions, sf::FloatRect viewport){
 
 void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-  // draw the current view
+    // draw the current view
     target.setView(v);
-    target.draw(*rooms);
-    // draw each individual character
-    for(auto it = charVector->begin(); it != charVector->end(); it++)
-    {
-        target.draw(**it);
-    }
-    target.draw(*g);
 
+    if(rooms)
+        target.draw(*rooms);
+    // draw the entity group
+    if(entity_group)
+        target.draw(*entity_group);
+    // draw the HUD
     target.setView(HUD);
     target.draw(itemBar);
     target.draw(heart);

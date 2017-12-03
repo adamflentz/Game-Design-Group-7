@@ -4,6 +4,7 @@
 
 void GameEngine::start()
 {
+    bool ready = false;
     // Find and initialize gamepads
     int gpcount = gpcontroller.addGamepads();
     std::cout << gpcount << " Gamepads Found" << std::endl;
@@ -32,12 +33,15 @@ void GameEngine::start()
         this->handleEvents();
         while(timeSinceLastUpdate > timePerFrame)
         {
+            ready = true;
             timeSinceLastUpdate -= timePerFrame;
             // maybe instead pass in timePerFrame as sf::Time
 
             this->update(timePerFrame.asSeconds());
         }
-        this->draw();
+        // The game draws like 3 - 4 times before the game starts....
+        if(ready)
+            this->draw();
         // update game statistics (running time, framerate, etc...)
         /*this->updateStats();/**/
     }

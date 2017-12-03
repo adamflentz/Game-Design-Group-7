@@ -1,6 +1,7 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include <set>
 #include "game/characters/Character.hpp"
 
 void Character::init()
@@ -9,7 +10,7 @@ void Character::init()
     this->setOrigin(16, 16);
     // Make sure player starts inside first room(?)
     // could also make them start inside a random room
-    this->setPosition(g->rooms.front()->getPosition().x + 20, g->rooms.front()->getPosition().y + 20);
+    this->setPosition(g->rooms.front()->getPosition().x + 20 + (32 * player_number), g->rooms.front()->getPosition().y + 20);
     // 1p width, height
     // 2p width/2 height
     // 3p, 4p width/2 height/2
@@ -47,10 +48,16 @@ void Character::onUpdate(float dt)
 {
     float dx = this->direction.x * speed * dt;
     float dy = this->direction.y * speed * dt;
-    // check if inside room
-    if(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height))){
+
+    // check if inside any room 
+    if(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height))){  
         this->move(dx, dy);
     };
+
+    this->z_index = this->getPosition().y;
+
+    this->checkCollisions();
+
     // if we're not moving don't animate anything
     if(dx == 0 && dy == 0){
         curr->stop();
@@ -64,6 +71,25 @@ void Character::onUpdate(float dt)
     curr->nextFrame(dt);
 }
 
+void Character::checkCollisions()
+{
+    this->hbox.setColor(sf::Color::Yellow);
+    std::vector<std::shared_ptr<Character>> entities = entity_group->getCharacters();
+    // // check proximity to other entities or whatever
+    // std::cout << entities.size() << std::endl;
+    for(auto it = entities.begin(); it != entities.end(); it++){
+        std::shared_ptr<Character> c = *it;
+        if(c.get() == this)
+            continue;
+        if(this->hbox.intersects(c->hbox)){
+            this->hbox.setColor(sf::Color::Red);
+        }
+    }
+}
+
+/**
+* Draws the characters
+*/
 void Character::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     // draw the animation
