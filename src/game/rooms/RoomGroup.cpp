@@ -50,16 +50,16 @@ void RoomGroup::generateRoomGrid(int roomCount)
             if(roomGrid[i][j] == 1)
             {
                 count++;
-                std::cout << "Room ";
-                std::cout << count << std::endl;
+                // std::cout << "Room ";
+                // std::cout << count << std::endl;
                 currRoom = std::unique_ptr<Room>(new Room());
                 currRoom->rect.setSize(sf::Vector2f(256, 160));
                 currRoom->rect.setPosition((256+10) * i, (160+10) * j);
                 currRoom->isDoor = false;
-                std::cout << "center x: ";
-                std::cout << currRoom->rect.getPosition().x + (256 / 2) << std::endl;
-                std::cout << "center y: ";
-                std::cout << currRoom->rect.getPosition().y + (160 / 2) << std::endl;
+                // std::cout << "center x: ";
+                // std::cout << currRoom->rect.getPosition().x + (256 / 2) << std::endl;
+                // std::cout << "center y: ";
+                // std::cout << currRoom->rect.getPosition().y + (160 / 2) << std::endl;
                
                 currRoom->setPosition(currRoom->rect.getPosition());
                 currRoom->init();
