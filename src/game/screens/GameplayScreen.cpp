@@ -6,7 +6,7 @@
 
 void GameplayScreen::init()
 {
-    numplayers = 2;
+    numplayers = 1;
     group.generateRoomGrid(8);
 
     this->createViews(numplayers);

@@ -27,7 +27,10 @@ public:
     void onUpdate(float dt);
     void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
     void wander();
+    void chase();
+    void returnToCenter();
     void setDirection();
+    bool checkCharacters();
 protected:
     int randint;
     std:: string previousString;
@@ -36,6 +39,12 @@ protected:
     int roomCenterY;
     float previousLocationX;
     float previousLocationY;
+    bool isChasing;
+    bool started;
+    bool needsCentering;
+    sf::FloatRect roomHbox;
+    sf::FloatRect chaseHbox;
+    
 };
 
 #endif

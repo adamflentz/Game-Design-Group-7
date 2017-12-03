@@ -55,6 +55,7 @@ void RoomGroup::generateRoomGrid(int roomCount)
                 currRoom = std::unique_ptr<Room>(new Room());
                 currRoom->rect.setSize(sf::Vector2f(256, 160));
                 currRoom->rect.setPosition((256+10) * i, (160+10) * j);
+                currRoom->isDoor = false;
                 std::cout << "center x: ";
                 std::cout << currRoom->rect.getPosition().x + (256 / 2) << std::endl;
                 std::cout << "center y: ";
@@ -71,6 +72,7 @@ void RoomGroup::generateRoomGrid(int roomCount)
                     currDoor->rect.setPosition(currRoom->getPosition().x + 256 - 32, currRoom->getPosition().y + 80 - 32);
                     currDoor->setPosition(currRoom->rect.getPosition());
                     currDoor->init();
+                    currDoor->isDoor = true;
                     this->rooms.push_back(std::move(currDoor));
                 }
                 // Add bottom facing door
@@ -80,9 +82,10 @@ void RoomGroup::generateRoomGrid(int roomCount)
                     currDoor->rect.setPosition(currRoom->getPosition().x + 128 - 32, currRoom->getPosition().y + 160 - 16);
                     currDoor->setPosition(currRoom->rect.getPosition());
                     currDoor->init();
+                    currDoor->isDoor = true;
                     this->rooms.push_back(std::move(currDoor));
                 }
-
+            
                 this->rooms.push_back(std::move(currRoom));
             }
         }
@@ -104,6 +107,22 @@ bool RoomGroup::isInsideRoom(sf::FloatRect hbox)
         }
     }
     return false;
+}
+
+sf::FloatRect RoomGroup::getRoom(sf::FloatRect hbox){
+    for(auto r = rooms.begin(); r != rooms.end(); r++){
+        sf::FloatRect hbox2 = (*r)->hbox;
+        if((*r)->isDoor == true){continue;}
+        // check if hbox is inside room hitbox
+        if(
+            (hbox.top >= hbox2.top && hbox.top + hbox.height <= hbox2.top + hbox2.height) &&
+            (hbox.left >= hbox2.left && hbox.left + hbox.width <= hbox2.left + hbox2.width)
+        )
+        {
+            // std::cout << "found center" << std::endl;
+            return hbox2;
+        }
+    }
 }
 
 void RoomGroup::onDraw(sf::RenderTarget& target, sf::RenderStates states) const

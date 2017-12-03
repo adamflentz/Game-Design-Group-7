@@ -50,8 +50,9 @@ public:
     virtual void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
     virtual void onUpdate(float dt);
     int player_number = -1;
+    // create a hitbox at bottom half of 32x32 character
+    Hitbox hbox;
 protected:
-    // void checkCollisions(Character c);
     int gamepad_index = -1;
     double speed = 120;
     RoomGroup* g;
@@ -66,8 +67,7 @@ protected:
     SpriteAnimation walk_down;
     SpriteAnimation walk_left;
     SpriteAnimation walk_right;
-    // create a hitbox at bottom half of 32x32 character
-    Hitbox hbox;
+
 };
 
 #endif
