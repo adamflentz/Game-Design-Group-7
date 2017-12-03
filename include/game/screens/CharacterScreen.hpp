@@ -58,9 +58,7 @@ protected:
     bool changed;
     sf::RectangleShape background;
     sf::Text teamFont;
-    sf::Font font;
     sf::Texture title;
-    sf::Texture chara1_pic;
     sf::RectangleShape blackness;
     int player_num = 1;
     int trans = 255;

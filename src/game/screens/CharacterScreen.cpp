@@ -32,7 +32,7 @@ void CharacterSelection::addPlayer(int player)
   if(it == hovering.end()){
     std::unique_ptr<CharacterIcon> c = std::unique_ptr<CharacterIcon>(new CharacterIcon());
     c->setPlayer(player);
-    c->setFont("../resources/Underdog-Regular.ttf");
+    c->setFont("../resources/fonts/Underdog-Regular.ttf");
     c->setColor(colors[(player-1)%4]);
     hovering.push_back(std::move(c));
   }
@@ -79,7 +79,7 @@ void CharacterScreen::init()
   float xpos = 40;
   for(int i = 0; i < 4; i++){
     std::unique_ptr<CharacterSelection> c = std::unique_ptr<CharacterSelection>(new CharacterSelection());
-    c->setPortraitTexture("../resources/white_chara.png");
+    c->setPortraitTexture("../resources/sprites/white_chara.png");
     c->setPosition(xpos, 120.0f);
     this->char_selections.push_back(std::move(c));
     xpos += (720.0 - 4.0f*15.0f) / 4.0f ;
@@ -97,7 +97,7 @@ void CharacterScreen::init()
   background.setSize(sf::Vector2f(720, 480));
   background.setFillColor(sf::Color(30, 30, 30));
 
-  teamFont.setFont(*ResourceManager::getFont("../resources/Underdog-Regular.ttf"));
+  teamFont.setFont(*ResourceManager::getFont("../resources/fonts/Underdog-Regular.ttf"));
   teamFont.setString("MAKE YOUR TEAM");
   teamFont.setCharacterSize(24);
   //teamFont.setColor(sf::Color::White);
@@ -124,7 +124,6 @@ void CharacterScreen::onUpdate(float dt)
 
 void CharacterScreen::addPlayer(int index, int num)
 {
-
   config->player_map[index] = num;
   // get first available character and set position
   for(auto it = char_selections.begin(); it != char_selections.end(); it++){

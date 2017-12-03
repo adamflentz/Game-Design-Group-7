@@ -7,10 +7,10 @@
 
 ////////////////
 // PlayerView.hpp
-// View used to follow characters around inside the game.  Should be able to create 4 
+// View used to follow characters around inside the game.  Should be able to create 4
 // views for 4 different players.  Will need to pull from Character to follow.
 ////////////////
-class PlayerView: public GameObject 
+class PlayerView: public GameObject
 {
     public:
         void init();
@@ -30,5 +30,8 @@ class PlayerView: public GameObject
         sf::View v;
         // Heads up display (Items, Health(?), etc)
         sf::View HUD;
+        sf::RectangleShape itemBar;
+        sf::Texture heartTexture;
+        sf::Sprite heart;
         void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
