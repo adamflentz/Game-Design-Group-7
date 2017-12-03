@@ -2,12 +2,18 @@
 #include "engine/Random.hpp"
 #include "game/characters/Character.hpp"
 #include "game/characters/Villain.hpp"
+#include "game/objects/Clue.hpp"
+#include "game/objects/Clue.hpp"
 #include <iostream>
 
 void GameplayScreen::init()
 {
     numplayers = 1;
     group.generateRoomGrid(8);
+
+    clue = std::make_shared<Clue>();
+    clue->setRoomGroup(&group);
+    clue->init();
 
     this->createViews(numplayers);
     // Create the ghost (this could easily be another function)
@@ -40,6 +46,8 @@ void GameplayScreen::createViews(int numPlayers)
     // so they shouldn't be members
     std::unique_ptr<PlayerView> view;
 
+
+
     // Maybe turn this object into an "EntitiesGroup" obj
     std::shared_ptr<Character> character;
 
@@ -66,9 +74,11 @@ void GameplayScreen::createViews(int numPlayers)
         entity_group.addCharacter(std::move(character));
         view->setEntities(&entity_group);
         view->setEntityNumber(playernum);
+        view->setClue(clue);
         // Add child to this view
         this->addChild(std::move(view));
     }
+
 }
 
 void GameplayScreen::onUpdate(float dt)

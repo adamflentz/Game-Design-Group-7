@@ -5,13 +5,14 @@
 #include "game/characters/Villain.hpp"
 #include "game/rooms/RoomGroup.hpp"
 #include "components/EntityGroup.hpp"
+#include "game/objects/Clue.hpp"
 
 ////////////////
 // PlayerView.hpp
-// View used to follow characters around inside the game.  Should be able to create 4 
+// View used to follow characters around inside the game.  Should be able to create 4
 // views for 4 different players.  Will need to pull from Character to follow.
 ////////////////
-class PlayerView: public GameObject 
+class PlayerView: public GameObject
 {
     public:
         PlayerView(){};
@@ -27,8 +28,10 @@ class PlayerView: public GameObject
 
         // Set the controller index so we know which controller maps to this player
         void setControllerIndex(int index){};
-        
+
         void setRoomGroup(RoomGroup* g){this->rooms = g;};
+
+        void setClue(std::shared_ptr<Clue> c) {clue = c;};
     protected:
         RoomGroup* rooms;
         int playernumber;
@@ -36,6 +39,7 @@ class PlayerView: public GameObject
         // std::shared_ptr<Character> c;
         EntityGroup* entity_group;
         // std::vector<std::shared_ptr<Character>>& characters;
+        std::shared_ptr<Clue> clue;
         sf::View v;
         // Heads up display (Items, Health(?), etc)
         sf::View HUD;

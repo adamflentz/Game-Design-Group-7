@@ -15,7 +15,7 @@ void PlayerView::init()
             entity_group->getCharacter(playernumber)->onGamepadEvent(gpe);
         }
     });
-    
+
 }
 
 void PlayerView::onUpdate(float dt)
@@ -31,12 +31,14 @@ void PlayerView::setView(sf::FloatRect dimensions, sf::FloatRect viewport)
 
 void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+    // draw the current view
+    target.setView(v);
     // draw the rooms
     if(rooms)
         target.draw(*rooms);
     // draw the entity group
     if(entity_group)
         target.draw(*entity_group);
-    // draw the current view
-    target.setView(v);
+    target.draw(*clue);
+
 }
