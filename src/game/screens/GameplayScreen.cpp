@@ -10,9 +10,6 @@ void GameplayScreen::init()
     group.generateRoomGrid(8);
 
     this->createViews(numplayers);
-<<<<<<< HEAD
-
-=======
     // Create the ghost (this could easily be another function)
     // this->createVillain()
     ghost = std::make_shared<Villain>();
@@ -21,7 +18,6 @@ void GameplayScreen::init()
     ghost->setEntities(&entity_group);
     entity_group.addCharacter(std::move(ghost));
     entity_group.init();
->>>>>>> bbc85d23fb117113ce13c3723fdd8ff3c33ffe60
 }
 
 void GameplayScreen::createViews(int numPlayers)
@@ -31,7 +27,7 @@ void GameplayScreen::createViews(int numPlayers)
     double gutter  = 5.0; // space between player views in pixels
     double gutterx = gutter / 720.0 / 2;
     double guttery = gutter / 480.0 / 2;
-    
+
     if(numPlayers >= 3){
         ratio_w /= 2;
         ratio_h /= 2;
@@ -75,18 +71,14 @@ void GameplayScreen::createViews(int numPlayers)
     }
 }
 
-<<<<<<< HEAD
-
-=======
 void GameplayScreen::onUpdate(float dt)
 {
     // Update the rooms (not really necessary though)
     group.update(dt);
     entity_group.update(dt);
-}   
+}
 
 
->>>>>>> bbc85d23fb117113ce13c3723fdd8ff3c33ffe60
 void GameplayScreen::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const
 {
 }
