@@ -16,6 +16,7 @@
 #include "engine/Interpolate.hpp"
 #include "engine/Gamepad.hpp"
 #include "engine/Random.hpp"
+#include "engine/Config.hpp"
 // Game creation
 #include "engine/GameObject.hpp"
 #include "engine/EngineEvents.hpp"

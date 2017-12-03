@@ -7,9 +7,10 @@
 void GameplayScreen::init()
 {
     group.generateRoomGrid(8);
+    num_players = config->num_players;
     // If we let the playerview set its own viewport
     // then we end up running the same code over and over inside PlayerView#init
-    this->createViews(numplayers);
+    this->createViews(num_players);
     
 }
 void GameplayScreen::createViews(int numPlayers)

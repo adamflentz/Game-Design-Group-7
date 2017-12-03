@@ -31,7 +31,7 @@ public:
     void onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const;
 protected:
     void createViews(int numPlayers);
-    int numplayers = 3;
+    int num_players = 1;
     std::vector<std::shared_ptr<Character>> activeCharacters;
     // std::vector<std::unique_ptr<Room> > roomFac;
     RoomGroup group;
