@@ -9,10 +9,10 @@ GameObject::GameObject()
 // initiates update for all children
 void GameObject::update(float dt)
 {
-    this->onUpdate(dt);
     for(auto a = this->children.begin(); a != this->children.end(); a++){
         (*a)->update(dt);
     }
+    this->onUpdate(dt);
 }
 // Initiates the render for all children
 void GameObject::draw(sf::RenderTarget& target, sf::RenderStates states) const

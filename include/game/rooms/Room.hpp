@@ -13,6 +13,7 @@ public:
     void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
     sf::RectangleShape rect;
     Hitbox hbox;
+    bool isDoor;
 protected:
 };
 

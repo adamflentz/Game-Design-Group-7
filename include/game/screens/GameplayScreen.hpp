@@ -5,6 +5,7 @@
 #include "game/characters/Villain.hpp"
 #include "game/rooms/RoomGroup.hpp"
 #include "game/characters/PlayerView.hpp"
+#include "components/EntityGroup.hpp"
 
 //////////////////////////
 // PlayScreen.hpp
@@ -28,11 +29,17 @@ class GameplayScreen: public GameScreen
 {
 public:
     void init();
+    void onUpdate(float dt);
     void onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const;
 protected:
     void createViews(int numPlayers);
-    int numplayers = 3;
-    std::vector<std::shared_ptr<Character>> activeCharacters;
+    int numplayers = 1;
+    // A map of entities (characters)
+    // Entity 0 is the ghost 
+    std::map<int, std::shared_ptr<Character>> entities;
+    // std::vector<std::shared_ptr<Character>> activeCharacters;
     // std::vector<std::unique_ptr<Room> > roomFac;
     RoomGroup group;
+    std::shared_ptr<Villain> ghost;
+    EntityGroup entity_group;
 };
