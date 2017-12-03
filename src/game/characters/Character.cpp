@@ -44,10 +44,10 @@ void Character::init()
 }
 
 void Character::onUpdate(float dt)
-{   
+{
     float dx = this->direction.x * speed * dt;
     float dy = this->direction.y * speed * dt;
-    // check if inside room 
+    // check if inside room
     if(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height))){
         this->move(dx, dy);
     };
@@ -59,7 +59,7 @@ void Character::onUpdate(float dt)
     }
     // update the hitbox
     hbox.onUpdate(dt);
-    
+
     // make the animation go to the next frame
     curr->nextFrame(dt);
 }
@@ -83,6 +83,19 @@ void Character::onGamepadEvent(GamepadEvent e)
                 this->direction.x = 0;
             else if(e.button == "X") // stop running
                 this->speed /= 2;
+
+            if(this->direction.y <= -1) {
+                curr = &walk_up;
+            }
+            if(this->direction.y >= 1) {
+                curr = &walk_down;
+            }
+            if(this->direction.x <= -1) {
+                curr = &walk_left;
+            }
+            if(this->direction.x >= 1) {
+                curr = &walk_right;
+            }
             break;
         case GamepadEvent::TYPE::PRESSED:
             if(e.button == "UP"){
@@ -105,6 +118,8 @@ void Character::onGamepadEvent(GamepadEvent e)
             if(e.button == "X"){ // run
                 this->speed *= 2;
             }
+
+
             break;
     }
 }

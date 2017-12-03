@@ -31,5 +31,7 @@ class PlayerView: public GameObject
         // Heads up display (Items, Health(?), etc)
         sf::View HUD;
         sf::RectangleShape itemBar;
+        sf::Texture heartTexture;
+        sf::Sprite heart;
         void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
