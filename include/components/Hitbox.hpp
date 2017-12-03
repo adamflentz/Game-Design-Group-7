@@ -24,11 +24,12 @@ public:
     void setDebugMode(bool mode) { this->isDebugMode = mode; };
     void follow(GameObject* o){tracker = o;};
     void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+    void setColor(sf::Color color){shape.setOutlineColor(color);};
 private:
     sf::Vector2f offset;
     sf::RectangleShape shape;
     GameObject* tracker = NULL;
-    bool isDebugMode = false;
+    bool isDebugMode = true;
 };
 
 #endif

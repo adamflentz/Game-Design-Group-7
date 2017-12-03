@@ -1,5 +1,5 @@
-#ifndef VILLAIN_H
-#define VILLAIN_H
+#ifndef VILLAIN_HPP
+#define VILLAIN_HPP
 
 #include <memory>
 #include <string>
@@ -9,43 +9,41 @@
 #include "components/Hitbox.hpp"
 #include "game/rooms/Room.hpp"
 #include "game/rooms/RoomGroup.hpp"
+// #include "game/resources/EntityGroup.hpp"
+#include "game/characters/Character.hpp"
 ////////////////
-// Character.hpp
+// Villain.hpp
 //
-// This is just a regular character. He has no motivations, goals, or collision checking yet.
-// He likes to go for long walks in complete and utter darkness.
-// He's very animated.
+// This is a generic ghost.  He wants to hunt and kill the other character
+// present in the game.  He wanders the house looking for them, chases and attacks when 
+// a character is seen, and then wanders once again.
 //
 ////////////////
 
-class Villain: public GameObject 
+class Villain: public Character 
 {
 public:
     void init();
     void onUpdate(float dt);
-    void setGroup(RoomGroup* group) { g = group; };
     void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
     void wander();
+    void chase();
+    void returnToCenter();
     void setDirection();
+    bool checkCharacters();
 protected:
     int randint;
     std:: string previousString;
     std::vector<std::string> possiblerooms;
-    RoomGroup* g;
-    double speed = 120;
-    sf::Vector2f direction;
+    int roomCenterX;
+    int roomCenterY;
     float previousLocationX;
     float previousLocationY;
-    sf::Texture sprite_map;
-    SpriteAnimation* curr;
-    // create 4 sprite animations representing walking 
-    // in the 4 cardinal directions
-    SpriteAnimation walk_up;
-    SpriteAnimation walk_down;
-    SpriteAnimation walk_left;
-    SpriteAnimation walk_right;
-    // create a hitbox at bottom half of 32x32 character
-    Hitbox hbox;
+    bool isChasing;
+    bool started;
+    bool needsCentering;
+    sf::FloatRect roomHbox;
+    sf::FloatRect chaseHbox;
     
 };
 
