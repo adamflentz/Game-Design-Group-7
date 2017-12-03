@@ -189,6 +189,16 @@ void Villain::chase()
         this->direction.y = -1;
         curr = &walk_up;
     }
+    std::vector<std::shared_ptr<Character>> entities = entity_group->getCharacters();
+    for(auto it = entities.begin(); it != entities.end(); it++){
+        std::shared_ptr<Character> c = *it;
+        if(c.get() == this)
+            continue;
+        if(this->hbox.intersects(c->hbox) && c->invul == false){
+            c->health--;
+        }
+    }
+
 
 
 }

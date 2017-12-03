@@ -42,6 +42,8 @@ void Character::init()
     hbox = Hitbox(-8,0,16,16);
     hbox.follow(this);
     hbox.init();
+    health = 3;
+    invul = false;
 }
 
 void Character::onUpdate(float dt)
