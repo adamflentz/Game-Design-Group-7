@@ -10,7 +10,7 @@ void GameplayScreen::init()
     // If we let the playerview set its own viewport
     // then we end up running the same code over and over inside PlayerView#init
     this->createViews(numplayers);
-    
+
 }
 void GameplayScreen::createViews(int numPlayers)
 {
@@ -47,7 +47,7 @@ void GameplayScreen::createViews(int numPlayers)
         view->setRoomGroup(&group);
         // Define player view (using math)
         view->setView(
-            sf::FloatRect(0, 0, 720 * ratio_w, 480 * ratio_h), 
+            sf::FloatRect(0, 0, 720 * ratio_w, 480 * ratio_h),
             sf::FloatRect((ratio_w + gutterx) * x, (ratio_h  + guttery) * y, ratio_w - gutterx * (1.0 - x), ratio_h - guttery * (1.0 - y))
         );
 
@@ -61,9 +61,9 @@ void GameplayScreen::createViews(int numPlayers)
         view->setGhost(ghost);
         this->addChild(std::move(view));
     }
-}   
+}
 
-  
+
 void GameplayScreen::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const
 {
     // ctx.draw(group, states);
