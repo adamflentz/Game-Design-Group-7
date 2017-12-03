@@ -18,21 +18,12 @@ void CharacterScreen::init()
       // }
   });
 
-
-  if (!chara1_pic.loadFromFile("../resources/white_chara.png"))
-  {
-      return;
-  }
-
-  if (!font.loadFromFile("../resources/Underdog-Regular.ttf"))
-  {
-      return;
-  }
+  sf::Texture chara1_pic = *ResourceManager::getTexture("../resources/sprites/white_chara.png");
 
   background.setSize(sf::Vector2f(720, 480));
   background.setFillColor(sf::Color(30, 30, 30));
 
-  teamFont.setFont(font);
+  teamFont.setFont(*ResourceManager::getFont("../resources/fonts/Underdog-Regular.ttf"));
   teamFont.setString("MAKE YOUR TEAM");
   teamFont.setCharacterSize(24);
   //teamFont.setColor(sf::Color::White);
@@ -79,7 +70,7 @@ void CharacterScreen::onUpdate(float dt){
 };
 
 void CharacterScreen::onGamepadEvent(GamepadEvent e){
-  if(e.type == GamepadEvent::RELEASED)
+  if(this->changed)
     return;
   std::map<int, int> player_map;
   // if player not in map
@@ -89,9 +80,9 @@ void CharacterScreen::onGamepadEvent(GamepadEvent e){
   // if player in map
   // use the button event to change player's selected charaacter
 
-  // auto event = std::make_shared< Event<std::string> >("GamePlay");
-  // this->changed = true;
-  // Events::triggerEvent("change_screen", event);
+   auto event = std::make_shared< Event<std::string> >("GamePlay");
+   this->changed = true;
+   Events::triggerEvent("change_screen", event);
 }
 
 void CharacterScreen::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const
