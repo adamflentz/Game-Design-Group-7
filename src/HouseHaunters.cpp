@@ -13,14 +13,17 @@
 
 void HouseHauntersGame::init()
 {
+    this->setName("House Haunters");
     // Setup the window position and dimensions
     this->setWindowRect(100, 100, 720, 480);
-    // Initialize the game screen
+    // Initialize the game screendisableGamepads
     std::unique_ptr<GameScreen> screen_gameplay  = std::unique_ptr<GameScreen>(new GameplayScreen());
     std::unique_ptr<GameScreen> screen_gametitle = std::unique_ptr<GameScreen>(new GametitleScreen());
+    std::unique_ptr<GameScreen> screen_character = std::unique_ptr<GameScreen>(new CharacterScreen());
     // Add the game screen
-    // since it's a unique pointer we have to move it first
+    // since it's a unique pointer we have to move it firstdisableGamepads
     this->addGameScreen("Title", std::move(screen_gametitle) );
+    this->addGameScreen("Character", std::move(screen_character) );
     this->addGameScreen("GamePlay", std::move(screen_gameplay) );
 
     // start off at title screen

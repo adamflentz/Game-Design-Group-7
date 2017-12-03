@@ -154,8 +154,6 @@ void Villain::returnToCenter(){
     }
     if(this->getPosition().y == roomHbox.top + (160 / 2) - 24 - 1){
         this->setPosition(this->getPosition().x, this->getPosition().y + 1);
-        
-        
         this->direction.y = 0;
     }
     if(this->getPosition().y == roomHbox.top + (160 / 2) - 24 + 1){
@@ -196,7 +194,6 @@ void Villain::chase()
 }
 void Villain::wander()
 {
-    
     int xloc = this->getPosition().x;
     int yloc = this->getPosition().y;
     if(needsCentering == true){
