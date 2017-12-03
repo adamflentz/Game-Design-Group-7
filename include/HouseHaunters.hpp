@@ -24,8 +24,5 @@ private:
     // automatically when the game starts.
     void init();
 protected:
-    // pointers are a pain in the ass in c-based languages
-    // for now this is a unique_ptr, but it may be changed to a shared_ptr
-    // based on how we manage screen switching
-
+    std::shared_ptr<Config> config;
 };

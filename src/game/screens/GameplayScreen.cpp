@@ -6,10 +6,13 @@
 
 void GameplayScreen::init()
 {
-    numplayers = 1;
     group.generateRoomGrid(8);
 
-    this->createViews(numplayers);
+    num_players = config->num_players;
+    // If we let the playerview set its own viewport
+    // then we end up running the same code over and over inside PlayerView#init
+    this->createViews(num_players);
+    
     // Create the ghost (this could easily be another function)
     // this->createVillain()
     ghost = std::make_shared<Villain>();

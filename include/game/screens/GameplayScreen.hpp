@@ -33,7 +33,7 @@ public:
     void onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const;
 protected:
     void createViews(int numPlayers);
-    int numplayers = 1;
+    int num_players = 1;
     // A map of entities (characters)
     // Entity 0 is the ghost 
     std::map<int, std::shared_ptr<Character>> entities;

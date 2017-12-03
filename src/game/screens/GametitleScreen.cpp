@@ -16,18 +16,10 @@ void GametitleScreen::init()
       // Check that the index matches our player
       this->onGamepadEvent(gpe);
 
-      // if(gpe.index == playernumber){
-      //     // Call our listener function personally
-      //     c->onGamepadEvent(gpe);
-      // }
   });
 
-  if (!title.loadFromFile("../resources/titlescreen.png"))
-  {
-      return;
-  }
 
-  sprite.setTexture(title);
+  sprite.setTexture(*ResourceManager::getTexture("../resources/titlescreen.png"));
 
   blackness.setSize(sf::Vector2f(720, 480));
 
@@ -60,9 +52,12 @@ void GametitleScreen::onUpdate(float dt){
 void GametitleScreen::onGamepadEvent(GamepadEvent e){
   if(this->changed)
     return;
+
+  // Set player 1
+  this->config->player_map[e.index] = 1;
   auto event = std::make_shared< Event<std::string> >("Character");
   this->changed = true;
-  Events::triggerEvent("change_screen", event);
+  Events::queueEvent("change_screen", event);
 }
 
 void GametitleScreen::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const
