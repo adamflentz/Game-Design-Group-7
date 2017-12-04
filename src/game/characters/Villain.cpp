@@ -111,7 +111,7 @@ bool Villain::checkCharacters(){
         std::shared_ptr<Character> c = *it;
         if(c.get() == this)
             continue;
-        if(c->hbox.intersects(roomHbox) && c->health > 0){
+        if(c->hbox.intersects(roomHbox) && c->health > 0 && c->invul == false){
             this->hbox.setColor(sf::Color::Green);
             this->chaseHbox = c->hbox;
             return true;
@@ -206,7 +206,6 @@ void Villain::chase()
         if(c.get() == this)
             continue;
         if(this->hbox.intersects(c->hbox) && c->invul == false && c->health > 0){
-            c->invul = true;
             c->hurt();
             this->randint = rand() % this->g->rooms.size();
             int count = 0;
@@ -217,6 +216,10 @@ void Villain::chase()
                         this->randint = rand() % this->g->rooms.size();
                     }
                     else{
+                        if(fastSpeed == true){
+                            speed /= 1.5;
+                            fastSpeed = false;
+                        }
                         this->setPosition((*rmit)->hbox.left + (256/2) - 16, (*rmit)->hbox.top   + (160 / 2) - 24);
                         this->setDirection();
                         break;

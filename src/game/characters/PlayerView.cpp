@@ -8,6 +8,8 @@ void PlayerView::init()
     itemBar.setOutlineColor(sf::Color::White);
     itemBar.setFillColor(sf::Color::Transparent);
     itemBar.setOutlineThickness(2);
+    pain.setFillColor(sf::Color::Red);
+    pain.setFillColor(sf::Color(255, 0, 0, 50));
 
     if (!heartTexture.loadFromFile("../resources/sprites/heart.png")) {
       return;
@@ -39,6 +41,7 @@ void PlayerView::setView(sf::FloatRect dimensions, sf::FloatRect viewport)
     HUD.reset(dimensions);
     HUD.setViewport(viewport);
     itemBar.setPosition(viewport.left + dimensions.width - 40, viewport.top + dimensions.height - 40);
+    pain.setSize(sf::Vector2f(dimensions.width, dimensions.height));
 }
 
 void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -54,6 +57,9 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
     // draw the HUD
     target.setView(HUD);
     target.draw(itemBar);
+    if(entity_group->getCharacter(playernumber)->invul == true){
+        target.draw(pain);
+    }
     std::cout << entity_group->getCharacter(playernumber)->maxHealth << std::endl;
     for(int i = 0; i < entity_group->getCharacter(playernumber)->maxHealth; i++){
         sf::Sprite heart;
