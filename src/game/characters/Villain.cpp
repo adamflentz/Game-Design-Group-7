@@ -75,10 +75,10 @@ void Villain::onUpdate(float dt)
     started = true;
     this->move(dx, dy);
     // check if inside room
-    // if(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height))){
-    //
-    //
-    //}
+    // if(!(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height)))){
+    //   this->direction.x = -(this->direction.x);
+    //   this->direction.y = -(this->direction.y);
+    // }
     // if we're not moving don't animate anything
     if(dx == 0 && dy == 0){
         curr->stop();
