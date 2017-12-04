@@ -8,6 +8,9 @@ void PlayerView::init()
     itemBar.setOutlineColor(sf::Color::White);
     itemBar.setFillColor(sf::Color::Transparent);
     itemBar.setOutlineThickness(2);
+    pain.setFillColor(sf::Color::Red);
+    pain.setFillColor(sf::Color(255, 0, 0, 180));
+    painCount = 180;
 
     if (!heartTexture.loadFromFile("../resources/sprites/heart.png")) {
       return;
@@ -30,6 +33,10 @@ void PlayerView::init()
 void PlayerView::onUpdate(float dt)
 {
     v.setCenter(entity_group->getCharacter(playernumber)->getPosition());
+    if(entity_group->getCharacter(playernumber)->invul == true){
+        pain.setFillColor(sf::Color(255, 0, 0, painCount));
+        painCount--;
+    }
 }
 
 void PlayerView::setView(sf::FloatRect dimensions, sf::FloatRect viewport)
@@ -39,6 +46,7 @@ void PlayerView::setView(sf::FloatRect dimensions, sf::FloatRect viewport)
     HUD.reset(dimensions);
     HUD.setViewport(viewport);
     itemBar.setPosition(viewport.left + dimensions.width - 40, viewport.top + dimensions.height - 40);
+    pain.setSize(sf::Vector2f(dimensions.width, dimensions.height));
 }
 
 void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -54,7 +62,12 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
     // draw the HUD
     target.setView(HUD);
     target.draw(itemBar);
-    std::cout << entity_group->getCharacter(playernumber)->maxHealth << std::endl;
+    if(entity_group->getCharacter(playernumber)->invul == true){
+        // pain.setFillColor(sf::Color(255, 0, 0, painCount));
+        // painCount--;
+        target.draw(pain);
+    }
+    // std::cout << entity_group->getCharacter(playernumber)->maxHealth << std::endl;
     for(int i = 0; i < entity_group->getCharacter(playernumber)->maxHealth; i++){
         sf::Sprite heart;
         heart.setTexture(heartTexture);
@@ -67,6 +80,5 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
         heart.scale(sf::Vector2f(0.1, 0.1));
         heart.setPosition(i * 30, 0);
         target.draw(heart);
-        std::cout << "hello" << std::endl;        
     }
 }

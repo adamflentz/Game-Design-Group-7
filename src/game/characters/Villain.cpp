@@ -41,6 +41,7 @@ void Villain::init()
     hbox.init();
     isChasing = false;
     needsCentering = false;
+    fastSpeed = false;
 }
 
 void Villain::onUpdate(float dt)
@@ -62,6 +63,10 @@ void Villain::onUpdate(float dt)
         }
     }
     else{
+        if(fastSpeed == false){
+            speed *= 1.5;
+            fastSpeed = true;
+        }
         isChasing = true;
         this->chase();
         // std::cout << "CHASING" << std::endl;
@@ -75,10 +80,9 @@ void Villain::onUpdate(float dt)
     started = true;
     this->move(dx, dy);
     // check if inside room
-    // if(!(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height)))){
-    //   this->direction.x = -(this->direction.x);
-    //   this->direction.y = -(this->direction.y);
-    // }
+    if(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height)) == false){
+    std::cout << "accident" << std::endl;
+    }
     // if we're not moving don't animate anything
     if(dx == 0 && dy == 0){
         curr->stop();
@@ -106,7 +110,7 @@ bool Villain::checkCharacters(){
         std::shared_ptr<Character> c = *it;
         if(c.get() == this)
             continue;
-        if(c->hbox.intersects(roomHbox) && c->health > 0){
+        if(c->hbox.intersects(roomHbox) && c->health > 0 && c->invul == false){
             this->hbox.setColor(sf::Color::Green);
             this->chaseHbox = c->hbox;
             return true;
@@ -116,6 +120,10 @@ bool Villain::checkCharacters(){
 
 }
 void Villain::returnToCenter(){
+    if(fastSpeed == true){
+        speed /= 1.5;
+        fastSpeed = false;
+    }
     int xloc = this->getPosition().x;
     int yloc = this->getPosition().y;
     roomHbox = g->getRoom(this->hbox);
@@ -197,18 +205,22 @@ void Villain::chase()
         if(c.get() == this)
             continue;
         if(this->hbox.intersects(c->hbox) && c->invul == false && c->health > 0){
-            c->invul = true;
             c->hurt();
             this->randint = rand() % this->g->rooms.size();
             int count = 0;
-            std::cout << g->rooms.size() << std::endl;
+            std::cout << randint << std::endl;
             for(auto rmit = g->rooms.begin(); rmit != g->rooms.end(); rmit++){
                 if(count == randint){
                     if((*rmit)->hbox == g->getRoom(this->hbox)){
                         this->randint = rand() % this->g->rooms.size();
                     }
                     else{
+                        if(fastSpeed == true){
+                            speed /= 1.5;
+                            fastSpeed = false;
+                        }
                         this->setPosition((*rmit)->hbox.left + (256/2) - 16, (*rmit)->hbox.top   + (160 / 2) - 24);
+                        this->possiblerooms.clear();
                         this->setDirection();
                         break;
                     }

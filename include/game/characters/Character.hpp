@@ -75,10 +75,8 @@ protected:
     SpriteAnimation walk_left;
     SpriteAnimation walk_right;
     SpriteAnimation death_animation;
-    SpriteAnimation pain;
     sf::Clock clock;
     bool isStarted;
-    bool inPain;
 
 };
 
