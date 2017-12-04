@@ -9,7 +9,8 @@ void PlayerView::init()
     itemBar.setFillColor(sf::Color::Transparent);
     itemBar.setOutlineThickness(2);
     pain.setFillColor(sf::Color::Red);
-    pain.setFillColor(sf::Color(255, 0, 0, 50));
+    pain.setFillColor(sf::Color(255, 0, 0, 180));
+    painCount = 180;
 
     if (!heartTexture.loadFromFile("../resources/sprites/heart.png")) {
       return;
@@ -32,6 +33,10 @@ void PlayerView::init()
 void PlayerView::onUpdate(float dt)
 {
     v.setCenter(entity_group->getCharacter(playernumber)->getPosition());
+    if(entity_group->getCharacter(playernumber)->invul == true){
+        pain.setFillColor(sf::Color(255, 0, 0, painCount));
+        painCount--;
+    }
 }
 
 void PlayerView::setView(sf::FloatRect dimensions, sf::FloatRect viewport)
@@ -58,6 +63,8 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
     target.setView(HUD);
     target.draw(itemBar);
     if(entity_group->getCharacter(playernumber)->invul == true){
+        // pain.setFillColor(sf::Color(255, 0, 0, painCount));
+        // painCount--;
         target.draw(pain);
     }
     std::cout << entity_group->getCharacter(playernumber)->maxHealth << std::endl;

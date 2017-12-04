@@ -43,4 +43,6 @@ class PlayerView: public GameObject
         sf::Texture heartTexture;
         sf::RectangleShape pain;
         void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
+        sf::Clock clock;
+        int painCount;
 };
