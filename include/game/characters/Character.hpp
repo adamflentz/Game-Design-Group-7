@@ -54,6 +54,7 @@ public:
     // create a hitbox at bottom half of 32x32 character
     Hitbox hbox;
     int health;
+    int maxHealth;
     bool invul;
 protected:
     int gamepad_index = -1;

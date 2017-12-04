@@ -55,6 +55,7 @@ void Character::init()
     hbox.follow(this);
     hbox.init();
     health = 3;
+    maxHealth = 3;
     invul = false;
     inPain = false;
 }
