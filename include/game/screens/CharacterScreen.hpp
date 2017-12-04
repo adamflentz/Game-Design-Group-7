@@ -22,9 +22,9 @@ class CharacterSelection : public GameObject
 {
 public:
     void init(){};
-    void setPortraitTexture(std::string texture);
-    void setPlayer(int player){player_selected = player; selected = true; };
-    void unsetPlayer(){player_selected = -1; selected = false; };
+    void setPortrait(int index);
+    void setPlayer(int player);
+    void unsetPlayer();
     int  getPlayer(){ return player_selected; };
     bool isSelected(){ return selected; };
     void removePlayer(int num);
@@ -35,10 +35,12 @@ public:
     void onUpdate(float dt);
     void moveRight(int num);
 protected:
-    sf::Color colors[4] = {sf::Color::Red, sf::Color::Blue, sf::Color::Green, sf::Color::Yellow};
+    int index = 0;
+    sf::Color colors[4] = {sf::Color::Red, sf::Color(30, 144, 255), sf::Color::Green, sf::Color::Yellow};
     std::vector<std::unique_ptr<CharacterIcon>>::iterator find(int player);
     bool selected = false;
     int player_selected = -1;
+    sf::RectangleShape background;
     sf::Sprite portrait;
     std::vector<std::unique_ptr<CharacterIcon>> hovering;
 };
