@@ -55,6 +55,16 @@ void Character::onUpdate(float dt)
     if(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height))){  
         this->move(dx, dy);
     };
+    if(invul == true && isStarted == false){
+        this->clock.restart();
+        isStarted = true;
+    }
+    // std::cout << (int) clock.getElapsedTime().asSeconds() << std::endl;
+    if((int)this->clock.getElapsedTime().asSeconds() == 3 && this->invul = true){
+        std::cout << "invul removed" << std::endl;
+        this->invul = false;
+        isStarted = false;
+    }
 
     this->z_index = this->getPosition().y;
 

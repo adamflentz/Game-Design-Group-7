@@ -69,6 +69,8 @@ protected:
     SpriteAnimation walk_down;
     SpriteAnimation walk_left;
     SpriteAnimation walk_right;
+    sf::Clock clock;
+    bool isStarted;
 
 };
 
