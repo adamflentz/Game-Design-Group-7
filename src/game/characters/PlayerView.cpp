@@ -67,7 +67,7 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
         // painCount--;
         target.draw(pain);
     }
-    std::cout << entity_group->getCharacter(playernumber)->maxHealth << std::endl;
+    // std::cout << entity_group->getCharacter(playernumber)->maxHealth << std::endl;
     for(int i = 0; i < entity_group->getCharacter(playernumber)->maxHealth; i++){
         sf::Sprite heart;
         heart.setTexture(heartTexture);
@@ -80,6 +80,5 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
         heart.scale(sf::Vector2f(0.1, 0.1));
         heart.setPosition(i * 30, 0);
         target.draw(heart);
-        std::cout << "hello" << std::endl;        
     }
 }

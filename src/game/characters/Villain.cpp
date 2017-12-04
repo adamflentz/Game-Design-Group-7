@@ -80,10 +80,9 @@ void Villain::onUpdate(float dt)
     started = true;
     this->move(dx, dy);
     // check if inside room
-    // if(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height))){
-    //
-    //
-    //}
+    if(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height)) == false){
+    std::cout << "accident" << std::endl;
+    }
     // if we're not moving don't animate anything
     if(dx == 0 && dy == 0){
         curr->stop();
@@ -209,7 +208,7 @@ void Villain::chase()
             c->hurt();
             this->randint = rand() % this->g->rooms.size();
             int count = 0;
-            std::cout << g->rooms.size() << std::endl;
+            std::cout << randint << std::endl;
             for(auto rmit = g->rooms.begin(); rmit != g->rooms.end(); rmit++){
                 if(count == randint){
                     if((*rmit)->hbox == g->getRoom(this->hbox)){
@@ -221,6 +220,7 @@ void Villain::chase()
                             fastSpeed = false;
                         }
                         this->setPosition((*rmit)->hbox.left + (256/2) - 16, (*rmit)->hbox.top   + (160 / 2) - 24);
+                        this->possiblerooms.clear();
                         this->setDirection();
                         break;
                     }
