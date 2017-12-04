@@ -3,7 +3,7 @@
 
 #include <map>
 // A global configurations map
-class Config 
+class Config
 {
 public:
     // Maps controller index to player number
@@ -12,6 +12,8 @@ public:
     std::map<int, std::string> other_map; // Maps
 
     int num_players = 1;
+
+    float time_Per_Phase = 5.0;
 };
 
 #endif
