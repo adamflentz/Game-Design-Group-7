@@ -41,6 +41,7 @@ void Villain::init()
     hbox.init();
     isChasing = false;
     needsCentering = false;
+    fastSpeed = false;
 }
 
 void Villain::onUpdate(float dt)
@@ -62,6 +63,10 @@ void Villain::onUpdate(float dt)
         }
     }
     else{
+        if(fastSpeed == false){
+            speed *= 1.5;
+            fastSpeed = true;
+        }
         isChasing = true;
         this->chase();
         // std::cout << "CHASING" << std::endl;
@@ -116,6 +121,10 @@ bool Villain::checkCharacters(){
 
 }
 void Villain::returnToCenter(){
+    if(fastSpeed == true){
+        speed /= 1.5;
+        fastSpeed = false;
+    }
     int xloc = this->getPosition().x;
     int yloc = this->getPosition().y;
     roomHbox = g->getRoom(this->hbox);
