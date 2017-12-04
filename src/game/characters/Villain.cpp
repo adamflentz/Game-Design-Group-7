@@ -106,7 +106,7 @@ bool Villain::checkCharacters(){
         std::shared_ptr<Character> c = *it;
         if(c.get() == this)
             continue;
-        if(c->hbox.intersects(roomHbox)){
+        if(c->hbox.intersects(roomHbox) && c->health > 0){
             this->hbox.setColor(sf::Color::Green);
             this->chaseHbox = c->hbox;
             return true;
@@ -191,6 +191,34 @@ void Villain::chase()
         this->direction.y = -1;
         curr = &walk_up;
     }
+    std::vector<std::shared_ptr<Character>> entities = entity_group->getCharacters();
+    for(auto it = entities.begin(); it != entities.end(); it++){
+        std::shared_ptr<Character> c = *it;
+        if(c.get() == this)
+            continue;
+        if(this->hbox.intersects(c->hbox) && c->invul == false && c->health > 0){
+            c->invul = true;
+            c->hurt();
+            this->randint = rand() % this->g->rooms.size();
+            int count = 0;
+            std::cout << g->rooms.size() << std::endl;
+            for(auto rmit = g->rooms.begin(); rmit != g->rooms.end(); rmit++){
+                if(count == randint){
+                    if((*rmit)->hbox == g->getRoom(this->hbox)){
+                        this->randint = rand() % this->g->rooms.size();
+                    }
+                    else{
+                        this->setPosition((*rmit)->hbox.left + (256/2) - 16, (*rmit)->hbox.top   + (160 / 2) - 24);
+                        this->setDirection();
+                        break;
+                    }
+                }
+                count++;
+            }
+
+        }
+    }
+
 
 
 }
@@ -241,6 +269,7 @@ void Villain::wander()
                 if((this->direction.y != 0) && (this->getPosition().x != roomHbox.left + (256 / 2) - 16)){
 
                     this->setPosition(roomHbox.left + (256 / 2) - 16, this->getPosition().y);
+                    this->setDirection();
                     // std::cout << "xissues" << std::endl;
                     // std::cout << "corrected" << std::endl;
                 }
