@@ -25,12 +25,12 @@ public:
     void close();
     void onGamepadEvent(GamepadEvent e);
     void setRoomGroup(RoomGroup* group) { g = group; };
+    Hitbox hbox;
 
 protected:
     RoomGroup* g;
     sf::Sprite sprite;
     sf::Texture texture;
-    Hitbox hbox;
     bool isOpen;
 };
 

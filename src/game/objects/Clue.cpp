@@ -6,22 +6,24 @@
 void Clue::init()
 {
     // scroll hardcoded inside first room for now
-    this->setPosition(g->rooms.front()->getPosition().x + (128 - 16), g->rooms.front()->getPosition().y + (80 - 24));
-    // load the texture
+    int xPos = g->rooms.front()->getPosition().x + (128 - 16);
+    int yPos = g->rooms.front()->getPosition().y + (80 - 24);
+    this->setPosition(xPos, yPos);
+
     texture.loadFromFile("../resources/sprites/scroll.png");
     sprite.setTexture(texture);
 
-    // set the hitbox up to follow this object
-    hbox = Hitbox(0,16,32,16); // x y w h
+    hbox = Hitbox(xPos, yPos, 32, 32); // x y w h
     hbox.follow(this);
     hbox.init();
+    this->hbox.setColor(sf::Color::Yellow);
 
     isOpen = false;
 }
 
 void Clue::onUpdate(float dt)
 {
-
+    hbox.onUpdate(dt);
 }
 
 void Clue::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -29,7 +31,7 @@ void Clue::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
     // draw the sprite
     target.draw(sprite, states);
     // draw the hitbox
-    target.draw(hbox, states);
+    target.draw(hbox);
 }
 
 //open the clue
