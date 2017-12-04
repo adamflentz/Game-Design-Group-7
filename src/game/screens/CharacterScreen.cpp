@@ -13,9 +13,38 @@ std::vector<std::unique_ptr<CharacterIcon>>::iterator CharacterSelection::find(i
   );
 }
 
-void CharacterSelection::setPortraitTexture(std::string texture)
+void CharacterSelection::setPortrait(int index)
 {
-  portrait.setTexture(*ResourceManager::getTexture(texture));
+  this->index = index;
+  portrait.setTexture(*ResourceManager::getTexture("../resources/HH_Portraits.png"));
+  portrait.setScale(0.5, 0.5);
+  sf::IntRect size = portrait.getTextureRect();
+  // Fake an outline by drawing a background rectangle
+  // Because this method is compatible with sfml <= 2.4.0
+  int padding = 3;
+  background.setSize(sf::Vector2f(150 + 2 * padding, 225 + 2 * padding));
+  background.setPosition(-padding, -padding);
+  unsetPlayer();
+}
+
+void CharacterSelection::setPlayer(int player)
+{
+  player_selected = player; 
+  selected = true;
+  int x = (index) % 4;
+  int y = (index) / 4;
+  portrait.setTextureRect(sf::IntRect(x * 300, y * 450, 300, 450));
+  background.setFillColor(colors[(player - 1) % 4]);
+}
+
+void CharacterSelection::unsetPlayer()
+{
+  player_selected = -1; 
+  selected = false;
+  int x = (index + 1) % 4;
+  int y = (index + 1) / 4;
+  background.setFillColor(sf::Color::White);
+  portrait.setTextureRect(sf::IntRect(x * 300, y * 450, 300, 450));
 }
 
 void CharacterSelection::removePlayer(int player)
@@ -51,11 +80,12 @@ void CharacterSelection::onUpdate(float dt)
   float elements = hovering.size();
   float box_size = 30;
   float padding = 5;
-  float xpos = (width / 2 ) - ( (elements * box_size) + (elements -1) * padding ) / 2;
+  float xpos = (width / 2 ) - ( box_size / 2 );
   for(auto it = hovering.begin(); it != hovering.end(); it++){
-    (*it)->setPosition(xpos, 265.0f);
-    // std::cout << (*it)->getPosition().x << std::endl;
-    xpos += 35;
+    int player = (*it)->getPlayer();
+    float ypos = 225 + (player - 1) * box_size + player * padding;
+    (*it)->setPosition(xpos, ypos);
+    ypos += box_size + padding;
   }
 }
 
@@ -64,6 +94,7 @@ void CharacterSelection::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) 
   for(auto it = hovering.begin(); it != hovering.end(); it++){
     ctx.draw(**it, states);
   }
+  ctx.draw(background, states);
   ctx.draw(portrait, states);
 }
 
@@ -79,14 +110,14 @@ void CharacterScreen::init()
   float xpos = 40;
   for(int i = 0; i < 4; i++){
     std::unique_ptr<CharacterSelection> c = std::unique_ptr<CharacterSelection>(new CharacterSelection());
-    c->setPortraitTexture("../resources/sprites/white_chara.png");
+    c->setPortrait(2 * i);
     c->setPosition(xpos, 120.0f);
     this->char_selections.push_back(std::move(c));
     xpos += (720.0 - 4.0f*15.0f) / 4.0f ;
   }
 
   // Initialize player 1
-  this->addPlayer(player_num, config->player_map.begin()->second);
+  this->addPlayer(config->player_map.begin()->first, player_num);
 
   // listen for gamepad events
   Events::addEventListener("gamepad_event", [=](base_event_type e){
@@ -124,6 +155,7 @@ void CharacterScreen::onUpdate(float dt)
 
 void CharacterScreen::addPlayer(int index, int num)
 {
+  std::cout << "Controller Index: " << index << " Player Number: " << num << std::endl;
   config->player_map[index] = num;
   // get first available character and set position
   for(auto it = char_selections.begin(); it != char_selections.end(); it++){
@@ -145,6 +177,7 @@ void CharacterScreen::onGamepadEvent(GamepadEvent e)
     if(player_num < 4 && config->player_map.count(e.index) == 0){
       player_num++;
       this->addPlayer(e.index, player_num);
+      teamFont.setString("MAKE YOUR TEAM");
     }
     // Handle input 
     else {
@@ -184,16 +217,7 @@ void CharacterScreen::onGamepadEvent(GamepadEvent e)
         }
       }
       
-      else if(e.button == "A"){
-        for(auto it = char_selections.begin(); it != char_selections.end(); it++){
-          if((*it)->isSelected())
-            continue;
-          if((*it)->hasPlayer(player)){
-            (*it)->setPlayer(player);
-            selected_count++;
-            break;
-          }
-        }
+      else if(e.button == "A" || e.button == "START"){
         if(selected_count == player_num){
           // Everybody selected a character. Let's set that in the config then move on
           std::cout << "Everybody's selected something" << std::endl;
@@ -206,6 +230,16 @@ void CharacterScreen::onGamepadEvent(GamepadEvent e)
           Events::queueEvent("change_screen", event);
           return;
         }
+        for(auto it = char_selections.begin(); it != char_selections.end(); it++){
+          if((*it)->isSelected())
+            continue;
+          if((*it)->hasPlayer(player)){
+            (*it)->setPlayer(player);
+            if(++selected_count == player_num)
+              teamFont.setString("PRESS A TO START");
+            break;
+          }
+        }
       }
       else if(e.button == "B"){
         for(auto it = char_selections.begin(); it != char_selections.end(); it++){
@@ -213,6 +247,7 @@ void CharacterScreen::onGamepadEvent(GamepadEvent e)
             if((*it)->hasPlayer(player)){
               (*it)->unsetPlayer();
               selected_count--;
+              teamFont.setString("MAKE YOUR TEAM");
               break;
             }
           }
