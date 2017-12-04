@@ -6,10 +6,14 @@
 
 void GameplayScreen::init()
 {
-    numplayers = 1;
+    clock.restart();
     group.generateRoomGrid(8);
 
-    this->createViews(numplayers);
+    num_players = config->num_players;
+    // If we let the playerview set its own viewport
+    // then we end up running the same code over and over inside PlayerView#init
+    this->createViews(num_players);
+
     // Create the ghost (this could easily be another function)
     // this->createVillain()
     ghost = std::make_shared<Villain>();
@@ -27,7 +31,7 @@ void GameplayScreen::createViews(int numPlayers)
     double gutter  = 5.0; // space between player views in pixels
     double gutterx = gutter / 720.0 / 2;
     double guttery = gutter / 480.0 / 2;
-    
+
     if(numPlayers >= 3){
         ratio_w /= 2;
         ratio_h /= 2;
@@ -53,7 +57,7 @@ void GameplayScreen::createViews(int numPlayers)
         view->setRoomGroup(&group);
         // Define player view (using math)
         view->setView(
-            sf::FloatRect(0, 0, 720 * ratio_w, 480 * ratio_h), 
+            sf::FloatRect(0, 0, 720 * ratio_w, 480 * ratio_h),
             sf::FloatRect((ratio_w + gutterx) * x, (ratio_h  + guttery) * y, ratio_w - gutterx * (1.0 - x), ratio_h - guttery * (1.0 - y))
         );
         // Create a new character
@@ -76,7 +80,14 @@ void GameplayScreen::onUpdate(float dt)
     // Update the rooms (not really necessary though)
     group.update(dt);
     entity_group.update(dt);
-}   
+
+    // std::cout << clock.getElapsedTime().asSeconds() << std::endl;
+    if (clock.getElapsedTime().asSeconds() >= config -> time_Per_Phase) {
+      std::cout << "phase ends" << std::endl;
+      clock.restart();
+    }
+
+}
 
 
 void GameplayScreen::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const

@@ -2,6 +2,7 @@
 #include <SFML/Audio.hpp>
 #include <memory>
 #include "engine/Engine.hpp"
+#include "engine/ResourceManager.hpp"
 
 
 class GametitleScreen: public GameScreen

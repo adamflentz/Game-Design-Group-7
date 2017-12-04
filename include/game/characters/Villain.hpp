@@ -15,12 +15,12 @@
 // Villain.hpp
 //
 // This is a generic ghost.  He wants to hunt and kill the other character
-// present in the game.  He wanders the house looking for them, chases and attacks when 
+// present in the game.  He wanders the house looking for them, chases and attacks when
 // a character is seen, and then wanders once again.
 //
 ////////////////
 
-class Villain: public Character 
+class Villain: public Character
 {
 public:
     void init();
@@ -44,7 +44,7 @@ protected:
     bool needsCentering;
     sf::FloatRect roomHbox;
     sf::FloatRect chaseHbox;
-    
+
 };
 
 #endif

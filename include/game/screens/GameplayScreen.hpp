@@ -19,7 +19,7 @@
 // ---------------------------------------------Game_Over_Screen <---
 //
 // There could even potentially be loading screens.
-// 
+//
 // This screen is pretty simple. All it does is show a character.
 //
 // Next check out src/GameplayScreen.cpp
@@ -31,14 +31,17 @@ public:
     void init();
     void onUpdate(float dt);
     void onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const;
+
 protected:
     void createViews(int numPlayers);
-    int numplayers = 1;
+    int num_players = 1;
     // A map of entities (characters)
-    // Entity 0 is the ghost 
+    // Entity 0 is the ghost
     std::map<int, std::shared_ptr<Character>> entities;
     // std::vector<std::shared_ptr<Character>> activeCharacters;
     // std::vector<std::unique_ptr<Room> > roomFac;
+
+    sf::Clock clock;
     RoomGroup group;
     std::shared_ptr<Villain> ghost;
     EntityGroup entity_group;
