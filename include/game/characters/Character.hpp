@@ -52,6 +52,8 @@ public:
     int player_number = -1;
     // create a hitbox at bottom half of 32x32 character
     Hitbox hbox;
+    int health;
+    bool invul;
 protected:
     int gamepad_index = -1;
     double speed = 120;
@@ -67,6 +69,8 @@ protected:
     SpriteAnimation walk_down;
     SpriteAnimation walk_left;
     SpriteAnimation walk_right;
+    sf::Clock clock;
+    bool isStarted;
 
 };
 
