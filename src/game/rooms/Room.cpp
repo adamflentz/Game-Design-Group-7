@@ -3,7 +3,7 @@
 
 void Room::init()
 {
-    hbox = Hitbox(rect.getPosition().x, rect.getPosition().y, rect.getSize().x, rect.getSize().y);
+    hbox = Hitbox(rect.getPosition().x, rect.getPosition().y , rect.getSize().x, rect.getSize().y);
     hbox.init();
     rect.setFillColor(sf::Color::Blue);
     //rect.setOutlineColor(sf::Color::White);
