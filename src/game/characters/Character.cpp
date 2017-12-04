@@ -42,6 +42,8 @@ void Character::init()
     hbox = Hitbox(-8,0,16,16);
     hbox.follow(this);
     hbox.init();
+    health = 3;
+    invul = false;
 }
 
 void Character::onUpdate(float dt)
@@ -53,6 +55,16 @@ void Character::onUpdate(float dt)
     if(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height))){  
         this->move(dx, dy);
     };
+    if(invul == true && isStarted == false){
+        this->clock.restart();
+        isStarted = true;
+    }
+    std::cout << clock.getElapsedTime().asSeconds() << std::endl;
+    if(this->clock.getElapsedTime().asSeconds() == 3){
+        std::cout << "invul removed" << std::endl;
+        this->invul = false;
+        isStarted = false;
+    }
 
     this->z_index = this->getPosition().y;
 

@@ -7,7 +7,7 @@ class CharacterIcon : public GameObject
 {
 public:
     void init(){};
-    void setColor(sf::Color color){ t.setFillColor(color);};
+    void setColor(sf::Color color){ t.setColor(color);};
     void setFont(std::string font){ t.setFont(*ResourceManager::getFont(font)); };
     void setPlayer(int num){ player_number = num; t.setString("P"+std::to_string(num)); };
     int  getPlayer(){return player_number; };
