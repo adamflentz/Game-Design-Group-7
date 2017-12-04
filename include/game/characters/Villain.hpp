@@ -42,6 +42,7 @@ protected:
     bool isChasing;
     bool started;
     bool needsCentering;
+    bool fastSpeed;
     sf::FloatRect roomHbox;
     sf::FloatRect chaseHbox;
 

@@ -40,12 +40,6 @@ void Character::init()
     death_animation.setSpriteSheet(death_map);
     death_animation.addFrames(death_frame, 32, 32);
     // set damage animation
-    pain_sprite.loadFromFile("../resources/sprites/blood.png");
-    std::vector< std::vector<int> > pain_frame = { {0}, {1}, {2}, {3}, {4}, {5} };
-    pain.setSpriteSheet(pain_sprite);
-    pain.addFrames(pain_frame, 512, 512);
-    ow = &pain;
-    ow->stop();
     // set default animation
     curr = &walk_down;
     // Don't automatically play the animation
@@ -57,7 +51,6 @@ void Character::init()
     health = 3;
     maxHealth = 3;
     invul = false;
-    inPain = false;
 }
 
 void Character::onUpdate(float dt)
@@ -77,7 +70,6 @@ void Character::onUpdate(float dt)
     if((int)this->clock.getElapsedTime().asSeconds() == 3 && this->invul == true){
         std::cout << "invul removed" << std::endl;
         this->invul = false;
-        this->inPain = false;
         isStarted = false;
         
     }
@@ -120,8 +112,7 @@ void Character::checkCollisions()
 
 void Character::hurt(){
     this->health--;
-    inPain = true;
-    ow = &pain;
+    this->invul = true;
 }
 
 /**
@@ -129,9 +120,6 @@ void Character::hurt(){
 */
 void Character::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    if(inPain == true){
-        target.draw(*ow, states);
-    }
     // draw the animation
     target.draw(*curr, states);
     // draw the hitbox
