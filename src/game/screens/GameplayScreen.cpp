@@ -81,7 +81,7 @@ void GameplayScreen::onUpdate(float dt)
     group.update(dt);
     entity_group.update(dt);
 
-    std::cout << clock.getElapsedTime().asSeconds() << std::endl;
+    // std::cout << clock.getElapsedTime().asSeconds() << std::endl;
     if (clock.getElapsedTime().asSeconds() >= config -> time_Per_Phase) {
       std::cout << "phase ends" << std::endl;
       clock.restart();

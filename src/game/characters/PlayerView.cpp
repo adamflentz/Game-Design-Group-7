@@ -12,8 +12,6 @@ void PlayerView::init()
     if (!heartTexture.loadFromFile("../resources/sprites/heart.png")) {
       return;
     }
-    heart.setTexture(heartTexture);
-    heart.scale(sf::Vector2f(0.1, 0.1));
 
     // setup event listeners (lazy method)
     Events::addEventListener("gamepad_event", [=](base_event_type e){
@@ -56,5 +54,19 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
     // draw the HUD
     target.setView(HUD);
     target.draw(itemBar);
-    target.draw(heart);
+    std::cout << entity_group->getCharacter(playernumber)->maxHealth << std::endl;
+    for(int i = 0; i < entity_group->getCharacter(playernumber)->maxHealth; i++){
+        sf::Sprite heart;
+        heart.setTexture(heartTexture);
+        if(entity_group->getCharacter(playernumber)->health > i){
+            heart.setTextureRect(sf::IntRect(0, 0, 300, 300));
+        }
+        else{
+            heart.setTextureRect(sf::IntRect(600, 0, 300, 300));
+        }
+        heart.scale(sf::Vector2f(0.1, 0.1));
+        heart.setPosition(i * 30, 0);
+        target.draw(heart);
+        std::cout << "hello" << std::endl;        
+    }
 }
