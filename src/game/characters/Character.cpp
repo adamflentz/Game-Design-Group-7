@@ -52,7 +52,7 @@ void Character::onUpdate(float dt)
     float dy = this->direction.y * speed * dt;
 
     // check if inside any room 
-    if(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height))){  
+    if(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height)) && health > 0){  
         this->move(dx, dy);
     };
     if(invul == true && isStarted == false){
@@ -60,7 +60,7 @@ void Character::onUpdate(float dt)
         isStarted = true;
     }
     // std::cout << (int) clock.getElapsedTime().asSeconds() << std::endl;
-    if((int)this->clock.getElapsedTime().asSeconds() == 3 && this->invul = true){
+    if((int)this->clock.getElapsedTime().asSeconds() == 3 && this->invul == true){
         std::cout << "invul removed" << std::endl;
         this->invul = false;
         isStarted = false;

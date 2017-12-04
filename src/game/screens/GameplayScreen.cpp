@@ -7,7 +7,7 @@
 void GameplayScreen::init()
 {
     clock.restart();
-    group.generateRoomGrid(8);
+    group.generateRoomGrid(2);
 
     num_players = config->num_players;
     // If we let the playerview set its own viewport
