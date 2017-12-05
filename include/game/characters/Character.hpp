@@ -57,10 +57,11 @@ public:
     int maxHealth;
     bool invul;
     void checkClues();
-    bool readClue;
-    
-protected:
+    bool readClue = false;
     std::shared_ptr<Clue> currentClue;
+
+
+protected:
     int gamepad_index = -1;
     double speed = 120;
     RoomGroup* g;

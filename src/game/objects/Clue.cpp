@@ -64,14 +64,3 @@ void Clue::close()
 {
     isOpen = false;
 }
-
-void Clue::onGamepadEvent(GamepadEvent e)
-{
-    if (GamepadEvent::TYPE::RELEASED && e.button == "B") {
-        if (isOpen == false) {
-            open();
-        } else {
-            close();
-        }
-    }
-}
