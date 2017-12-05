@@ -48,6 +48,8 @@ protected:
     bool fastSpeed;
     sf::FloatRect roomHbox;
     sf::FloatRect chaseHbox;
+    sf::Texture death_map;
+    SpriteAnimation death_animation;
 
 };
 

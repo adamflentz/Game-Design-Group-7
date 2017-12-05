@@ -35,6 +35,11 @@ void Villain::init()
     walk_up.addFrames(up_frames, 32, 48);
     // Don't automatically play the animation
     curr->stop();
+    // Death tombstone
+    std::vector< std::vector<int> > death_frame = { {0} };
+    death_map.loadFromFile("../resources/sprites/grave.png");
+    death_animation.setSpriteSheet(death_map);
+    death_animation.addFrames(death_frame, 32, 32);
     // set the hitbox up to follow this object
     hbox = Hitbox(0,16,32,16);
     hbox.follow(this);
@@ -42,11 +47,12 @@ void Villain::init()
     isChasing = false;
     needsCentering = false;
     fastSpeed = false;
-    health = 3;
+    health = 0;
 }
 
 void Villain::onUpdate(float dt)
 {
+    std::cout << health << std::endl;
     roomHbox = g->getRoom(this->hbox);
     // std::cout << this->getPosition().x << std::endl;
     // std::cout << roomHbox.left + (256 / 2) - 16 << std::endl;
@@ -65,7 +71,7 @@ void Villain::onUpdate(float dt)
     }
     else{
         if(fastSpeed == false){
-            speed *= 1.5;
+            speed *= 1.25;
             fastSpeed = true;
         }
         isChasing = true;
@@ -77,12 +83,42 @@ void Villain::onUpdate(float dt)
 
     // check for collisions
     this->checkCollisions();
+    if(health <= 0){
+        curr = &death_animation;
+    }
 
     started = true;
-    this->move(dx, dy);
+    if(health > 0){
+        this->move(dx, dy);
+    }
+    
     // check if inside room
     if(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height)) == false){
-    std::cout << "accident" << std::endl;
+        std::cout << "accident" << std::endl;
+        this->randint = rand() % this->g->rooms.size();
+        std::cout << randint << std::endl;
+        int count = 0;
+        for(auto rmit = g->rooms.begin(); rmit != g->rooms.end(); rmit++){
+            if(count == randint){
+                if((*rmit)->hbox == g->getRoom(this->hbox)){
+                    this->randint = rand() % this->g->rooms.size();
+                    rmit = g->rooms.begin();
+                    count = 0;
+                }
+                else{
+                    if(fastSpeed == true){
+                        speed /= 1.25;
+                        fastSpeed = false;
+                    }
+                    std::cout << "escape" << std::endl;
+                    this->setPosition((*rmit)->hbox.left + (512/2) - 16, (*rmit)->hbox.top   + (384 / 2) - 24);
+                    this->possiblerooms.clear();
+                    this->setDirection();
+                    break;
+                }
+            }
+            count++;
+        }
     }
     // if we're not moving don't animate anything
     if(dx == 0 && dy == 0){
@@ -111,6 +147,9 @@ bool Villain::checkCharacters(){
         std::shared_ptr<Character> c = *it;
         if(c.get() == this)
             continue;
+        if(c->character == Config::CHARACTER::SIS && c->direction.x == 0 && c->direction.y == 0){
+            continue;
+        }
         if(c->hbox.intersects(roomHbox) && c->health > 0 && c->invul == false){
             this->hbox.setColor(sf::Color::Green);
             this->chaseHbox = c->hbox;
@@ -130,21 +169,23 @@ void Villain::hurt(){
     std::cout << randint << std::endl;
     for(auto rmit = g->rooms.begin(); rmit != g->rooms.end(); rmit++){
         if(count == randint){
-            if((*rmit)->hbox == g->getRoom(this->hbox)){
+            if((*rmit)->hbox == g->getRoom(this->hbox) || (*rmit)->isDoor == true){
                 this->randint = rand() % this->g->rooms.size();
                 rmit = g->rooms.begin();
                 count = 0;
             }
             else{
                 if(fastSpeed == true){
-                    speed /= 1.5;
+                    speed /= 1.25;
                     fastSpeed = false;
                 }
-                std::cout << "escape" << std::endl;
-                this->setPosition((*rmit)->hbox.left + (512/2) - 16, (*rmit)->hbox.top   + (384 / 2) - 24);
-                this->possiblerooms.clear();
-                this->setDirection();
-                break;
+                if(health > 0){
+                    std::cout << "escape" << std::endl;
+                    this->setPosition((*rmit)->hbox.left + (448 / 2) - 16, (*rmit)->hbox.top   + (288 / 2) - 36);
+                    this->possiblerooms.clear();
+                    this->setDirection();
+                    break;
+                }
             }
         }
         count++;
@@ -298,7 +339,7 @@ void Villain::chase()
                             speed /= 1.5;
                             fastSpeed = false;
                         }
-                        this->setPosition((*rmit)->hbox.left + (512/2) - 16, (*rmit)->hbox.top   + (384 / 2) - 24);
+                        this->setPosition((*rmit)->hbox.left + (448 / 2) - 16, (*rmit)->hbox.top   + (288 / 2) - 36);
                         this->possiblerooms.clear();
                         this->setDirection();
                         break;

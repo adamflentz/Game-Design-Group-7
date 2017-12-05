@@ -70,18 +70,19 @@ public:
     bool readClue = false;
     bool atClue = false;
     std::shared_ptr<Clue> currentClue;
+    sf::Vector2f direction;
+    Config::CHARACTER character;
+
+protected:
+    int gamepad_index = -1;
+
     // Base attributes 
     double speed = 120;
     double stealth = 100;
     double strength = 100;
     double intelligence = 100;
-
-protected:
-    int gamepad_index = -1;
-    Config::CHARACTER character;
     RoomGroup* g;
     EntityGroup* entity_group;
-    sf::Vector2f direction;
     sf::Texture sprite_map;
     sf::Texture death_map;
     sf::Texture pain_sprite;
