@@ -56,6 +56,7 @@ public:
     int health;
     int maxHealth;
     bool invul;
+    void checkClues();
 protected:
     int gamepad_index = -1;
     double speed = 120;
@@ -74,6 +75,10 @@ protected:
     SpriteAnimation walk_down;
     SpriteAnimation walk_left;
     SpriteAnimation walk_right;
+    bool stopUp;
+    bool stopDown;
+    bool stopLeft;
+    bool stopRight;
     SpriteAnimation death_animation;
     sf::Clock clock;
     bool isStarted;
