@@ -25,7 +25,16 @@ void GameplayScreen::init()
     // ghost->setRoomGroup(&group);
     // ghost->setEntities(&entity_group);
     // entity_group.addCharacter(std::move(ghost));
-    entity_group.init();
+    Events::addEventListener("player_died", [=](base_event_type e){
+      // We'll need to delete this listener in the destructor or we'll have segfaults/undefined behavior eventually
+      // Cast to gamepad event
+      if(--num_players == 0){
+        std::cout << "All players died" << std::endl;
+        auto event = std::make_shared< Event<std::string> >("Character");
+        Events::queueEvent("change_screen", event);
+      };
+
+    });
     // std::cout << group.rooms.size() << std::endl;
 }
 
@@ -161,7 +170,7 @@ void GameplayScreen::onUpdate(float dt)
 
 }
 
-
 void GameplayScreen::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const
 {
+
 }

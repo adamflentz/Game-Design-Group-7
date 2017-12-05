@@ -104,6 +104,7 @@ protected:
     sf::Clock clock;
     bool isStarted;
     bool panic;
+    bool isAlive = true;
     bool isAttacking = false;
 
 

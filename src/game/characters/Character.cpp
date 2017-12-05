@@ -287,8 +287,11 @@ void Character::onUpdate(float dt)
         isStarted = false;
 
     }
-    if(health <= 0){
+    if(this->isAlive && health <= 0){
         curr = &death_animation;
+        this->isAlive = false;
+        auto e = std::make_shared< Event<bool> >("true");
+        Events::queueEvent("player_died", e);
     }
 
     this->z_index = this->getPosition().y;
@@ -432,7 +435,9 @@ void Character::onGamepadEvent(GamepadEvent e)
                         this->direction.x = 0;
                     }
                 }
-
+                if(e.button == "Y"){
+                    this->health = 0;
+                }
                 if(e.button == "B"){
                     this->attack();
                 }
