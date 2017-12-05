@@ -1,7 +1,10 @@
 #include "game/screens/GameplayScreen.hpp"
 #include "engine/Random.hpp"
+#include "engine/ClueReader.hpp"
 #include "game/characters/Character.hpp"
 #include "game/characters/Villain.hpp"
+#include "game/objects/Clue.hpp"
+#include "game/objects/Clue.hpp"
 #include <iostream>
 
 void GameplayScreen::init()
@@ -9,6 +12,7 @@ void GameplayScreen::init()
     clock.restart();
     group.generateRoomGrid(8);
 
+    this->createClues();
     num_players = config->num_players;
     // If we let the playerview set its own viewport
     // then we end up running the same code over and over inside PlayerView#init
@@ -22,6 +26,25 @@ void GameplayScreen::init()
     ghost->setEntities(&entity_group);
     entity_group.addCharacter(std::move(ghost));
     entity_group.init();
+}
+
+void GameplayScreen::createClues()
+{
+    PlantSeeds(-1); // for random in clue reader
+    reader.readFile("../resources/items.xml");
+    reader.selectItems();
+
+    for(int i = 0; i < reader.getCluesSpec().size(); i++){
+        clue = std::make_shared<Clue>();
+        clue->setRoomGroup(&group);
+        clue->setEntities(&entity_group);
+        clue->clueSpec = reader.getCluesSpec()[i];
+        clue->clueVague = reader.getCluesVague()[i];
+        clue->init();
+
+        // add clues to our clue entity group
+        entity_group.addClue(std::move(clue));
+    }
 }
 
 void GameplayScreen::createViews(int numPlayers)
@@ -43,6 +66,8 @@ void GameplayScreen::createViews(int numPlayers)
     // we won't use these variables after we're done here
     // so they shouldn't be members
     std::unique_ptr<PlayerView> view;
+
+
 
     // Maybe turn this object into an "EntitiesGroup" obj
     std::shared_ptr<Character> character;
@@ -73,6 +98,7 @@ void GameplayScreen::createViews(int numPlayers)
         // Add child to this view
         this->addChild(std::move(view));
     }
+
 }
 
 void GameplayScreen::onUpdate(float dt)

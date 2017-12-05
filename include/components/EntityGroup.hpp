@@ -16,6 +16,7 @@
 */
 
 class Character; // forward declearation
+class Clue;
 /**
 * A group that contains items that can interact with each other
 */
@@ -24,15 +25,20 @@ class EntityGroup: public GameObject
 public:
     void init();
     void addCharacter(std::shared_ptr<Character> c);
+    void addClue(std::shared_ptr<Clue> clue);
     std::vector<std::shared_ptr<Character>> getCharacters();
+    std::vector<std::shared_ptr<Clue>> getClues();
     std::shared_ptr<Character> getCharacter(int pnum);
+    std::shared_ptr<Clue> getClue(int cnum);
     void onUpdate(float dt);
 protected:
     std::vector<std::shared_ptr<Character>> characters;
+    std::vector<std::shared_ptr<Clue>> clues;
     // Draw all the entities
     void onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const;
 };
 
 #include "game/characters/Character.hpp"
+#include "game/objects/Clue.hpp"
 
 #endif

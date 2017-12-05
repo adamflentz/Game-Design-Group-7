@@ -115,9 +115,8 @@ bool Villain::checkCharacters(){
             this->chaseHbox = c->hbox;
             return true;
         }
-        return false;
     }
-
+    return false;
 }
 void Villain::returnToCenter(){
     if(fastSpeed == true){
