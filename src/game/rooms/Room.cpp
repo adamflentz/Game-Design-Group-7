@@ -78,9 +78,9 @@ void Room::setRoomType(int type)
         room_setup = "throne";
         //queen
         clueCoordinates.push_back(7);
-        clueCoordinates.push_back(2);
-        clueCoordinates.push_back(2);
         clueCoordinates.push_back(3);
+        clueCoordinates.push_back(2);
+        clueCoordinates.push_back(2);
         //pedestal
         clueCoordinates.push_back(7);
         clueCoordinates.push_back(5);

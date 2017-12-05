@@ -14,18 +14,26 @@ void Character::init()
     switch(character){
         case Config::CHARACTER::MOM:
             std::cout << "Mom" << std::endl;
+            health = 3;
+            maxHealth = 3;
             sprite_location = 0;
             break;
         case Config::CHARACTER::SIS:
             std::cout << "SIS" << std::endl;
+            health = 3;
+            maxHealth = 3;
             sprite_location = 1;
             break;
         case Config::CHARACTER::BRO:
             std::cout << "BRO" << std::endl;
+            health = 3;
+            maxHealth = 3;
             sprite_location = 2;
             break;
         case Config::CHARACTER::DAD:
             std::cout << "DAD" << std::endl;
+            health = 5;
+            maxHealth = 5;
             sprite_location = 3;
             break;
     }
@@ -39,9 +47,67 @@ void Character::init()
     // Make sure player starts inside first room(?)
     // could also make them start inside a random room
 
-    this->setPosition(
-      g->getRoom(0)->hbox.left + 20 + (32 * player_number),
-      g->getRoom(0)->hbox.top + 20);
+    
+    if(g->getRoom(0)->room_setup == "armory"){
+        this->setPosition(
+            g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+            g->getRoom(0)->hbox.top + 160);
+    }
+    else if(g->getRoom(0)->room_setup == "throne"){
+        this->setPosition(
+        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+        g->getRoom(0)->hbox.top + 160);
+    }
+    else if(g->getRoom(0)->room_setup == "grave"){
+        this->setPosition(
+        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+        g->getRoom(0)->hbox.top + 128);
+    }
+    else if(g->getRoom(0)->room_setup == "parlor"){
+        this->setPosition(
+        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+        g->getRoom(0)->hbox.top + 128);
+    }
+    else if(g->getRoom(0)->room_setup == "lounge"){
+        this->setPosition(
+        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+        g->getRoom(0)->hbox.top + 160);
+    }
+    else if(g->getRoom(0)->room_setup == "kitchen"){
+        this->setPosition(
+        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+        g->getRoom(0)->hbox.top + 160);
+    }
+    else if(g->getRoom(0)->room_setup == "lion"){
+        this->setPosition(
+        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+        g->getRoom(0)->hbox.top + 160);
+    }
+    else if(g->getRoom(0)->room_setup == "barrels"){
+        this->setPosition(
+        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+        g->getRoom(0)->hbox.top + 160);
+    }
+    else if(g->getRoom(0)->room_setup == "dungeon"){
+        this->setPosition(
+        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+        g->getRoom(0)->hbox.top + 256);
+    }
+    else if(g->getRoom(0)->room_setup == "bedroom"){
+        this->setPosition(
+        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+        g->getRoom(0)->hbox.top + 160);
+    }
+    else if(g->getRoom(0)->room_setup == "wood_bedroom"){
+        this->setPosition(
+        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+        g->getRoom(0)->hbox.top + 128);
+    }
+    else if(g->getRoom(0)->room_setup == "bathroom"){
+        this->setPosition(
+        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+        g->getRoom(0)->hbox.top + 96);
+    }
     // this->setPosition(g->rooms.front()->getPosition().x + 20 + (32 * player_number), g->rooms.front()->getPosition().y + 20);
     // 1p width, height
     // 2p width/2 height
@@ -88,8 +154,6 @@ void Character::init()
     hbox = Hitbox(-8,0,16,16);
     hbox.follow(this);
     hbox.init();
-    health = 3;
-    maxHealth = 3;
     invul = false;
 }
 void Character::checkVillain(){
@@ -266,9 +330,12 @@ void Character::onGamepadEvent(GamepadEvent e)
                     this->direction.y = 0;
                 else if((e.button == "LEFT") || (e.button == "RIGHT"))
                     this->direction.x = 0;
-                else if(e.button == "X") // stop running
-                    this->speed /= 2;
-
+                else if(e.button == "X"){
+                    if(character == Config::CHARACTER::BRO){
+                        // stop running
+                        this->speed /= 2;
+                    }
+                } 
                 if(this->direction.y <= -1) {
                     curr = &walk_up;
                 }
@@ -322,7 +389,9 @@ void Character::onGamepadEvent(GamepadEvent e)
                     }
                 }
                 if(e.button == "X"){ // run
-                    this->speed *= 2;
+                    if(character == Config::CHARACTER::BRO){
+                        this->speed *= 2;
+                    }
                 }
 
                 if(e.button == "A"){ // perform an action
