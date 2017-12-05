@@ -90,7 +90,7 @@ void Character::checkClues(){
     std::vector<std::shared_ptr<Clue>> entities = entity_group->getClues();
     for(auto it = entities.begin(); it != entities.end(); it++){
         std::shared_ptr<Clue> c = *it;
-        
+
         if(c->hbox.intersects(this->hbox)){
             // std::cout << c->hbox.top + c->hbox.height - this->hbox.top << std::endl;
             if(this->hbox.left + this->hbox.width - c->hbox.left >= 0 && this->hbox.left + this->hbox.width - c->hbox.left <= 4){
@@ -127,8 +127,8 @@ void Character::onUpdate(float dt)
     float dx = this->direction.x * speed * dt;
     float dy = this->direction.y * speed * dt;
 
-    // check if inside any room 
-    if(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height)) && health > 0){  
+    // check if inside any room
+    if(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height)) && health > 0){
         this->checkClues();
         if(this->stopLeft == true && dx < 0){
             dx = 0;
@@ -153,7 +153,7 @@ void Character::onUpdate(float dt)
         std::cout << "invul removed" << std::endl;
         this->invul = false;
         isStarted = false;
-        
+
     }
     if(health <= 0){
         curr = &death_animation;
@@ -280,9 +280,23 @@ void Character::onGamepadEvent(GamepadEvent e)
                 if(e.button == "X"){ // run
                     this->speed *= 2;
                 }
-                if(e.button == "A"){
-                    this->attack();
+
+                if(e.button == "A"){ // perform an action
+                    if(this->currentClue && readClue == false){
+                        // open clue
+                        readClue = true;
+                        std::cout << "CLUE " << readClue << std::endl;
+                    }
+                    else if(this->currentClue && readClue == false){
+                        // close clue
+                        readClue = false;
+                        std::cout << "CLUE " << readClue << std::endl;
+                    }
+                    else{
+                        this->attack();
+                    }
                 }
+
                 break;
         }
     }

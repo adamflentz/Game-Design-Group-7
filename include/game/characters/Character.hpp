@@ -19,7 +19,7 @@
 //
 ////////////////
 
-class Character: public GameObject 
+class Character: public GameObject
 {
 public:
     Character(){};
@@ -28,7 +28,7 @@ public:
     * Stores the room group.
     *   *note*
     *       Having this stored here is dangerous. There's a small possibility that we might
-    *       accidentally delete it before the character is done with it. 
+    *       accidentally delete it before the character is done with it.
     *       We might consider storing a reference to the GameplayScreen (which houses the RoomGroup)
     *       and then "asking" politely for the RoomGroup when we need it.
     */
@@ -37,7 +37,7 @@ public:
     void setPlayerNumber(int number){player_number = number;};
     
     /**
-    * Captures gamepad events and updates the state of our 
+    * Captures gamepad events and updates the state of our
     * character accordingly
     */
     virtual void onGamepadEvent(GamepadEvent e);
@@ -64,6 +64,8 @@ public:
     void checkVillain();
     void attack();
     virtual bool isVillain(){return false;};
+    bool readClue;
+    
 protected:
     std::shared_ptr<Clue> currentClue;
     int gamepad_index = -1;
@@ -77,7 +79,7 @@ protected:
     // The current animation
     SpriteAnimation* curr;
     SpriteAnimation* ow;
-    // create 4 sprite animations representing walking 
+    // create 4 sprite animations representing walking
     // in the 4 cardinal directions
     SpriteAnimation walk_up;
     SpriteAnimation walk_down;
