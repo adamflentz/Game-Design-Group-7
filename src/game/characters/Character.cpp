@@ -191,7 +191,7 @@ void Character::onUpdate(float dt)
         isStarted = true;
     }
     // std::cout << (int) clock.getElapsedTime().asSeconds() << std::endl;
-    if((int)this->clock.getElapsedTime().asSeconds() == 3 && this->invul == true){
+    if(this->clock.getElapsedTime().asSeconds() >= 3 && this->invul == true){
         std::cout << "invul removed" << std::endl;
         this->invul = false;
         isStarted = false;
