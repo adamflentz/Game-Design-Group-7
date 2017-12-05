@@ -15,7 +15,7 @@
             <name>sword</name>
             <type>blades</type>
             <clues>
-                <specific>X's medieval sword was the most dangerous item in the house.</specific>
+                <specific>X's sword was the very dangerous.</specific>
                 <vague>X collected prized antique weapons.</vague>
                 <worthless>Nothing was found.</worthless>
             </clues>
@@ -24,7 +24,7 @@
             <name>hose</name>
             <type>water</type>
             <clues>
-                <specific>X drowned in a well. Might not enjoy being wet...</specific>
+                <specific>X drowned in a well.</specific>
                 <vague>X drowned in a well.</vague>
                 <worthless>Nothing was found.</worthless>
             </clues>
@@ -44,8 +44,8 @@
             <name>dagger</name>
             <type>blades</type>
             <clues>
-                <specific>If you use a dagger against X, you must be fast.</specific>
-                <vague>Be careful, X lost a dagger around here somewhere...</vague>
+                <specific>Use a dagger against X.</specific>
+                <vague>Be careful, X lost a dagger.</vague>
                 <worthless>Nothing was found.</worthless>
             </clues>
         </item>
