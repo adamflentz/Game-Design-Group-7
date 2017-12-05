@@ -34,17 +34,42 @@ void GameplayScreen::createClues()
     PlantSeeds(-1); // for random in clue reader
     reader.readFile("../resources/items.xml");
     reader.selectItems();
-
+    // std::cout << group.rooms.size() << std::endl;
+    for(auto it = group.rooms.begin(); it != group.rooms.end(); it++){
+        std::shared_ptr<Room> r = *it;
+        std::cout << r->room_setup << std::endl;
+        std::cout << r->clueCoordinates.size() << std:: endl;
+        for(auto j = r->clueCoordinates.begin(); j != r->clueCoordinates.end(); j++){
+            clue = std::make_shared<Clue>();
+            clue->setRoomGroup(&group);
+            clue->setEntities(&entity_group);
+            // std::cout << "success" << std::endl;
+            clue->clueSpec = reader.getCluesSpec()[0];
+            clue->clueVague = reader.getCluesVague()[0];
+            clue->clueWorthless = reader.getCluesWorthless()[0];
+            int x = (*it)->rect.getPosition().x + (32 * (*j));
+            std::cout << x;
+            std::cout << " ";
+            j++;
+            int y = (*it)->rect.getPosition().y + (32 * (*j));
+            std::cout << y;
+            std::cout << " ";
+            j++;
+            int width = 32 * (*j);
+            std::cout << width;
+            std::cout << " ";
+            j++;
+            int height = 32 * (*j);
+            std::cout << height << std::endl;
+            clue->setCoordinates(x, y, width, height);
+            clue->init();
+            entity_group.addClue(std::move(clue));
+        }
+    }
     for(int i = 0; i < reader.getCluesSpec().size(); i++){
-        clue = std::make_shared<Clue>();
-        clue->setRoomGroup(&group);
-        clue->setEntities(&entity_group);
-        clue->clueSpec = reader.getCluesSpec()[i];
-        clue->clueVague = reader.getCluesVague()[i];
-        clue->init();
 
         // add clues to our clue entity group
-        entity_group.addClue(std::move(clue));
+       
     }
 }
 

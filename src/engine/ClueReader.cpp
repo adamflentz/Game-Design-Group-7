@@ -46,6 +46,7 @@ void ClueReader::selectItems() {
     itemHigh.type = itemH->first_node("type")->value();
     cluesSpec.push_back(itemH->first_node("clues")->first_node("specific")->value());
     cluesVague.push_back(itemH->first_node("clues")->first_node("vague")->value());
+    cluesWorthless.push_back(itemH->first_node("clues")->first_node("worthless")->value());
 
     // select a random low damage item
     int randL = Equilikely(0, getNumChild(root->first_node("low") - 1));
@@ -60,6 +61,7 @@ void ClueReader::selectItems() {
     itemLow.type = itemL->first_node("type")->value();
     cluesSpec.push_back(itemL->first_node("clues")->first_node("specific")->value());
     cluesVague.push_back(itemL->first_node("clues")->first_node("vague")->value());
+    cluesWorthless.push_back(itemL->first_node("clues")->first_node("worthless")->value());
 
     // populate info
     xml_node<> *list = root->first_node("info")->first_node(itemHigh.type.c_str());
@@ -84,6 +86,10 @@ std::vector<std::string> ClueReader::getCluesSpec() {
 
 std::vector<std::string> ClueReader::getCluesVague() {
     return cluesVague;
+}
+
+std::vector<std::string> ClueReader::getCluesWorthless() {
+    return cluesWorthless;
 }
 
 Item ClueReader::getItemHigh() {

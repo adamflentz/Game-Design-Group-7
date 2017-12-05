@@ -127,6 +127,7 @@ void Character::checkVillain(){
 }
 void Character::checkClues(){
     std::vector<std::shared_ptr<Clue>> entities = entity_group->getClues();
+    // std::cout << entities.size() << std::endl;
     for(auto it = entities.begin(); it != entities.end(); it++){
         std::shared_ptr<Clue> c = *it;
 
@@ -150,6 +151,7 @@ void Character::checkClues(){
             }
             this->currentClue = c;
             this->hbox.setColor(sf::Color::Green);
+            break;
         }
         else{
             this->stopLeft = false;
