@@ -26,12 +26,10 @@ void GameplayScreen::init()
 
 void GameplayScreen::createClues()
 {
-    PlantSeeds(-1);
-    ClueReader reader;
+    PlantSeeds(-1); // for random in clue reader
     reader.readFile("../resources/items.xml");
     reader.selectItems();
 
-   
     for(int i = 0; i < reader.getCluesSpec().size(); i++){
         clue = std::make_shared<Clue>();
         clue->setRoomGroup(&group);

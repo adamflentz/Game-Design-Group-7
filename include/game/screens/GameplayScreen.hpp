@@ -33,6 +33,7 @@ public:
     void init();
     void onUpdate(float dt);
     void onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const;
+    std::vector<std::shared_ptr<Clue>> clues;
 protected:
     void createViews(int numPlayers);
     void createClues();
@@ -45,5 +46,5 @@ protected:
     std::shared_ptr<Villain> ghost;
     std::shared_ptr<Clue> clue;
     EntityGroup entity_group;
-    EntityGroup clue_group;
+    ClueReader reader;
 };
