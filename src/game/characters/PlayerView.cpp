@@ -53,12 +53,14 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     // draw the current view
     target.setView(v);
-
-    if(rooms)
+    // draw the rooms
+    if(rooms){
         target.draw(*rooms);
+    }
     // draw the entity group
-    if(entity_group)
+    if(entity_group){
         target.draw(*entity_group);
+    }
     // draw the HUD
     target.setView(HUD);
     target.draw(itemBar);

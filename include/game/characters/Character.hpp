@@ -56,7 +56,9 @@ public:
     int health;
     int maxHealth;
     bool invul;
+    void checkClues();
 protected:
+    std::shared_ptr<Clue> currentClue;
     int gamepad_index = -1;
     double speed = 120;
     RoomGroup* g;
@@ -74,6 +76,10 @@ protected:
     SpriteAnimation walk_down;
     SpriteAnimation walk_left;
     SpriteAnimation walk_right;
+    bool stopUp;
+    bool stopDown;
+    bool stopLeft;
+    bool stopRight;
     SpriteAnimation death_animation;
     sf::Clock clock;
     bool isStarted;
