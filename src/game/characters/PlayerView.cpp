@@ -41,6 +41,7 @@ void PlayerView::onUpdate(float dt)
 
 void PlayerView::setView(sf::FloatRect dimensions, sf::FloatRect viewport)
 {
+    viewDimensions = dimensions;
     v.reset(dimensions);
     v.setViewport(viewport);
     HUD.reset(dimensions);
@@ -75,7 +76,7 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
     }
     // std::cout << entity_group->getCharacter(playernumber)->maxHealth << std::endl;
     for(int i = 0; i < entity_group->getCharacter(playernumber)->maxHealth; i++){
-        sf::Sprite heart;   
+        sf::Sprite heart;
         heart.setTexture(heartTexture);
         if(entity_group->getCharacter(playernumber)->health > i){
             heart.setTextureRect(sf::IntRect(0, 0, 300, 300));
@@ -90,11 +91,18 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 
     // draw a clue
     if(entity_group->getCharacter(playernumber)->readClue == true){
+        // background box
+        sf::RectangleShape bgBox;
+        sf::Vector2f v(viewDimensions.width - 40, 40);
+        bgBox.setSize(v);
+        bgBox.setFillColor(sf::Color::Black);
+        bgBox.setPosition(20, viewDimensions.height - 60);
+
+        // text
         std::string t;
         if(entity_group->getCharacter(playernumber)->currentClue != NULL){
             t = entity_group->getCharacter(playernumber)->currentClue->clueSpec;
         }
-        
 
         sf::Text clueText;
         clueText.setFont(*ResourceManager::getFont("../resources/fonts/Underdog-Regular.ttf"));
@@ -104,8 +112,9 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
         clueText.setCharacterSize(24);
         clueText.setColor(sf::Color::White);
         clueText.setStyle(sf::Text::Bold);
-        clueText.setPosition(100, 100);
+        clueText.setPosition(30, viewDimensions.height - 55);
 
+        target.draw(bgBox);
         target.draw(clueText);
     }
 }
