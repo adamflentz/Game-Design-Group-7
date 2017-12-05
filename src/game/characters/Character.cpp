@@ -3,6 +3,7 @@
 #include <string>
 #include <set>
 #include "game/characters/Character.hpp"
+#include "game/characters/Villain.hpp"
 
 void Character::init()
 {
@@ -55,7 +56,39 @@ void Character::init()
     maxHealth = 3;
     invul = false;
 }
-
+void Character::checkVillain(){
+    std::vector<std::shared_ptr<Character>> entities = entity_group->getCharacters();
+    for(auto it = entities.begin(); it != entities.end(); it++){
+        std::shared_ptr<Character> c = *it;
+        // std::cout << this->hbox.left + this->hbox.width + 32;
+        // std::cout << " ";
+        if(c->isVillain() == true){
+            if((c->hbox) == this->hbox){continue;}
+            // std::cout << c->hbox.left << std::endl;
+            if(curr == &walk_right && this->hbox.left + this->hbox.width + 32 > c->hbox.left && this->hbox.left + this->hbox.width < c->hbox.left &&
+            c->hbox.top >= this->hbox.top - 20 && c->hbox.top <= this->hbox.top + 36){
+                std::cout << "hiyah" << std::endl;
+                c->hurt();
+            }
+            if(curr == &walk_left && this->hbox.left - 32 < c->hbox.left + c->hbox.width &&
+                c->hbox.top >= this->hbox.top - 20 && c->hbox.top <= this->hbox.top + 36){
+                std::cout << "hiyah" << std::endl;
+                c->hurt();
+            }
+            if(curr == &walk_up && this->hbox.top + this->hbox.height + 32 > c->hbox.height &&
+            c->hbox.left >= this->hbox.left - 20 && c->hbox.top <= this->hbox.left + 36){
+                std::cout << "hiyah" << std::endl;
+                c->hurt();
+             }
+            if(curr == &walk_down && this->hbox.top - 32 < c->hbox.top + c->hbox.height &&
+                c->hbox.left >= this->hbox.left - 20 && c->hbox.top <= this->hbox.left + 36){
+                std::cout << "hiyah" << std::endl;
+                c->hurt();
+            }
+            // std::cout << c->health << std::endl;
+        }
+    }
+}
 void Character::checkClues(){
     std::vector<std::shared_ptr<Clue>> entities = entity_group->getClues();
     for(auto it = entities.begin(); it != entities.end(); it++){
@@ -63,19 +96,19 @@ void Character::checkClues(){
 
         if(c->hbox.intersects(this->hbox)){
             // std::cout << c->hbox.top + c->hbox.height - this->hbox.top << std::endl;
-            if(this->hbox.left + this->hbox.width - c->hbox.left == 2){
+            if(this->hbox.left + this->hbox.width - c->hbox.left >= 0 && this->hbox.left + this->hbox.width - c->hbox.left <= 4){
                 this->stopRight = true;
                 // std::cout << "stop right" << std::endl;
             }
-            else if(c->hbox.left + c->hbox.width - this->hbox.left == 2){
+            else if(c->hbox.left + c->hbox.width - this->hbox.left >= 0 && c->hbox.left + c->hbox.width - this->hbox.left <= 4){
                 this->stopLeft = true;
                 // std::cout << "stop left" << std::endl;
             }
-            else if(c->hbox.top + c->hbox.height - this->hbox.top == 2 ){
+            else if(c->hbox.top + c->hbox.height - this->hbox.top >= 0 && c->hbox.top + c->hbox.height - this->hbox.top <= 4){
                 this->stopUp = true;
                 // std::cout << "stop up" << std::endl;
             }
-            else if(this->hbox.top + this->hbox.height - c->hbox.top   == 2){
+            else if(this->hbox.top + this->hbox.height - c->hbox.top >= 0 && this->hbox.top + this->hbox.height - c->hbox.top <= 4){
                 this->stopDown = true;
                 // std::cout << "stop down" << std::endl;
             }
@@ -167,6 +200,10 @@ void Character::hurt(){
     this->invul = true;
 }
 
+void Character::attack(){
+    this->checkVillain();
+}
+
 /**
 * Draws the characters
 */
@@ -247,6 +284,22 @@ void Character::onGamepadEvent(GamepadEvent e)
                     this->speed *= 2;
                 }
 
+                if(e.button == "A"){ // perform an action
+                    std::cout << this->currentClue << std::endl;
+                    if(this->currentClue && readClue == false){
+                        // open clue
+                        readClue = true;
+                        // std::cout << "CLUE " << readClue << std::endl;
+                    }
+                    else if(this->currentClue && readClue == false){
+                        // close clue
+                        readClue = false;
+                        std::cout << "CLUE " << readClue << std::endl;
+                    }
+                    else{
+                        this->attack();
+                    }
+                }
 
                 break;
         }
