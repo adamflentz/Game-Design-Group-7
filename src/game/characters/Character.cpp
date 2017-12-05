@@ -57,11 +57,11 @@ void Character::checkVillain(){
     std::vector<std::shared_ptr<Character>> entities = entity_group->getCharacters();
     for(auto it = entities.begin(); it != entities.end(); it++){
         std::shared_ptr<Character> c = *it;
-        std::cout << this->hbox.left + this->hbox.width + 32;
-        std::cout << " ";
+        // std::cout << this->hbox.left + this->hbox.width + 32;
+        // std::cout << " ";
         if(c->isVillain() == true){
             if((c->hbox) == this->hbox){continue;}
-            std::cout << c->hbox.left << std::endl;
+            // std::cout << c->hbox.left << std::endl;
             if(curr == &walk_right && this->hbox.left + this->hbox.width + 32 > c->hbox.left && this->hbox.left + this->hbox.width < c->hbox.left &&
             c->hbox.top >= this->hbox.top - 20 && c->hbox.top <= this->hbox.top + 36){
                 std::cout << "hiyah" << std::endl;
@@ -282,10 +282,11 @@ void Character::onGamepadEvent(GamepadEvent e)
                 }
 
                 if(e.button == "A"){ // perform an action
+                    std::cout << this->currentClue << std::endl;
                     if(this->currentClue && readClue == false){
                         // open clue
                         readClue = true;
-                        std::cout << "CLUE " << readClue << std::endl;
+                        // std::cout << "CLUE " << readClue << std::endl;
                     }
                     else if(this->currentClue && readClue == false){
                         // close clue
