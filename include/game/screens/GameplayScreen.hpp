@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
+#include <vector>
 #include "engine/Engine.hpp"
 #include "game/characters/Character.hpp"
 #include "game/characters/Villain.hpp"
@@ -34,6 +35,7 @@ public:
     void onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const;
 protected:
     void createViews(int numPlayers);
+    void createClues();
     int numplayers = 1;
     // A map of entities (characters)
     // Entity 0 is the ghost

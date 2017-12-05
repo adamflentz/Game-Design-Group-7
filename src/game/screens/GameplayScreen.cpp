@@ -1,5 +1,6 @@
 #include "game/screens/GameplayScreen.hpp"
 #include "engine/Random.hpp"
+#include "engine/ClueReader.hpp"
 #include "game/characters/Character.hpp"
 #include "game/characters/Villain.hpp"
 #include "game/objects/Clue.hpp"
@@ -11,10 +12,7 @@ void GameplayScreen::init()
     numplayers = 1;
     group.generateRoomGrid(8);
 
-    clue = std::make_shared<Clue>();
-    clue->setRoomGroup(&group);
-    clue->init();
-
+    this->createClues();
     this->createViews(numplayers);
     // Create the ghost (this could easily be another function)
     // this->createVillain()
@@ -24,6 +22,26 @@ void GameplayScreen::init()
     ghost->setEntities(&entity_group);
     entity_group.addCharacter(std::move(ghost));
     entity_group.init();
+}
+
+void GameplayScreen::createClues()
+{
+    PlantSeeds(-1);
+    ClueReader reader;
+    reader.readFile("../resources/items.xml");
+    reader.selectItems();
+
+    std::vector<Clue> clues;
+    for(int i = 0; i < reader.getCluesSpec().size(); i++){
+        clue = std::make_shared<Clue>();
+        clue->setRoomGroup(&group);
+        clue->setEntities(&entity_group);
+        clue->clueSpec = reader.getCluesSpec()[i];
+        clue->clueVague = reader.getCluesVague()[i];
+        clue->init();
+
+        clues.push_back(clue);
+    }
 }
 
 void GameplayScreen::createViews(int numPlayers)
