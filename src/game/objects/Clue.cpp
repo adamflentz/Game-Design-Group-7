@@ -6,20 +6,23 @@
 
 void Clue::init()
 {
-    // scroll hardcoded inside first room for now
-    int xPos = g->rooms.front()->getPosition().x + (128 - 16);
-    int yPos = g->rooms.front()->getPosition().y + (80 - 24);
+    SelectStream(1); // used for random
+    int rand = Equilikely(0, 2); //lower and upper bound
     this->setPosition(xPos, yPos);
 
-    texture.loadFromFile("../resources/sprites/scroll.png");
-    sprite.setTexture(texture);
-
-    hbox = Hitbox(xPos, yPos, 32, 32); // x y w h
+    hbox = Hitbox(xPos, yPos, width, height); // x y w h
     hbox.follow(this);
     hbox.init();
     this->hbox.setColor(sf::Color::Yellow);
 
     isOpen = false;
+}
+
+void Clue::setCoordinates(int x, int y, int w, int h){
+    this->xPos = x;
+    this->yPos = y;
+    this->width = w;
+    this->height = h;
 }
 
 // void Clue::checkCollisions()
@@ -61,15 +64,4 @@ void Clue::open()
 void Clue::close()
 {
     isOpen = false;
-}
-
-void Clue::onGamepadEvent(GamepadEvent e)
-{
-    if (GamepadEvent::TYPE::RELEASED && e.button == "B") {
-        if (isOpen == false) {
-            open();
-        } else {
-            close();
-        }
-    }
 }

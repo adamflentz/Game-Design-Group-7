@@ -30,9 +30,12 @@ public:
     void chase();
     void returnToCenter();
     void setDirection();
+    void hurt();
     bool checkCharacters();
+    bool isVillain(){return true;};
 protected:
     int randint;
+    int health;
     std:: string previousString;
     std::vector<std::string> possiblerooms;
     int roomCenterX;

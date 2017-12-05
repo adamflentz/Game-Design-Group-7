@@ -20,6 +20,13 @@ void GameplayScreen::init()
     entity_group.init();
     // Create the ghost (this could easily be another function)
     // this->createVillain()
+    ghost = std::make_shared<Villain>();
+    ghost->setPlayerNumber(-1);
+    ghost->setRoomGroup(&group);
+    ghost->setEntities(&entity_group);
+    entity_group.addCharacter(std::move(ghost));
+    entity_group.init();
+    // std::cout << group.rooms.size() << std::endl;
 }
 
 void GameplayScreen::createClues()
@@ -27,17 +34,42 @@ void GameplayScreen::createClues()
     PlantSeeds(-1); // for random in clue reader
     reader.readFile("../resources/items.xml");
     reader.selectItems();
-
+    // std::cout << group.rooms.size() << std::endl;
+    for(auto it = group.rooms.begin(); it != group.rooms.end(); it++){
+        std::shared_ptr<Room> r = *it;
+        std::cout << r->room_setup << std::endl;
+        std::cout << r->clueCoordinates.size() << std:: endl;
+        for(auto j = r->clueCoordinates.begin(); j != r->clueCoordinates.end(); j++){
+            clue = std::make_shared<Clue>();
+            clue->setRoomGroup(&group);
+            clue->setEntities(&entity_group);
+            // std::cout << "success" << std::endl;
+            clue->clueSpec = reader.getCluesSpec()[0];
+            clue->clueVague = reader.getCluesVague()[0];
+            clue->clueWorthless = reader.getCluesWorthless()[0];
+            int x = (*it)->rect.getPosition().x + (32 * (*j));
+            std::cout << x;
+            std::cout << " ";
+            j++;
+            int y = (*it)->rect.getPosition().y + (32 * (*j));
+            std::cout << y;
+            std::cout << " ";
+            j++;
+            int width = 32 * (*j);
+            std::cout << width;
+            std::cout << " ";
+            j++;
+            int height = 32 * (*j);
+            std::cout << height << std::endl;
+            clue->setCoordinates(x, y, width, height);
+            clue->init();
+            entity_group.addClue(std::move(clue));
+        }
+    }
     for(int i = 0; i < reader.getCluesSpec().size(); i++){
-        clue = std::make_shared<Clue>();
-        clue->setRoomGroup(&group);
-        clue->setEntities(&entity_group);
-        clue->clueSpec = reader.getCluesSpec()[i];
-        clue->clueVague = reader.getCluesVague()[i];
-        clue->init();
 
         // add clues to our clue entity group
-        entity_group.addClue(std::move(clue));
+       
     }
 }
 
@@ -71,7 +103,16 @@ void GameplayScreen::createViews(int numPlayers)
         // Map i to a 2d array [2][2]
         int x = i % 2;
         int y = i / 2;
-        int playernum = i;
+        int playernum = i + 1; // Player Numbers start at 1 
+        // Find the gamepad by the player number 
+        int gamepad_index = -1;
+        for(auto it = config->player_map.begin(); it != config->player_map.end(); it++){
+            if( it->second == playernum ){
+                gamepad_index = it->first;
+                break;
+            }
+        }
+
         view = std::unique_ptr<PlayerView>(new PlayerView());
         view->setRoomGroup(&group);
         // Define player view (using math)
@@ -84,7 +125,9 @@ void GameplayScreen::createViews(int numPlayers)
         character->setRoomGroup(&group);
         character->setPlayerNumber(playernum);
         character->setEntities(&entity_group);
-
+        // Hope that it isn't possible for this to throw an error!
+        character->setCharacter(config->char_map[playernum]);
+        character->setGamepadIndex(gamepad_index);
         // Add player to our entities map
         entity_group.addCharacter(std::move(character));
         view->setEntities(&entity_group);

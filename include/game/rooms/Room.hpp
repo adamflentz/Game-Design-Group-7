@@ -14,6 +14,8 @@ public:
     sf::RectangleShape rect;
     sf::Sprite room_sprite;
     sf::Texture roomTexture;
+    std::list<int> clueCoordinates;
+    std::string room_setup;
     Hitbox hbox;
     void setRoomType(int type);
     int  getRoomType(int type) { return room_type; };

@@ -3,13 +3,42 @@
 #include <string>
 #include <set>
 #include "game/characters/Character.hpp"
+#include "game/characters/Villain.hpp"
 
 void Character::init()
 {
     this->direction = sf::Vector2f(0,0);
     this->setOrigin(16, 16);
+    int sprite_location = -1;
+    std::cout << "Player Number: " << this->player_number << " is Character ";
+    switch(character){
+        case Config::CHARACTER::MOM:
+            std::cout << "Mom" << std::endl;
+            sprite_location = 0;
+            break;
+        case Config::CHARACTER::SIS:
+            std::cout << "SIS" << std::endl;
+            sprite_location = 1;
+            break;
+        case Config::CHARACTER::BRO:
+            std::cout << "BRO" << std::endl;
+            sprite_location = 2;
+            break;
+        case Config::CHARACTER::DAD:
+            std::cout << "DAD" << std::endl;
+            sprite_location = 3;
+            break;
+    }
+    // int sprite_location = static_cast<int>(character);
+    int x = ((sprite_location) % 2);
+    int y = ((sprite_location) / 2);
+    int mod = 3 * x + 24 * y;
+
+    std::cout << x << " " << y << std::endl;
+
     // Make sure player starts inside first room(?)
     // could also make them start inside a random room
+
     this->setPosition(
       g->getRoom(0)->hbox.left + 20 + (32 * player_number),
       g->getRoom(0)->hbox.top + 20);
@@ -20,21 +49,29 @@ void Character::init()
     // v.setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
     // v.setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
     // load the sprite map
-    sprite_map.loadFromFile("../resources/sprites/rando.png");
+    sprite_map.loadFromFile("../resources/sprites/character_sheet.png");
     // add animation frames
-    std::vector< std::vector<int> > down_frames = { {1}, {2}, {1}, {0} };
+    std::vector< std::vector<int> > down_frames = {
+        {mod +  1}, {mod + 2}, {mod + 1}, { mod + 0}
+    };
     walk_down.setSpriteSheet(sprite_map);
     walk_down.addFrames(down_frames, 32, 32);
 
-    std::vector< std::vector<int> > left_frames = { {4}, {5}, {4}, {3} };
+    std::vector< std::vector<int> > left_frames = {
+        {7 + mod}, {8 + mod}, {7 + mod}, {6 + mod}
+    };
     walk_left.setSpriteSheet(sprite_map);
     walk_left.addFrames(left_frames, 32, 32);
 
-    std::vector< std::vector<int> > right_frames = { {7}, {8}, {7}, {6} };
+    std::vector< std::vector<int> > right_frames = {
+        {13 + mod}, {14 + mod}, {13 + mod}, {12 + mod}
+    };
     walk_right.setSpriteSheet(sprite_map);
     walk_right.addFrames(right_frames, 32, 32);
 
-    std::vector< std::vector<int> > up_frames = { {10}, {11}, {10}, {9} };
+    std::vector< std::vector<int> > up_frames = {
+        {19 + mod}, {20 + mod}, {19 + mod}, {18 + mod}
+    };
     walk_up.setSpriteSheet(sprite_map);
     walk_up.addFrames(up_frames, 32, 32);
     // set death sprite
@@ -55,32 +92,66 @@ void Character::init()
     maxHealth = 3;
     invul = false;
 }
-
+void Character::checkVillain(){
+    std::vector<std::shared_ptr<Character>> entities = entity_group->getCharacters();
+    for(auto it = entities.begin(); it != entities.end(); it++){
+        std::shared_ptr<Character> c = *it;
+        // std::cout << this->hbox.left + this->hbox.width + 32;
+        // std::cout << " ";
+        if(c->isVillain() == true){
+            if((c->hbox) == this->hbox){continue;}
+            // std::cout << c->hbox.left << std::endl;
+            if(curr == &walk_right && this->hbox.left + this->hbox.width + 32 > c->hbox.left && this->hbox.left + this->hbox.width < c->hbox.left &&
+            c->hbox.top >= this->hbox.top - 20 && c->hbox.top <= this->hbox.top + 36){
+                std::cout << "hiyah" << std::endl;
+                c->hurt();
+            }
+            if(curr == &walk_left && this->hbox.left - 32 < c->hbox.left + c->hbox.width &&
+                c->hbox.top >= this->hbox.top - 20 && c->hbox.top <= this->hbox.top + 36){
+                std::cout << "hiyah" << std::endl;
+                c->hurt();
+            }
+            if(curr == &walk_up && this->hbox.top + this->hbox.height + 32 > c->hbox.height &&
+            c->hbox.left >= this->hbox.left - 20 && c->hbox.top <= this->hbox.left + 36){
+                std::cout << "hiyah" << std::endl;
+                c->hurt();
+             }
+            if(curr == &walk_down && this->hbox.top - 32 < c->hbox.top + c->hbox.height &&
+                c->hbox.left >= this->hbox.left - 20 && c->hbox.top <= this->hbox.left + 36){
+                std::cout << "hiyah" << std::endl;
+                c->hurt();
+            }
+            // std::cout << c->health << std::endl;
+        }
+    }
+}
 void Character::checkClues(){
     std::vector<std::shared_ptr<Clue>> entities = entity_group->getClues();
+    // std::cout << entities.size() << std::endl;
     for(auto it = entities.begin(); it != entities.end(); it++){
         std::shared_ptr<Clue> c = *it;
 
         if(c->hbox.intersects(this->hbox)){
             // std::cout << c->hbox.top + c->hbox.height - this->hbox.top << std::endl;
-            if(this->hbox.left + this->hbox.width - c->hbox.left == 2){
+            if(this->hbox.left + this->hbox.width - c->hbox.left >= 0 && this->hbox.left + this->hbox.width - c->hbox.left <= 4){
                 this->stopRight = true;
                 // std::cout << "stop right" << std::endl;
             }
-            else if(c->hbox.left + c->hbox.width - this->hbox.left == 2){
+            else if(c->hbox.left + c->hbox.width - this->hbox.left >= 0 && c->hbox.left + c->hbox.width - this->hbox.left <= 4){
                 this->stopLeft = true;
                 // std::cout << "stop left" << std::endl;
             }
-            else if(c->hbox.top + c->hbox.height - this->hbox.top == 2 ){
+            else if(c->hbox.top + c->hbox.height - this->hbox.top >= 0 && c->hbox.top + c->hbox.height - this->hbox.top <= 4){
                 this->stopUp = true;
                 // std::cout << "stop up" << std::endl;
             }
-            else if(this->hbox.top + this->hbox.height - c->hbox.top   == 2){
+            else if(this->hbox.top + this->hbox.height - c->hbox.top >= 0 && this->hbox.top + this->hbox.height - c->hbox.top <= 4){
                 this->stopDown = true;
                 // std::cout << "stop down" << std::endl;
             }
             this->currentClue = c;
             this->hbox.setColor(sf::Color::Green);
+            break;
         }
         else{
             this->stopLeft = false;
@@ -88,6 +159,7 @@ void Character::checkClues(){
             this->stopUp = false;
             this->stopDown = false;
             this->currentClue = NULL;
+            readClue = false;
         }
     }
 }
@@ -165,6 +237,10 @@ void Character::checkCollisions()
 void Character::hurt(){
     this->health--;
     this->invul = true;
+}
+
+void Character::attack(){
+    this->checkVillain();
 }
 
 /**
@@ -247,6 +323,18 @@ void Character::onGamepadEvent(GamepadEvent e)
                     this->speed *= 2;
                 }
 
+                if(e.button == "A"){ // perform an action
+                    std::cout << this->currentClue << std::endl;
+                    if(this->currentClue && readClue == false){
+                        readClue = true; // open clue
+                    }
+                    else if(this->currentClue && readClue == true){
+                        readClue = false; // close clue
+                    }
+                    else{
+                        this->attack();
+                    }
+                }
 
                 break;
         }

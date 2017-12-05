@@ -8,6 +8,7 @@
             <clues>
                 <specific>X died in a fire.</specific>
                 <vague>There are scorch marks in the house.</vague>
+                <worthless>Nothing was found.</worthless>
             </clues>
         </item>
         <item>
@@ -16,6 +17,7 @@
             <clues>
                 <specific>X's medieval sword was the most dangerous item in the house.</specific>
                 <vague>X collected prized antique weapons.</vague>
+                <worthless>Nothing was found.</worthless>
             </clues>
         </item>
         <item>
@@ -24,6 +26,7 @@
             <clues>
                 <specific>X drowned in a well. Might not enjoy being wet...</specific>
                 <vague>X drowned in a well.</vague>
+                <worthless>Nothing was found.</worthless>
             </clues>
         </item>
     </high>
@@ -34,6 +37,7 @@
             <clues>
                 <specific>X is detered by candles.</specific>
                 <vague>X is accustomed to the dark.</vague>
+                <worthless>Nothing was found.</worthless>
             </clues>
         </item>
         <item>
@@ -42,6 +46,7 @@
             <clues>
                 <specific>If you use a dagger against X, you must be fast.</specific>
                 <vague>Be careful, X lost a dagger around here somewhere...</vague>
+                <worthless>Nothing was found.</worthless>
             </clues>
         </item>
         <item>
@@ -50,6 +55,7 @@
             <clues>
                 <specific>X does not like water.</specific>
                 <vague>X didn't enjoy swimming.</vague>
+                <worthless>Nothing was found.</worthless>
             </clues>
         </item>
     </low>

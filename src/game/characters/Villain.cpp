@@ -42,6 +42,7 @@ void Villain::init()
     isChasing = false;
     needsCentering = false;
     fastSpeed = false;
+    health = 3;
 }
 
 void Villain::onUpdate(float dt)
@@ -117,6 +118,38 @@ bool Villain::checkCharacters(){
         }
     }
     return false;
+}
+
+void Villain::hurt(){
+    health--;
+    this->randint = rand() % this->g->rooms.size();
+    int count = 0;
+    this->direction.x = 0;
+    this->direction.y = 0;
+    // std::cout << randint << std::endl;
+    std::cout << randint << std::endl;
+    for(auto rmit = g->rooms.begin(); rmit != g->rooms.end(); rmit++){
+        if(count == randint){
+            if((*rmit)->hbox == g->getRoom(this->hbox)){
+                this->randint = rand() % this->g->rooms.size();
+                rmit = g->rooms.begin();
+                count = 0;
+            }
+            else{
+                if(fastSpeed == true){
+                    speed /= 1.5;
+                    fastSpeed = false;
+                }
+                std::cout << "escape" << std::endl;
+                this->setPosition((*rmit)->hbox.left + (512/2) - 16, (*rmit)->hbox.top   + (384 / 2) - 24);
+                this->possiblerooms.clear();
+                this->setDirection();
+                break;
+            }
+        }
+        count++;
+    }
+
 }
 void Villain::returnToCenter(){
     if(fastSpeed == true){
@@ -254,7 +287,7 @@ void Villain::chase()
             c->hurt();
             this->randint = rand() % this->g->rooms.size();
             int count = 0;
-            std::cout << randint << std::endl;
+            // std::cout << randint << std::endl;
             for(auto rmit = g->rooms.begin(); rmit != g->rooms.end(); rmit++){
                 if(count == randint){
                     if((*rmit)->hbox == g->getRoom(this->hbox)){

@@ -22,7 +22,7 @@ void PlayerView::init()
         // Cast to gamepad event
         auto gpe = dynamic_cast< GamepadEvent& >(*e);
         // Check that the index matches our player
-        if(gpe.index == playernumber){
+        if(gpe.index == entity_group->getCharacter(playernumber)->getGamepadIndex()){
             // Call our listener function personally
             entity_group->getCharacter(playernumber)->onGamepadEvent(gpe);
         }
@@ -44,6 +44,7 @@ void PlayerView::onUpdate(float dt)
 
 void PlayerView::setView(sf::FloatRect dimensions, sf::FloatRect viewport)
 {
+    viewDimensions = dimensions;
     v.reset(dimensions);
     v.setViewport(viewport);
     HUD.reset(dimensions);
@@ -89,5 +90,34 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
         heart.scale(sf::Vector2f(0.1, 0.1));
         heart.setPosition(i * 30, 0);
         target.draw(heart);
+    }
+
+    // draw a clue
+    if(entity_group->getCharacter(playernumber)->readClue == true){
+        // background box
+        sf::RectangleShape bgBox;
+        sf::Vector2f v(viewDimensions.width - 40, 40);
+        bgBox.setSize(v);
+        bgBox.setFillColor(sf::Color::Black);
+        bgBox.setPosition(20, viewDimensions.height - 60);
+
+        // text
+        std::string t;
+        if(entity_group->getCharacter(playernumber)->currentClue != NULL){
+            t = entity_group->getCharacter(playernumber)->currentClue->clueSpec;
+        }
+
+        sf::Text clueText;
+        clueText.setFont(*ResourceManager::getFont("../resources/fonts/Underdog-Regular.ttf"));
+        if(t != ""){
+            clueText.setString(t);
+        }
+        clueText.setCharacterSize(24);
+        clueText.setColor(sf::Color::White);
+        clueText.setStyle(sf::Text::Bold);
+        clueText.setPosition(30, viewDimensions.height - 55);
+
+        target.draw(bgBox);
+        target.draw(clueText);
     }
 }
