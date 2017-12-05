@@ -291,8 +291,9 @@ void Character::onGamepadEvent(GamepadEvent e)
                         readClue = true;
                         // std::cout << "CLUE " << readClue << std::endl;
                     }
-                    else if(this->currentClue && readClue == false){
+                    else if(this->currentClue && readClue == true){
                         // close clue
+            
                         readClue = false;
                         std::cout << "CLUE " << readClue << std::endl;
                     }
