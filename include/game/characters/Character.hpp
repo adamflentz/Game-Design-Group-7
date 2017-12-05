@@ -23,6 +23,7 @@ class Character: public GameObject
 {
 public:
     Character(){};
+    void setCharacter(Config::CHARACTER c){ character = c; };
     void setEntities(EntityGroup* entities){entity_group = entities;};
     /**
     * Stores the room group.
@@ -35,6 +36,8 @@ public:
     void setRoomGroup(RoomGroup* group) { g = group; };
 
     void setPlayerNumber(int number){player_number = number;};
+    void setGamepadIndex(int number){gamepad_index = number;};
+    int  getGamepadIndex(){ return gamepad_index; };
     void hurt();
     /**
     * Captures gamepad events and updates the state of our 
@@ -59,6 +62,7 @@ public:
 protected:
     int gamepad_index = -1;
     double speed = 120;
+    Config::CHARACTER character;
     RoomGroup* g;
     EntityGroup* entity_group;
     sf::Vector2f direction;

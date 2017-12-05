@@ -52,7 +52,16 @@ void GameplayScreen::createViews(int numPlayers)
         // Map i to a 2d array [2][2]
         int x = i % 2;
         int y = i / 2;
-        int playernum = i;
+        int playernum = i + 1; // Player Numbers start at 1 
+        // Find the gamepad by the player number 
+        int gamepad_index = -1;
+        for(auto it = config->player_map.begin(); it != config->player_map.end(); it++){
+            if( it->second == playernum ){
+                gamepad_index = it->first;
+                break;
+            }
+        }
+
         view = std::unique_ptr<PlayerView>(new PlayerView());
         view->setRoomGroup(&group);
         // Define player view (using math)
@@ -65,7 +74,9 @@ void GameplayScreen::createViews(int numPlayers)
         character->setRoomGroup(&group);
         character->setPlayerNumber(playernum);
         character->setEntities(&entity_group);
-
+        // Hope that it isn't possible for this to throw an error!
+        character->setCharacter(config->char_map[playernum]);
+        character->setGamepadIndex(gamepad_index);
         // Add player to our entities map
         entity_group.addCharacter(std::move(character));
         view->setEntities(&entity_group);

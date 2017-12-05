@@ -2,7 +2,6 @@
 #include <iostream>
 void CharacterIcon::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const
 {
-  // std::cout << t.getPosition().y << std::endl;
   ctx.draw(t, states);
 }
 
@@ -52,7 +51,6 @@ void CharacterSelection::removePlayer(int player)
   auto it = find(player);
   if(it != hovering.end())
     hovering.erase(it);
-
 }
 
 void CharacterSelection::addPlayer(int player)
@@ -110,6 +108,7 @@ void CharacterScreen::init()
   float xpos = 40;
   for(int i = 0; i < 4; i++){
     std::unique_ptr<CharacterSelection> c = std::unique_ptr<CharacterSelection>(new CharacterSelection());
+    c->setCharacter(static_cast<Config::CHARACTER>(i));
     c->setPortrait(2 * i);
     c->setPosition(xpos, 120.0f);
     this->char_selections.push_back(std::move(c));
@@ -219,13 +218,18 @@ void CharacterScreen::onGamepadEvent(GamepadEvent e)
       
       else if(e.button == "A" || e.button == "START"){
         if(selected_count == player_num){
-          // Everybody selected a character. Let's set that in the config then move on
-          std::cout << "Everybody's selected something" << std::endl;
           auto event = std::make_shared< Event<std::string> >("GamePlay");
           this->changed = true;
+
           // Set the configurations
           config->num_players = selected_count;
-
+          for(auto it = char_selections.begin(); it != char_selections.end(); it++){
+            if((*it)->isSelected()){
+              int player = (*it)->getPlayer();
+              // Player number <Player> has character <CHARACTER>
+              config->char_map[player] = (*it)->getCharacter();
+            }
+          }
 
           Events::queueEvent("change_screen", event);
           return;

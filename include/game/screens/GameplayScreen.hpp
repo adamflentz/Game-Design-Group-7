@@ -38,8 +38,6 @@ protected:
     // A map of entities (characters)
     // Entity 0 is the ghost
     std::map<int, std::shared_ptr<Character>> entities;
-    // std::vector<std::shared_ptr<Character>> activeCharacters;
-    // std::vector<std::unique_ptr<Room> > roomFac;
 
     sf::Clock clock;
     RoomGroup group;
