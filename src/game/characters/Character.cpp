@@ -11,7 +11,10 @@ void Character::init()
     this->setOrigin(16, 16);
     // Make sure player starts inside first room(?)
     // could also make them start inside a random room
-    this->setPosition(g->rooms.front()->getPosition().x + 20 + (32 * player_number), g->rooms.front()->getPosition().y + 20);
+    this->setPosition(
+      g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+      g->getRoom(0)->hbox.top + 20);
+    // this->setPosition(g->rooms.front()->getPosition().x + 20 + (32 * player_number), g->rooms.front()->getPosition().y + 20);
     // 1p width, height
     // 2p width/2 height
     // 3p, 4p width/2 height/2
@@ -218,9 +221,9 @@ void Character::onGamepadEvent(GamepadEvent e)
         switch(e.type){
             case GamepadEvent::TYPE::RELEASED:
                 // in c++ you can't switch/case a string
-                if(e.button == "UP" || e.button == "DOWN")
+                if((e.button == "UP") || (e.button == "DOWN"))
                     this->direction.y = 0;
-                else if(e.button == "LEFT" || e.button == "RIGHT")
+                else if((e.button == "LEFT") || (e.button == "RIGHT"))
                     this->direction.x = 0;
                 else if(e.button == "X") // stop running
                     this->speed /= 2;

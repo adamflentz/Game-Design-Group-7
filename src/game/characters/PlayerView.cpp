@@ -53,8 +53,12 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     // draw the current view
     target.setView(v);
-    // draw the rooms
+
+    //
     if(rooms){
+        Room* room = rooms->getRoomInside(entity_group->getCharacter(playernumber)->hbox);
+        if(NULL != room)
+          target.draw(*room);
         target.draw(*rooms);
     }
     // draw the entity group
