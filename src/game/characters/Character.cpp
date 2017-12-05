@@ -51,26 +51,26 @@ void Character::init()
     // load the sprite map
     sprite_map.loadFromFile("../resources/sprites/character_sheet.png");
     // add animation frames
-    std::vector< std::vector<int> > down_frames = { 
-        {mod +  1}, {mod + 2}, {mod + 1}, { mod + 0} 
+    std::vector< std::vector<int> > down_frames = {
+        {mod +  1}, {mod + 2}, {mod + 1}, { mod + 0}
     };
     walk_down.setSpriteSheet(sprite_map);
     walk_down.addFrames(down_frames, 32, 32);
 
-    std::vector< std::vector<int> > left_frames = { 
-        {7 + mod}, {8 + mod}, {7 + mod}, {6 + mod} 
+    std::vector< std::vector<int> > left_frames = {
+        {7 + mod}, {8 + mod}, {7 + mod}, {6 + mod}
     };
     walk_left.setSpriteSheet(sprite_map);
     walk_left.addFrames(left_frames, 32, 32);
 
-    std::vector< std::vector<int> > right_frames = { 
-        {13 + mod}, {14 + mod}, {13 + mod}, {12 + mod} 
+    std::vector< std::vector<int> > right_frames = {
+        {13 + mod}, {14 + mod}, {13 + mod}, {12 + mod}
     };
     walk_right.setSpriteSheet(sprite_map);
     walk_right.addFrames(right_frames, 32, 32);
 
-    std::vector< std::vector<int> > up_frames = { 
-        {19 + mod}, {20 + mod}, {19 + mod}, {18 + mod} 
+    std::vector< std::vector<int> > up_frames = {
+        {19 + mod}, {20 + mod}, {19 + mod}, {18 + mod}
     };
     walk_up.setSpriteSheet(sprite_map);
     walk_up.addFrames(up_frames, 32, 32);
@@ -323,14 +323,11 @@ void Character::onGamepadEvent(GamepadEvent e)
                 if(e.button == "A"){ // perform an action
                     std::cout << this->currentClue << std::endl;
                     if(this->currentClue && readClue == false){
-                        // open clue
-                        readClue = true;
-                        // std::cout << "CLUE " << readClue << std::endl;
+                        readClue = true; // open clue
                     }
-                    else if(this->currentClue && readClue == false){
+                    else if(this->currentClue && readClue == true){
                         // close clue
-                        readClue = false;
-                        std::cout << "CLUE " << readClue << std::endl;
+                        readClue = false; // close clue
                     }
                     else{
                         this->attack();
