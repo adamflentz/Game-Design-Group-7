@@ -182,19 +182,19 @@ void Villain::chase()
 {
     needsCentering = true;
     // std::cout << this->chaseHbox.top << std::endl;
-    if(this->chaseHbox.left < this->hbox.left - 10){
+    if((this->chaseHbox.left < this->hbox.left) && (!((this->chaseHbox.left < this->hbox.left)&&(this->chaseHbox.left+10 > this->hbox.left)))){
         this->direction.x = -1;
         curr = &walk_left;
     }
-    if(this->chaseHbox.left > this->hbox.left + 10){
+    if((this->chaseHbox.left > this->hbox.left) && (!((this->chaseHbox.left < this->hbox.left)&&(this->chaseHbox.left+10 > this->hbox.left)))) {
         this->direction.x = 1;
         curr = &walk_right;
     }
-    if(this->chaseHbox.top > this->hbox.top + 10){
+    if((this->chaseHbox.top > this->hbox.top) && (!((this->chaseHbox.top < this->hbox.top)&&(this->chaseHbox.top+10 > this->hbox.top)))){
         this->direction.y = 1;
         curr = &walk_down;
     }
-    if(this->chaseHbox.top < this->hbox.top - 10){
+    if((this->chaseHbox.top < this->hbox.top) && (!((this->chaseHbox.top < this->hbox.top)&&(this->chaseHbox.top+10 > this->hbox.top)))){
         this->direction.y = -1;
         curr = &walk_up;
     }

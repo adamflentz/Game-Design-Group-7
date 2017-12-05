@@ -12,9 +12,9 @@ void RoomGroup::generateRoomGrid(int roomCount)
         houseWidth  = 20;
 
     int roomGrid[houseWidth][houseHeight];
-    
+
     // initialize all values in grid to -1 to remove junk data
-    for(int i = 0; i < houseWidth * houseHeight; i++) 
+    for(int i = 0; i < houseWidth * houseHeight; i++)
         roomGrid[i % houseWidth][i / houseHeight] = -1;
     int cx = (houseWidth-1) / 2,
         cy = (houseHeight-1) / 2;
@@ -53,13 +53,15 @@ void RoomGroup::generateRoomGrid(int roomCount)
                 // std::cout << count << std::endl;
                 currRoom = std::unique_ptr<Room>(new Room());
                 currRoom->rect.setSize(sf::Vector2f(512, 384));
-                currRoom->rect.setPosition((512+10) * i, (384+10) * j);
+                currRoom->rect.setPosition((512 - 64) * i, (384 - 90) * j);
+                currRoom->setRoomType(1 + (rand() % 12));
+                // currRoom->setRoomType(1);
                 currRoom->isDoor = false;
                 // std::cout << "center x: ";
                 // std::cout << currRoom->rect.getPosition().x + (256 / 2) << std::endl;
                 // std::cout << "center y: ";
                 // std::cout << currRoom->rect.getPosition().y + (160 / 2) << std::endl;
-               
+
                 currRoom->setPosition(currRoom->rect.getPosition());
                 currRoom->init();
                 // When adding doors we have to make sure they extend into each room
@@ -67,24 +69,26 @@ void RoomGroup::generateRoomGrid(int roomCount)
                 // Add right facing-door
                 if(i+1 < houseWidth && roomGrid[i+1][j] == 1){
                     currDoor = std::unique_ptr<Room>(new Room());
-                    currDoor->rect.setSize(sf::Vector2f(32 * 3, 64));
-                    currDoor->rect.setPosition(currRoom->getPosition().x + 512 - 32, currRoom->getPosition().y + 192 - 32);
+                    currDoor->rect.setSize(sf::Vector2f(64, 64));
+                    currDoor->rect.setPosition(currRoom->getPosition().x + 512 - 64, currRoom->getPosition().y + 192 - 32);
                     currDoor->setPosition(currRoom->rect.getPosition());
-                    currDoor->init();
                     currDoor->isDoor = true;
+
+                    currDoor->init();
                     this->rooms.push_back(std::move(currDoor));
                 }
                 // Add bottom facing door
                 if(j+1 < houseHeight && roomGrid[i][j+1] == 1){
                     currDoor = std::unique_ptr<Room>(new Room());
-                    currDoor->rect.setSize(sf::Vector2f(64, 32 * 3));
-                    currDoor->rect.setPosition(currRoom->getPosition().x + 256 - 32, currRoom->getPosition().y + 384 - 16);
+                    currDoor->rect.setSize(sf::Vector2f(64, 64));
+                    currDoor->rect.setPosition(currRoom->getPosition().x + 256 - 32, currRoom->getPosition().y + 384 - 64);
                     currDoor->setPosition(currRoom->rect.getPosition());
-                    currDoor->init();
                     currDoor->isDoor = true;
+                    currDoor->isBottom = true;
+                    currDoor->init();
                     this->rooms.push_back(std::move(currDoor));
                 }
-            
+
                 this->rooms.push_back(std::move(currRoom));
             }
         }
@@ -95,11 +99,11 @@ void RoomGroup::generateRoomGrid(int roomCount)
 bool RoomGroup::isInsideRoom(sf::FloatRect hbox)
 {
     for(auto r = rooms.begin(); r != rooms.end(); r++){
-        sf::RectangleShape hbox2 = (*r)->rect;
+        sf::FloatRect hbox2 = (*r)->hbox;
         // check if hbox is inside room
         if(
-            (hbox.top >= hbox2.getPosition().y && hbox.top + hbox.height <= hbox2.getPosition().y + hbox2.getSize().y) &&
-            (hbox.left >= hbox2.getPosition().x && hbox.left + hbox.width <= hbox2.getPosition().x + hbox2.getSize().x)
+            (hbox.top >= hbox2.top && hbox.top + hbox.height <= hbox2.top + hbox2.height) &&
+            (hbox.left >= hbox2.left && hbox.left + hbox.width <= hbox2.left + hbox2.width)
         )
         {
             return true;
@@ -124,9 +128,38 @@ sf::FloatRect RoomGroup::getRoom(sf::FloatRect hbox){
     }
 }
 
+Room* RoomGroup::getRoom(int room_num)
+{
+    int num = 0;
+    for(auto it = rooms.begin(); it != rooms.end(); it++){
+        if(!((*it)->isDoor) && room_num == num++){
+            return (*it).get();
+        }
+    }
+    // if(room_num >= 0 && room_num < rooms.size())
+    //     return rooms[room_num].get();
+}
+
+Room* RoomGroup::getRoomInside(sf::FloatRect hbox)
+{
+    for(auto it = rooms.begin(); it != rooms.end(); it++){
+        if((*it)->isDoor == true){continue;}
+        sf::FloatRect hbox2 = (*it)->hbox;
+        if(
+            (hbox.top >= hbox2.top && hbox.top + hbox.height <= hbox2.top + hbox2.height) &&
+            (hbox.left >= hbox2.left && hbox.left + hbox.width <= hbox2.left + hbox2.width)
+        )
+        {
+            return (*it).get();
+        }
+    }
+    return NULL;
+}
+
 void RoomGroup::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     for(auto a = rooms.begin(); a != rooms.end(); a++){
-        target.draw(**a);
+        if((*a)->isDoor)
+          target.draw(**a);
     }
 }

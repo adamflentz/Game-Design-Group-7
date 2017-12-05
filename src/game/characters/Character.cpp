@@ -10,7 +10,10 @@ void Character::init()
     this->setOrigin(16, 16);
     // Make sure player starts inside first room(?)
     // could also make them start inside a random room
-    this->setPosition(g->rooms.front()->getPosition().x + 20 + (32 * player_number), g->rooms.front()->getPosition().y + 20);
+    this->setPosition(
+      g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+      g->getRoom(0)->hbox.top + 20);
+    // this->setPosition(g->rooms.front()->getPosition().x + 20 + (32 * player_number), g->rooms.front()->getPosition().y + 20);
     // 1p width, height
     // 2p width/2 height
     // 3p, 4p width/2 height/2
@@ -57,7 +60,7 @@ void Character::checkClues(){
     std::vector<std::shared_ptr<Clue>> entities = entity_group->getClues();
     for(auto it = entities.begin(); it != entities.end(); it++){
         std::shared_ptr<Clue> c = *it;
-        
+
         if(c->hbox.intersects(this->hbox)){
             // std::cout << c->hbox.top + c->hbox.height - this->hbox.top << std::endl;
             if(this->hbox.left + this->hbox.width - c->hbox.left == 2){
@@ -94,8 +97,8 @@ void Character::onUpdate(float dt)
     float dx = this->direction.x * speed * dt;
     float dy = this->direction.y * speed * dt;
 
-    // check if inside any room 
-    if(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height)) && health > 0){  
+    // check if inside any room
+    if(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height)) && health > 0){
         this->checkClues();
         if(this->stopLeft == true && dx < 0){
             dx = 0;
@@ -120,7 +123,7 @@ void Character::onUpdate(float dt)
         std::cout << "invul removed" << std::endl;
         this->invul = false;
         isStarted = false;
-        
+
     }
     if(health <= 0){
         curr = &death_animation;
@@ -181,9 +184,9 @@ void Character::onGamepadEvent(GamepadEvent e)
         switch(e.type){
             case GamepadEvent::TYPE::RELEASED:
                 // in c++ you can't switch/case a string
-                if(e.button == "UP" || e.button == "DOWN")
+                if((e.button == "UP") || (e.button == "DOWN"))
                     this->direction.y = 0;
-                else if(e.button == "LEFT" || e.button == "RIGHT")
+                else if((e.button == "LEFT") || (e.button == "RIGHT"))
                     this->direction.x = 0;
                 else if(e.button == "X") // stop running
                     this->speed /= 2;
