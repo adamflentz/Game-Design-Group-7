@@ -151,6 +151,7 @@ void Character::checkClues(){
             }
             this->currentClue = c;
             this->hbox.setColor(sf::Color::Green);
+            atClue = true;
             break;
         }
         else{
@@ -159,7 +160,8 @@ void Character::checkClues(){
             this->stopUp = false;
             this->stopDown = false;
             this->currentClue = NULL;
-            readClue = false;
+            atClue = false;
+            // std::cout << "in the else " << readClue << std::endl;
         }
     }
 }
@@ -325,10 +327,10 @@ void Character::onGamepadEvent(GamepadEvent e)
 
                 if(e.button == "A"){ // perform an action
                     std::cout << this->currentClue << std::endl;
-                    if(this->currentClue && readClue == false){
+                    if(readClue == false){
                         readClue = true; // open clue
                     }
-                    else if(this->currentClue && readClue == true){
+                    else if(readClue == true){
                         readClue = false; // close clue
                     }
                     else{
