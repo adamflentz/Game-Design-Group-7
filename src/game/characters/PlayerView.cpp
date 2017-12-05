@@ -71,7 +71,7 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
     }
     // draw the HUD
     target.setView(HUD);
-    target.draw(itemBar);
+    // target.draw(itemBar);
     if(entity_group->getCharacter(playernumber)->invul == true){
         // pain.setFillColor(sf::Color(255, 0, 0, painCount));
         // painCount--;
