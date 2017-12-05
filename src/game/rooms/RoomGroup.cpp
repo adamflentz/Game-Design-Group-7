@@ -3,6 +3,7 @@
 #include <string>
 void RoomGroup::generateRoomGrid(int roomCount)
 {
+    totalRooms = roomCount;
     srand (time(NULL));
     // TODO:  Figure out total grid size based on difficulty: for now demo is size 3
     std::unique_ptr<Room> currRoom;

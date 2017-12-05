@@ -75,7 +75,7 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
     }
     // std::cout << entity_group->getCharacter(playernumber)->maxHealth << std::endl;
     for(int i = 0; i < entity_group->getCharacter(playernumber)->maxHealth; i++){
-        sf::Sprite heart;
+        sf::Sprite heart;   
         heart.setTexture(heartTexture);
         if(entity_group->getCharacter(playernumber)->health > i){
             heart.setTextureRect(sf::IntRect(0, 0, 300, 300));
@@ -86,5 +86,26 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
         heart.scale(sf::Vector2f(0.1, 0.1));
         heart.setPosition(i * 30, 0);
         target.draw(heart);
+    }
+
+    // draw a clue
+    if(entity_group->getCharacter(playernumber)->readClue == true){
+        std::string t;
+        if(entity_group->getCharacter(playernumber)->currentClue != NULL){
+            t = entity_group->getCharacter(playernumber)->currentClue->clueSpec;
+        }
+        
+
+        sf::Text clueText;
+        clueText.setFont(*ResourceManager::getFont("../resources/fonts/Underdog-Regular.ttf"));
+        if(t != ""){
+            clueText.setString(t);
+        }
+        clueText.setCharacterSize(24);
+        clueText.setColor(sf::Color::White);
+        clueText.setStyle(sf::Text::Bold);
+        clueText.setPosition(100, 100);
+
+        target.draw(clueText);
     }
 }

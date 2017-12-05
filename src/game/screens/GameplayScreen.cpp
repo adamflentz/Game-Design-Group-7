@@ -26,6 +26,7 @@ void GameplayScreen::init()
     ghost->setEntities(&entity_group);
     entity_group.addCharacter(std::move(ghost));
     entity_group.init();
+    // std::cout << group.rooms.size() << std::endl;
 }
 
 void GameplayScreen::createClues()
