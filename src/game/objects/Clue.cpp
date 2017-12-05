@@ -6,7 +6,9 @@
 
 void Clue::init()
 {
-    // scroll hardcoded inside first room for now
+    SelectStream(1); // used for random
+    int rand = Equilikely(0, 2); //lower and upper bound
+
     int xPos = g->rooms.front()->getPosition().x + (128 - 16);
     int yPos = g->rooms.front()->getPosition().y + (80 - 24);
     this->setPosition(xPos, yPos);
