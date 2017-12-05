@@ -1,5 +1,4 @@
 #include "HouseHaunters.hpp"
-#include "engine/ClueReader.hpp"
 #include <iostream>
 
 ////////////////////////
@@ -28,9 +27,4 @@ void HouseHauntersGame::init()
 
     // start off at title screen
     this->changeGameScreen("Title");
-
-    PlantSeeds(-1);
-    ClueReader reader;
-    reader.readFile("../resources/items.xml");
-    reader.selectItems();
 }

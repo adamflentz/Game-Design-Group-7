@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
+#include <vector>
 #include "engine/Engine.hpp"
 #include "game/characters/Character.hpp"
 #include "game/characters/Villain.hpp"
@@ -32,8 +33,10 @@ public:
     void init();
     void onUpdate(float dt);
     void onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const;
+    std::vector<std::shared_ptr<Clue>> clues;
 protected:
     void createViews(int numPlayers);
+    void createClues();
     int numplayers = 1;
     // A map of entities (characters)
     // Entity 0 is the ghost
@@ -44,4 +47,5 @@ protected:
     std::shared_ptr<Villain> ghost;
     std::shared_ptr<Clue> clue;
     EntityGroup entity_group;
+    ClueReader reader;
 };
