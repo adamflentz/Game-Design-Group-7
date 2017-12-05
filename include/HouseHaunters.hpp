@@ -4,6 +4,7 @@
 #include "game/screens/GameplayScreen.hpp"
 #include "game/screens/GametitleScreen.hpp"
 #include "game/screens/CharacterScreen.hpp"
+#include "game/screens/EndGameScreen.hpp"
 
 ////////////////////////
 // HouseHaunters.hpp

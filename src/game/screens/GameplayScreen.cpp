@@ -30,7 +30,7 @@ void GameplayScreen::init()
       // Cast to gamepad event
       if(--num_players == 0){
         std::cout << "All players died" << std::endl;
-        auto event = std::make_shared< Event<std::string> >("Character");
+        auto event = std::make_shared< Event<std::string> >("GameEnd");
         Events::queueEvent("change_screen", event);
       };
 
