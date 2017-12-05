@@ -37,6 +37,7 @@ public:
     std::string clueSpec;
     std::string clueVague;
     std::string clueWorthless;
+    std::string setClue;
     int clue_number = -1;
 
 protected:

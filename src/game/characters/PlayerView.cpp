@@ -104,7 +104,7 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
         // text
         std::string t;
         if(entity_group->getCharacter(playernumber)->currentClue != NULL){
-            t = entity_group->getCharacter(playernumber)->currentClue->clueSpec;
+            t = entity_group->getCharacter(playernumber)->currentClue->setClue;
         }
 
         sf::Text clueText;

@@ -47,12 +47,12 @@ void Villain::init()
     isChasing = false;
     needsCentering = false;
     fastSpeed = false;
-    health = 0;
+    health = 25;
 }
 
 void Villain::onUpdate(float dt)
 {
-    std::cout << health << std::endl;
+    // std::cout << health << std::endl;
     roomHbox = g->getRoom(this->hbox);
     // std::cout << this->getPosition().x << std::endl;
     // std::cout << roomHbox.left + (256 / 2) - 16 << std::endl;
@@ -100,7 +100,7 @@ void Villain::onUpdate(float dt)
         int count = 0;
         for(auto rmit = g->rooms.begin(); rmit != g->rooms.end(); rmit++){
             if(count == randint){
-                if((*rmit)->hbox == g->getRoom(this->hbox)){
+                if((*rmit)->hbox == g->getRoom(this->hbox) || (*rmit)->isDoor == true){
                     this->randint = rand() % this->g->rooms.size();
                     rmit = g->rooms.begin();
                     count = 0;
@@ -111,7 +111,7 @@ void Villain::onUpdate(float dt)
                         fastSpeed = false;
                     }
                     std::cout << "escape" << std::endl;
-                    this->setPosition((*rmit)->hbox.left + (512/2) - 16, (*rmit)->hbox.top   + (384 / 2) - 24);
+                    this->setPosition((*rmit)->hbox.left + (448/2) - 16, (*rmit)->hbox.top   + (288 / 2) - 24);
                     this->possiblerooms.clear();
                     this->setDirection();
                     break;
@@ -324,7 +324,7 @@ void Villain::chase()
         std::shared_ptr<Character> c = *it;
         if(c.get() == this)
             continue;
-        if(this->hbox.intersects(c->hbox) && c->invul == false && c->health > 0){
+        if(this->hbox.intersects(c->hbox) && c->invul == false && c->health > 0 && this->health > 0){
             c->hurt();
             this->randint = rand() % this->g->rooms.size();
             int count = 0;

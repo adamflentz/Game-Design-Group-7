@@ -48,6 +48,7 @@ void GameplayScreen::init()
         Events::queueEvent("change_screen", event);
       };
 
+
     });
     // std::cout << group.rooms.size() << std::endl;
 }
@@ -70,6 +71,18 @@ void GameplayScreen::createClues()
             clue->clueSpec = reader.getCluesSpec()[0];
             clue->clueVague = reader.getCluesVague()[0];
             clue->clueWorthless = reader.getCluesWorthless()[0];
+            int randint = rand() % 3;
+            switch(randint){
+                case 0:
+                clue->setClue = clue->clueSpec;
+                break;
+                case 1:
+                clue->setClue = clue->clueVague;
+                break;
+                case 2:
+                clue->setClue = clue->clueWorthless;
+                break;
+            }
             int x = (*it)->rect.getPosition().x + (32 * (*j));
             std::cout << x;
             std::cout << " ";
