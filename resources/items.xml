@@ -6,7 +6,7 @@
             <name>flamethrower</name>
             <type>fire</type>
             <clues>
-                <specific>X died in a fire.</specific>
+                <specific>Ghost died in a fire.</specific>
                 <vague>There are scorch marks in the house.</vague>
                 <worthless>Nothing was found.</worthless>
             </clues>
@@ -15,8 +15,8 @@
             <name>sword</name>
             <type>blades</type>
             <clues>
-                <specific>X's medieval sword was the most dangerous item in the house.</specific>
-                <vague>X collected prized antique weapons.</vague>
+                <specific>Ghost's sword was very dangerous.</specific>
+                <vague>Ghost collected prized antique weapons.</vague>
                 <worthless>Nothing was found.</worthless>
             </clues>
         </item>
@@ -24,8 +24,8 @@
             <name>hose</name>
             <type>water</type>
             <clues>
-                <specific>X drowned in a well. Might not enjoy being wet...</specific>
-                <vague>X drowned in a well.</vague>
+                <specific>Ghost drowned in a well.</specific>
+                <vague>Ghost drowned in a well.</vague>
                 <worthless>Nothing was found.</worthless>
             </clues>
         </item>
@@ -35,8 +35,8 @@
             <name>candle</name>
             <type>fire</type>
             <clues>
-                <specific>X is detered by candles.</specific>
-                <vague>X is accustomed to the dark.</vague>
+                <specific>Ghost is detered by candles.</specific>
+                <vague>Ghost is accustomed to the dark.</vague>
                 <worthless>Nothing was found.</worthless>
             </clues>
         </item>
@@ -44,8 +44,8 @@
             <name>dagger</name>
             <type>blades</type>
             <clues>
-                <specific>If you use a dagger against X, you must be fast.</specific>
-                <vague>Be careful, X lost a dagger around here somewhere...</vague>
+                <specific>Use a dagger against Ghost.</specific>
+                <vague>Be careful, Ghost lost a dagger.</vague>
                 <worthless>Nothing was found.</worthless>
             </clues>
         </item>
@@ -53,27 +53,27 @@
             <name>bucket</name>
             <type>water</type>
             <clues>
-                <specific>X does not like water.</specific>
-                <vague>X didn't enjoy swimming.</vague>
+                <specific>Ghost does not like water.</specific>
+                <vague>Ghost didn't enjoy swimming.</vague>
                 <worthless>Nothing was found.</worthless>
             </clues>
         </item>
     </low>
     <info>
         <blades>
-            <ARRAY>Medieval weaponry was one of X's favorite topics.</ARRAY>
-            <ARRAY>X can make a mean chopped salad.</ARRAY>
-            <ARRAY>X only had nine and a half fingers after an unfortunate chopping incedent.</ARRAY>
+            <ARRAY>Ghost liked medieval weaponry.</ARRAY>
+            <ARRAY>Ghost can make a mean chopped salad.</ARRAY>
+            <ARRAY>Ghost only had nine fingers.</ARRAY>
         </blades>
         <fire>
-            <ARRAY>X refused to attend BBQs.</ARRAY>
-            <ARRAY>A painful burn marked X's left hand.</ARRAY>
-            <ARRAY>X prefered the night to the day.</ARRAY>
+            <ARRAY>Ghost refused to attend BBQs.</ARRAY>
+            <ARRAY>Ghost had a painful burn.</ARRAY>
+            <ARRAY>Ghost prefered the night to the day.</ARRAY>
         </fire>
         <water>
-            <ARRAY>X cried easily.</ARRAY>
-            <ARRAY>A terrible rainstorm occured the night X was born.</ARRAY>
-            <ARRAY>No one enjoyed shaking X's hand, because it was always moist.</ARRAY>
+            <ARRAY>Ghost cried easily.</ARRAY>
+            <ARRAY>A terrible rainstorm scared Ghost.</ARRAY>
+            <ARRAY>Ghost's hands were moist.</ARRAY>
         </water>
     </info>
 </items>

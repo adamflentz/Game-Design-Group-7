@@ -93,7 +93,7 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
     }
 
     // draw a clue
-    if(entity_group->getCharacter(playernumber)->readClue == true){
+    if(entity_group->getCharacter(playernumber)->readClue == true && entity_group->getCharacter(playernumber)->atClue == true){
         // background box
         sf::RectangleShape bgBox;
         sf::Vector2f v(viewDimensions.width - 40, 40);
