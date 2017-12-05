@@ -14,21 +14,34 @@ void Character::init()
     switch(character){
         case Config::CHARACTER::MOM:
             std::cout << "Mom" << std::endl;
+            // ++ intelligence
+            // -- speed
+            // intelligence *= 2;
+            // speed /= 1.2;
             health = 3;
             maxHealth = 3;
             sprite_location = 0;
             break;
         case Config::CHARACTER::SIS:
             std::cout << "SIS" << std::endl;
+            // ++ stealth 
+            // -- strength
             health = 3;
             maxHealth = 3;
+
             sprite_location = 1;
+            // stealth *= 2;
+            // strength /= 2;
             break;
         case Config::CHARACTER::BRO:
             std::cout << "BRO" << std::endl;
+            // ++ speed 
+            // -- stealth
             health = 3;
             maxHealth = 3;
             sprite_location = 2;
+            // speed *= 1.3;
+            // stealth /= 2;
             break;
         case Config::CHARACTER::DAD:
             std::cout << "DAD" << std::endl;
@@ -47,6 +60,16 @@ void Character::init()
     // Make sure player starts inside first room(?)
     // could also make them start inside a random room
 
+    this->setPosition(
+      g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+      g->getRoom(0)->hbox.top + 20);
+
+    attack_anim.setSpriteSheet(*ResourceManager::getTexture("../resources/sprites/swipe.png"));
+    attack_anim.setPosition(16, 0);
+    std::vector< std::vector<int> > swipe_frames = {
+        {0}, {1}, {2}, {3}
+    };
+    attack_anim.addFrames(swipe_frames, 32, 32);
     
     if(g->getRoom(0)->room_setup == "armory"){
         this->setPosition(
@@ -219,6 +242,7 @@ void Character::checkClues(){
             }
             this->currentClue = c;
             this->hbox.setColor(sf::Color::Green);
+            atClue = true;
             break;
         }
         else{
@@ -227,7 +251,8 @@ void Character::checkClues(){
             this->stopUp = false;
             this->stopDown = false;
             this->currentClue = NULL;
-            readClue = false;
+            atClue = false;
+            // std::cout << "in the else " << readClue << std::endl;
         }
     }
 }
@@ -258,6 +283,7 @@ void Character::onUpdate(float dt)
         this->clock.restart();
         isStarted = true;
     }
+
     // std::cout << (int) clock.getElapsedTime().asSeconds() << std::endl;
     if(this->clock.getElapsedTime().asSeconds() >= 3 && this->invul == true){
         std::cout << "invul removed" << std::endl;
@@ -281,7 +307,10 @@ void Character::onUpdate(float dt)
     }
     // update the hitbox
     hbox.onUpdate(dt);
-
+    // Update attacking animation
+    if(isAttacking){
+        attack_anim.nextFrame(dt);
+    }
     // make the animation go to the next frame
     curr->nextFrame(dt);
 }
@@ -291,7 +320,6 @@ void Character::checkCollisions()
     this->hbox.setColor(sf::Color::Yellow);
     std::vector<std::shared_ptr<Character>> entities = entity_group->getCharacters();
     // // check proximity to other entities or whatever
-    // std::cout << entities.size() << std::endl;
     for(auto it = entities.begin(); it != entities.end(); it++){
         std::shared_ptr<Character> c = *it;
         if(c.get() == this)
@@ -308,7 +336,15 @@ void Character::hurt(){
 }
 
 void Character::attack(){
-    this->checkVillain();
+    if(!(this->isAttacking)){
+        this->isAttacking = true;
+        attack_anim.play([=](){
+            // std::cout << "Attack done" << std::endl;
+            attack_anim.stop();
+            this->isAttacking = false;
+        });
+        this->checkVillain();
+    }
 }
 
 /**
@@ -316,6 +352,8 @@ void Character::attack(){
 */
 void Character::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+    if(isAttacking)
+        target.draw(attack_anim, states);
     // draw the animation
     target.draw(*curr, states);
     // draw the hitbox
@@ -356,6 +394,8 @@ void Character::onGamepadEvent(GamepadEvent e)
                     // check if a y velocity
                     curr = &walk_up;
                     if(stopUp == false){
+                        attack_anim.setRotation(-90);
+                        attack_anim.setPosition(0, 16);
                         this->direction.y = -1;
                     }
                     else{
@@ -366,6 +406,8 @@ void Character::onGamepadEvent(GamepadEvent e)
                 if(e.button == "DOWN"){
                     curr = &walk_down;
                     if(stopDown == false){
+                        attack_anim.setRotation(90);
+                        attack_anim.setPosition(32, 16);
                         this->direction.y = 1;
                     }
                     else{
@@ -375,6 +417,8 @@ void Character::onGamepadEvent(GamepadEvent e)
                 if(e.button == "LEFT"){
                     curr = &walk_left;
                     if(stopLeft == false){
+                        attack_anim.setRotation(180);
+                        attack_anim.setPosition(16, 32);
                         this->direction.x = -1;
                     }
                     else{
@@ -384,12 +428,19 @@ void Character::onGamepadEvent(GamepadEvent e)
                 if(e.button == "RIGHT"){
                     curr = &walk_right;
                     if(stopRight == false){
+                        attack_anim.setRotation(0);
+                        attack_anim.setPosition(16, 0);
                         this->direction.x = 1;
                     }
                     else{
                         this->direction.x = 0;
                     }
                 }
+
+                if(e.button == "B"){
+                    this->attack();
+                }
+
                 if(e.button == "X"){ // run
                     if(character == Config::CHARACTER::BRO){
                         this->speed *= 2;
@@ -398,14 +449,11 @@ void Character::onGamepadEvent(GamepadEvent e)
 
                 if(e.button == "A"){ // perform an action
                     std::cout << this->currentClue << std::endl;
-                    if(this->currentClue && readClue == false){
+                    if(readClue == false){
                         readClue = true; // open clue
                     }
-                    else if(this->currentClue && readClue == true){
+                    else if(readClue == true){
                         readClue = false; // close clue
-                    }
-                    else{
-                        this->attack();
                     }
                 }
 

@@ -12,7 +12,7 @@ void GameplayScreen::init()
     clock.restart();
     switch(num_players){
         case 1:
-        group.generateRoomGrid(2);
+        group.generateRoomGrid(20);
         break;
         case 2:
         group.generateRoomGrid(40);

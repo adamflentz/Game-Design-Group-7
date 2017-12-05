@@ -4,7 +4,8 @@
 void SpriteAnimation::setSpriteSheet(sf::Texture& t)
 {
     texture = &t; 
-    sprite.setTexture(t);  }
+    sprite.setTexture(t);  
+}
 
 void SpriteAnimation::addFrames(std::vector< std::vector<int> > frames, int tilew, int tileh)
 {
@@ -28,7 +29,6 @@ void SpriteAnimation::addFrame(std::vector<int> frame, int tilew, int tileh)
         // set the first frame
         if(m_frames.size() == 1)
             sprite.setTextureRect(m_frames.at(0));
-
     }
 }
 
@@ -41,8 +41,16 @@ void SpriteAnimation::nextFrame(float dt)
         return;
     // update the sprite rect
     sprite.setTextureRect(m_frames.at(curr_frame));
+
+    if(performAfterPlayer && (curr_frame + 1 == m_frames.size())){
+        onComplete();
+        stop();
+        curr_frame = 0;
+    }else{
+        // loop 
+        curr_frame = (curr_frame + 1) % m_frames.size();
+    }
     // go to the next frame
-    curr_frame = (curr_frame + 1) % m_frames.size();
     this->time = 0;
 }
 
