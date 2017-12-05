@@ -8,9 +8,9 @@ void PlayerView::init()
     itemBar.setOutlineColor(sf::Color::White);
     itemBar.setFillColor(sf::Color::Transparent);
     itemBar.setOutlineThickness(2);
-    pain.setFillColor(sf::Color::Red);
-    pain.setFillColor(sf::Color(255, 0, 0, 180));
-    painCount = 180;
+    //pain.setFillColor(sf::Color::Red);
+    pain.setFillColor(sf::Color(255, 0, 0, 100));
+    painCount = 100;
 
     if (!heartTexture.loadFromFile("../resources/sprites/heart.png")) {
       return;
@@ -33,10 +33,13 @@ void PlayerView::init()
 void PlayerView::onUpdate(float dt)
 {
     v.setCenter(entity_group->getCharacter(playernumber)->getPosition());
-    if(entity_group->getCharacter(playernumber)->invul == true){
+    bool invul = entity_group->getCharacter(playernumber)->invul;
+    if(invul && painCount > 0){
         pain.setFillColor(sf::Color(255, 0, 0, painCount));
         painCount--;
     }
+    else if(!invul)
+       painCount = 100;
 }
 
 void PlayerView::setView(sf::FloatRect dimensions, sf::FloatRect viewport)

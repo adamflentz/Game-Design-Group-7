@@ -17,15 +17,9 @@ void GameplayScreen::init()
     // If we let the playerview set its own viewport
     // then we end up running the same code over and over inside PlayerView#init
     this->createViews(num_players);
-
+    entity_group.init();
     // Create the ghost (this could easily be another function)
     // this->createVillain()
-    ghost = std::make_shared<Villain>();
-    ghost->setPlayerNumber(-1);
-    ghost->setRoomGroup(&group);
-    ghost->setEntities(&entity_group);
-    entity_group.addCharacter(std::move(ghost));
-    entity_group.init();
 }
 
 void GameplayScreen::createClues()
@@ -109,8 +103,17 @@ void GameplayScreen::onUpdate(float dt)
 
     // std::cout << clock.getElapsedTime().asSeconds() << std::endl;
     if (clock.getElapsedTime().asSeconds() >= config -> time_Per_Phase) {
-      std::cout << "phase ends" << std::endl;
-      clock.restart();
+        if(phase == 1){
+            std::cout << "phase ends" << std::endl;
+            ghost = std::make_shared<Villain>();
+            ghost->setPlayerNumber(-1);
+            ghost->setRoomGroup(&group);
+            ghost->setEntities(&entity_group);
+            ghost->init();
+            entity_group.addCharacter(std::move(ghost));
+            phase++;
+        }
+        clock.restart();
     }
 
 }
