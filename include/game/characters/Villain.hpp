@@ -48,7 +48,12 @@ protected:
     bool fastSpeed;
     sf::FloatRect roomHbox;
     sf::FloatRect chaseHbox;
+<<<<<<< HEAD
     sf::Sound ghost_sound;
+=======
+    sf::Texture death_map;
+    SpriteAnimation death_animation;
+>>>>>>> bdf4933ecc23c111a44fbdf9c22f3ebef5117c2e
 
 };
 

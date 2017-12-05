@@ -191,22 +191,26 @@ void Character::checkVillain(){
         if(c->isVillain() == true){
             if((c->hbox) == this->hbox){continue;}
             // std::cout << c->hbox.left << std::endl;
-            if(curr == &walk_right && this->hbox.left + this->hbox.width + 32 > c->hbox.left && this->hbox.left + this->hbox.width < c->hbox.left &&
-            c->hbox.top >= this->hbox.top - 20 && c->hbox.top <= this->hbox.top + 36){
+            if(curr == &walk_right && this->hbox.left + this->hbox.width + 64 > c->hbox.left &&
+                this->hbox.left + this->hbox.width < c->hbox.left &&
+            c->hbox.top >= this->hbox.top - 32&& c->hbox.top <= this->hbox.top + 32){
                 std::cout << "hiyah" << std::endl;
                 c->hurt();
             }
-            if(curr == &walk_left && this->hbox.left - 32 < c->hbox.left + c->hbox.width &&
-                c->hbox.top >= this->hbox.top - 20 && c->hbox.top <= this->hbox.top + 36){
+            if(curr == &walk_left && this->hbox.left - 64 < c->hbox.left + c->hbox.width &&
+                this->hbox.left > c->hbox.left + c->hbox.width &&
+                c->hbox.top >= this->hbox.top - 32 && c->hbox.top <= this->hbox.top + 32){
                 std::cout << "hiyah" << std::endl;
                 c->hurt();
             }
-            if(curr == &walk_up && this->hbox.top + this->hbox.height + 32 > c->hbox.height &&
-            c->hbox.left >= this->hbox.left - 20 && c->hbox.top <= this->hbox.left + 36){
+            if(curr == &walk_up && this->hbox.top - 64 < c->hbox.top + c->hbox.height &&
+                this->hbox.top > c->hbox.top + c->hbox.height &&
+            c->hbox.left >= this->hbox.left - 32 && c->hbox.top <= this->hbox.left + 32){
                 std::cout << "hiyah" << std::endl;
                 c->hurt();
              }
-            if(curr == &walk_down && this->hbox.top - 32 < c->hbox.top + c->hbox.height &&
+            if(curr == &walk_down && this->hbox.top + this->hbox.height + 64 > c->hbox.top &&
+                this->hbox.top + this->hbox.height < c->hbox.top &&
                 c->hbox.left >= this->hbox.left - 20 && c->hbox.top <= this->hbox.left + 36){
                 std::cout << "hiyah" << std::endl;
                 c->hurt();
@@ -290,8 +294,11 @@ void Character::onUpdate(float dt)
         isStarted = false;
 
     }
-    if(health <= 0){
+    if(this->isAlive && health <= 0){
         curr = &death_animation;
+        this->isAlive = false;
+        auto e = std::make_shared< Event<bool> >("true");
+        Events::queueEvent("player_died", e);
     }
 
     this->z_index = this->getPosition().y;
@@ -337,7 +344,7 @@ void Character::hurt(){
     }
     else{
         std::cout << "should play death" << std::endl;
-        chara_death.stop();
+
         chara_death.play();
     }
 }
@@ -443,7 +450,9 @@ void Character::onGamepadEvent(GamepadEvent e)
                         this->direction.x = 0;
                     }
                 }
-
+                if(e.button == "Y"){
+                    this->health = 0;
+                }
                 if(e.button == "B"){
                     this->attack();
                 }

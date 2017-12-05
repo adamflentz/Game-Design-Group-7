@@ -10,7 +10,21 @@
 void GameplayScreen::init()
 {
     clock.restart();
-    group.generateRoomGrid(8);
+    switch(num_players){
+        case 1:
+        group.generateRoomGrid(20);
+        break;
+        case 2:
+        group.generateRoomGrid(40);
+        break;
+        case 3:
+        group.generateRoomGrid(60);
+        break;
+        case 4:
+        group.generateRoomGrid(100);
+        break;
+    }
+    
 
     this->createClues();
     num_players = config->num_players;
@@ -25,7 +39,17 @@ void GameplayScreen::init()
     // ghost->setRoomGroup(&group);
     // ghost->setEntities(&entity_group);
     // entity_group.addCharacter(std::move(ghost));
-    entity_group.init();
+    Events::addEventListener("player_died", [=](base_event_type e){
+      // We'll need to delete this listener in the destructor or we'll have segfaults/undefined behavior eventually
+      // Cast to gamepad event
+      if(--num_players == 0){
+        std::cout << "All players died" << std::endl;
+        auto event = std::make_shared< Event<std::string> >("GameEnd");
+        Events::queueEvent("change_screen", event);
+      };
+
+
+    });
     // std::cout << group.rooms.size() << std::endl;
 }
 
@@ -47,6 +71,18 @@ void GameplayScreen::createClues()
             clue->clueSpec = reader.getCluesSpec()[0];
             clue->clueVague = reader.getCluesVague()[0];
             clue->clueWorthless = reader.getCluesWorthless()[0];
+            int randint = rand() % 3;
+            switch(randint){
+                case 0:
+                clue->setClue = clue->clueSpec;
+                break;
+                case 1:
+                clue->setClue = clue->clueVague;
+                break;
+                case 2:
+                clue->setClue = clue->clueWorthless;
+                break;
+            }
             int x = (*it)->rect.getPosition().x + (32 * (*j));
             std::cout << x;
             std::cout << " ";
@@ -161,7 +197,7 @@ void GameplayScreen::onUpdate(float dt)
 
 }
 
-
 void GameplayScreen::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const
 {
+
 }

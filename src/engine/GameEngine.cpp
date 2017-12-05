@@ -88,7 +88,6 @@ void GameEngine::changeGameScreen(std::string s)
         this->currScene = screens[s].get();
         if(this->currScene)
         {
-            //this->currScene->setGame(this);
             this->currScene->init();
         }
     }

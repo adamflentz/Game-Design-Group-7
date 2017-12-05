@@ -23,11 +23,14 @@ void HouseHauntersGame::init()
     screen_gametitle->setConfig(config);
     std::unique_ptr<GameScreen> screen_character = std::unique_ptr<GameScreen>(new CharacterScreen());
     screen_character->setConfig(config);
+    std::unique_ptr<GameScreen> screen_end = std::unique_ptr<GameScreen>(new GameEndScreen());
+    screen_end->setConfig(config);
     // Add the game screen
     // since it's a unique pointer we have to move it firstdisableGamepads
-    this->addGameScreen("Title", std::move(screen_gametitle) );
+    this->addGameScreen("Title",     std::move(screen_gametitle) );
     this->addGameScreen("Character", std::move(screen_character) );
-    this->addGameScreen("GamePlay", std::move(screen_gameplay) );
+    this->addGameScreen("GamePlay",  std::move(screen_gameplay) );
+    this->addGameScreen("GameEnd",   std::move(screen_end) );
 
     // start off at title screen
     this->changeGameScreen("Title");

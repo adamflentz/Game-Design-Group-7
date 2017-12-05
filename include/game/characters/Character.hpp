@@ -70,18 +70,23 @@ public:
     bool readClue = false;
     bool atClue = false;
     std::shared_ptr<Clue> currentClue;
+<<<<<<< HEAD
     // Base attributes
+=======
+    sf::Vector2f direction;
+    Config::CHARACTER character;
+
+protected:
+    int gamepad_index = -1;
+
+    // Base attributes 
+>>>>>>> bdf4933ecc23c111a44fbdf9c22f3ebef5117c2e
     double speed = 120;
     double stealth = 100;
     double strength = 100;
     double intelligence = 100;
-
-protected:
-    int gamepad_index = -1;
-    Config::CHARACTER character;
     RoomGroup* g;
     EntityGroup* entity_group;
-    sf::Vector2f direction;
     sf::Texture sprite_map;
     sf::Texture death_map;
     sf::Texture pain_sprite;
@@ -106,6 +111,7 @@ protected:
     sf::Clock clock;
     bool isStarted;
     bool panic;
+    bool isAlive = true;
     bool isAttacking = false;
 
 
