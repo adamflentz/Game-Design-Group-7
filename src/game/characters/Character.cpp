@@ -59,22 +59,22 @@ void Character::checkClues(){
         std::shared_ptr<Clue> c = *it;
         
         if(c->hbox.intersects(this->hbox)){
-            std::cout << c->hbox.top + c->hbox.height - this->hbox.top << std::endl;
+            // std::cout << c->hbox.top + c->hbox.height - this->hbox.top << std::endl;
             if(this->hbox.left + this->hbox.width - c->hbox.left == 2){
                 this->stopRight = true;
-                std::cout << "stop right" << std::endl;
+                // std::cout << "stop right" << std::endl;
             }
             else if(c->hbox.left + c->hbox.width - this->hbox.left == 2){
                 this->stopLeft = true;
-                std::cout << "stop left" << std::endl;
+                // std::cout << "stop left" << std::endl;
             }
             else if(c->hbox.top + c->hbox.height - this->hbox.top == 2 ){
                 this->stopUp = true;
-                std::cout << "stop up" << std::endl;
+                // std::cout << "stop up" << std::endl;
             }
             else if(this->hbox.top + this->hbox.height - c->hbox.top   == 2){
                 this->stopDown = true;
-                std::cout << "stop down" << std::endl;
+                // std::cout << "stop down" << std::endl;
             }
             this->hbox.setColor(sf::Color::Green);
         }
@@ -93,7 +93,6 @@ void Character::onUpdate(float dt)
     float dy = this->direction.y * speed * dt;
 
     // check if inside any room 
-    std::cout << this->direction.y << std::endl;
     if(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height)) && health > 0){  
         this->checkClues();
         if(this->stopLeft == true && dx < 0){
