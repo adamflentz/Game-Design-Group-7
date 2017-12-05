@@ -4,7 +4,6 @@
 void RoomGroup::generateRoomGrid(int roomCount)
 {
     srand (time(NULL));
-    roomCount = 10;
     // TODO:  Figure out total grid size based on difficulty: for now demo is size 3
     std::unique_ptr<Room> currRoom;
     std::unique_ptr<Room> currDoor;
@@ -53,8 +52,8 @@ void RoomGroup::generateRoomGrid(int roomCount)
                 // std::cout << "Room ";
                 // std::cout << count << std::endl;
                 currRoom = std::unique_ptr<Room>(new Room());
-                currRoom->rect.setSize(sf::Vector2f(256, 160));
-                currRoom->rect.setPosition((256+10) * i, (160+10) * j);
+                currRoom->rect.setSize(sf::Vector2f(512, 384));
+                currRoom->rect.setPosition((512+10) * i, (384+10) * j);
                 currRoom->isDoor = false;
                 // std::cout << "center x: ";
                 // std::cout << currRoom->rect.getPosition().x + (256 / 2) << std::endl;
@@ -69,7 +68,7 @@ void RoomGroup::generateRoomGrid(int roomCount)
                 if(i+1 < houseWidth && roomGrid[i+1][j] == 1){
                     currDoor = std::unique_ptr<Room>(new Room());
                     currDoor->rect.setSize(sf::Vector2f(32 * 3, 64));
-                    currDoor->rect.setPosition(currRoom->getPosition().x + 256 - 32, currRoom->getPosition().y + 80 - 32);
+                    currDoor->rect.setPosition(currRoom->getPosition().x + 512 - 32, currRoom->getPosition().y + 192 - 32);
                     currDoor->setPosition(currRoom->rect.getPosition());
                     currDoor->init();
                     currDoor->isDoor = true;
@@ -79,7 +78,7 @@ void RoomGroup::generateRoomGrid(int roomCount)
                 if(j+1 < houseHeight && roomGrid[i][j+1] == 1){
                     currDoor = std::unique_ptr<Room>(new Room());
                     currDoor->rect.setSize(sf::Vector2f(64, 32 * 3));
-                    currDoor->rect.setPosition(currRoom->getPosition().x + 128 - 32, currRoom->getPosition().y + 160 - 16);
+                    currDoor->rect.setPosition(currRoom->getPosition().x + 256 - 32, currRoom->getPosition().y + 384 - 16);
                     currDoor->setPosition(currRoom->rect.getPosition());
                     currDoor->init();
                     currDoor->isDoor = true;
@@ -96,11 +95,11 @@ void RoomGroup::generateRoomGrid(int roomCount)
 bool RoomGroup::isInsideRoom(sf::FloatRect hbox)
 {
     for(auto r = rooms.begin(); r != rooms.end(); r++){
-        sf::FloatRect hbox2 = (*r)->hbox;
-        // check if hbox is inside room hitbox
+        sf::RectangleShape hbox2 = (*r)->rect;
+        // check if hbox is inside room
         if(
-            (hbox.top >= hbox2.top && hbox.top + hbox.height <= hbox2.top + hbox2.height) &&
-            (hbox.left >= hbox2.left && hbox.left + hbox.width <= hbox2.left + hbox2.width)
+            (hbox.top >= hbox2.getPosition().y && hbox.top + hbox.height <= hbox2.getPosition().y + hbox2.getSize().y) &&
+            (hbox.left >= hbox2.getPosition().x && hbox.left + hbox.width <= hbox2.getPosition().x + hbox2.getSize().x)
         )
         {
             return true;
