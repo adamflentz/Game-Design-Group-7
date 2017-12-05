@@ -33,8 +33,10 @@ public:
     bool isEmpty(){ return hovering.size() == 0; };
     void onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const;
     void onUpdate(float dt);
-    void moveRight(int num);
+    void setCharacter(Config::CHARACTER c){ character = c; };
+    Config::CHARACTER getCharacter(){ return character; };
 protected:
+    Config::CHARACTER character;
     int index = 0;
     sf::Color colors[4] = {sf::Color::Red, sf::Color(30, 144, 255), sf::Color::Green, sf::Color::Yellow};
     std::vector<std::unique_ptr<CharacterIcon>>::iterator find(int player);

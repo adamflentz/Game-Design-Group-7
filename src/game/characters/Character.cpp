@@ -9,8 +9,36 @@ void Character::init()
 {
     this->direction = sf::Vector2f(0,0);
     this->setOrigin(16, 16);
+    int sprite_location = -1;
+    std::cout << "Player Number: " << this->player_number << " is Character ";
+    switch(character){
+        case Config::CHARACTER::MOM:
+            std::cout << "Mom" << std::endl;
+            sprite_location = 0;
+            break;
+        case Config::CHARACTER::SIS:
+            std::cout << "SIS" << std::endl;
+            sprite_location = 1;
+            break;
+        case Config::CHARACTER::BRO:
+            std::cout << "BRO" << std::endl;
+            sprite_location = 2;
+            break;
+        case Config::CHARACTER::DAD:
+            std::cout << "DAD" << std::endl;
+            sprite_location = 3;
+            break;
+    }
+    // int sprite_location = static_cast<int>(character);
+    int x = ((sprite_location) % 2);
+    int y = ((sprite_location) / 2);
+    int mod = 3 * x + 24 * y;
+
+    std::cout << x << " " << y << std::endl;
+
     // Make sure player starts inside first room(?)
     // could also make them start inside a random room
+
     this->setPosition(
       g->getRoom(0)->hbox.left + 20 + (32 * player_number),
       g->getRoom(0)->hbox.top + 20);
@@ -21,21 +49,29 @@ void Character::init()
     // v.setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
     // v.setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
     // load the sprite map
-    sprite_map.loadFromFile("../resources/sprites/rando.png");
+    sprite_map.loadFromFile("../resources/sprites/character_sheet.png");
     // add animation frames
-    std::vector< std::vector<int> > down_frames = { {1}, {2}, {1}, {0} };
+    std::vector< std::vector<int> > down_frames = { 
+        {mod +  1}, {mod + 2}, {mod + 1}, { mod + 0} 
+    };
     walk_down.setSpriteSheet(sprite_map);
     walk_down.addFrames(down_frames, 32, 32);
 
-    std::vector< std::vector<int> > left_frames = { {4}, {5}, {4}, {3} };
+    std::vector< std::vector<int> > left_frames = { 
+        {7 + mod}, {8 + mod}, {7 + mod}, {6 + mod} 
+    };
     walk_left.setSpriteSheet(sprite_map);
     walk_left.addFrames(left_frames, 32, 32);
 
-    std::vector< std::vector<int> > right_frames = { {7}, {8}, {7}, {6} };
+    std::vector< std::vector<int> > right_frames = { 
+        {13 + mod}, {14 + mod}, {13 + mod}, {12 + mod} 
+    };
     walk_right.setSpriteSheet(sprite_map);
     walk_right.addFrames(right_frames, 32, 32);
 
-    std::vector< std::vector<int> > up_frames = { {10}, {11}, {10}, {9} };
+    std::vector< std::vector<int> > up_frames = { 
+        {19 + mod}, {20 + mod}, {19 + mod}, {18 + mod} 
+    };
     walk_up.setSpriteSheet(sprite_map);
     walk_up.addFrames(up_frames, 32, 32);
     // set death sprite

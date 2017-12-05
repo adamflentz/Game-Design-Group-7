@@ -2,7 +2,7 @@
 #define GAME_SCREEN_HPP
 
 #include <memory>
-#include "engine/Config.hpp"
+#include "game/Config.hpp"
 #include "engine/GameObject.hpp"
 
 class GameEngine;
