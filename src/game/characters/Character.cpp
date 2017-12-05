@@ -7,6 +7,9 @@
 
 void Character::init()
 {
+    chara_hurt.setBuffer(*ResourceManager::getSoundBuffer("../resources/music/hurt.wav"));
+    chara_death.setBuffer(*ResourceManager::getSoundBuffer("../resources/music/dead.wav"));
+    chara_death.play();
     this->direction = sf::Vector2f(0,0);
     this->setOrigin(16, 16);
     int sprite_location = -1;
@@ -24,7 +27,7 @@ void Character::init()
             break;
         case Config::CHARACTER::SIS:
             std::cout << "SIS" << std::endl;
-            // ++ stealth 
+            // ++ stealth
             // -- strength
             health = 3;
             maxHealth = 3;
@@ -35,7 +38,7 @@ void Character::init()
             break;
         case Config::CHARACTER::BRO:
             std::cout << "BRO" << std::endl;
-            // ++ speed 
+            // ++ speed
             // -- stealth
             health = 3;
             maxHealth = 3;
@@ -70,7 +73,7 @@ void Character::init()
         {0}, {1}, {2}, {3}
     };
     attack_anim.addFrames(swipe_frames, 32, 32);
-    
+
     if(g->getRoom(0)->room_setup == "armory"){
         this->setPosition(
             g->getRoom(0)->hbox.left + 20 + (32 * player_number),
@@ -329,6 +332,14 @@ void Character::checkCollisions()
 void Character::hurt(){
     this->health--;
     this->invul = true;
+    if(health > 0){
+        chara_hurt.play();
+    }
+    else{
+        std::cout << "should play death" << std::endl;
+        chara_death.stop();
+        chara_death.play();
+    }
 }
 
 void Character::attack(){
@@ -371,7 +382,7 @@ void Character::onGamepadEvent(GamepadEvent e)
                         // stop running
                         this->speed /= 2;
                     }
-                } 
+                }
                 if(this->direction.y <= -1) {
                     curr = &walk_up;
                 }

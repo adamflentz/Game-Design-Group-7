@@ -48,6 +48,7 @@ protected:
     bool fastSpeed;
     sf::FloatRect roomHbox;
     sf::FloatRect chaseHbox;
+    sf::Sound ghost_sound;
 
 };
 

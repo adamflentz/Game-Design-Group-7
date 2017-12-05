@@ -6,8 +6,8 @@ void CharacterIcon::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const
 }
 
 std::vector<std::unique_ptr<CharacterIcon>>::iterator CharacterSelection::find(int player){
-  return std::find_if(hovering.begin(), hovering.end(), [=](std::unique_ptr<CharacterIcon>& c){ 
-    return c->getPlayer() == player; 
+  return std::find_if(hovering.begin(), hovering.end(), [=](std::unique_ptr<CharacterIcon>& c){
+    return c->getPlayer() == player;
     }
   );
 }
@@ -28,7 +28,7 @@ void CharacterSelection::setPortrait(int index)
 
 void CharacterSelection::setPlayer(int player)
 {
-  player_selected = player; 
+  player_selected = player;
   selected = true;
   int x = (index) % 4;
   int y = (index) / 4;
@@ -38,7 +38,7 @@ void CharacterSelection::setPlayer(int player)
 
 void CharacterSelection::unsetPlayer()
 {
-  player_selected = -1; 
+  player_selected = -1;
   selected = false;
   int x = (index + 1) % 4;
   int y = (index + 1) / 4;
@@ -101,6 +101,8 @@ void CharacterSelection::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) 
 void CharacterScreen::init()
 {
   std::cout<< "CharacterScreen" << std::endl;
+
+  chara_sound.setBuffer(*ResourceManager::getSoundBuffer("../resources/music/thunder.flac"));
 
   player_num = config->player_map.size();
 
@@ -169,7 +171,7 @@ void CharacterScreen::onGamepadEvent(GamepadEvent e)
 {
   if(this->changed)
     return;
-  
+
   // std::cout << e.index << std::endl;
   if(e.type == GamepadEvent::RELEASED){
     // Check if player in game already (add them if possible)
@@ -178,13 +180,13 @@ void CharacterScreen::onGamepadEvent(GamepadEvent e)
       this->addPlayer(e.index, player_num);
       teamFont.setString("MAKE YOUR TEAM");
     }
-    // Handle input 
+    // Handle input
     else {
       int player = config->player_map[e.index];
       int found_index = -1;
       int replace_index = -1;
       bool found = false;
-      
+
       if(e.button == "RIGHT"){
         int index = 0;
         for(auto it = char_selections.begin(); it != char_selections.end(); it++){
@@ -215,8 +217,9 @@ void CharacterScreen::onGamepadEvent(GamepadEvent e)
           index--;
         }
       }
-      
+
       else if(e.button == "A" || e.button == "START"){
+        chara_sound.play();
         if(selected_count == player_num){
           auto event = std::make_shared< Event<std::string> >("GamePlay");
           this->changed = true;
@@ -257,9 +260,9 @@ void CharacterScreen::onGamepadEvent(GamepadEvent e)
           }
         }
       }
-      // Move the character if neccessary 
+      // Move the character if neccessary
       if(found_index >= 0 && found_index < 4 && replace_index >= 0 && replace_index < 4){
-          // std::cout << "Moving player " << player << " from index " << found_index << " to index " << replace_index << std::endl; 
+          // std::cout << "Moving player " << player << " from index " << found_index << " to index " << replace_index << std::endl;
           char_selections[found_index]->removePlayer(player);
           char_selections[replace_index]->addPlayer(player);
       }
@@ -272,7 +275,7 @@ void CharacterScreen::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) con
     // ctx.draw(group, states);
     ctx.draw(background);
     ctx.draw(teamFont);
-    
+
     for(auto it = char_selections.begin(); it != char_selections.end(); it++){
       ctx.draw(**it);
     }

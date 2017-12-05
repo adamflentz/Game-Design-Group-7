@@ -1,10 +1,12 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include <set>
 #include "game/characters/Villain.hpp"
 
 void Villain::init()
 {
+    ghost_sound.setBuffer(*ResourceManager::getSoundBuffer("../resources/music/ghost.wav"));
     this->direction = sf::Vector2f(0,0);
     // Make sure player starts inside first room(?)
     // could also make them start inside a random room
@@ -68,6 +70,9 @@ void Villain::onUpdate(float dt)
             speed *= 1.5;
             fastSpeed = true;
         }
+        if(isChasing == false){
+          ghost_sound.play();
+        }
         isChasing = true;
         this->chase();
         // std::cout << "CHASING" << std::endl;
@@ -115,6 +120,7 @@ bool Villain::checkCharacters(){
             this->hbox.setColor(sf::Color::Green);
             this->chaseHbox = c->hbox;
             return true;
+
         }
     }
     return false;
@@ -213,6 +219,7 @@ void Villain::returnToCenter(){
 }
 void Villain::chase()
 {
+
     needsCentering = true;
     // std::cout << this->chaseHbox.top << std::endl;
 

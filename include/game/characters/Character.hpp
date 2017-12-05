@@ -70,7 +70,7 @@ public:
     bool readClue = false;
     bool atClue = false;
     std::shared_ptr<Clue> currentClue;
-    // Base attributes 
+    // Base attributes
     double speed = 120;
     double stealth = 100;
     double strength = 100;
@@ -85,6 +85,8 @@ protected:
     sf::Texture sprite_map;
     sf::Texture death_map;
     sf::Texture pain_sprite;
+    sf::Sound chara_hurt;
+    sf::Sound chara_death;
     // An attack animation
     SpriteAnimation attack_anim;
     // The current animation

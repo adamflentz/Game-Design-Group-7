@@ -3,7 +3,7 @@
 #include <vector>
 #include "engine/Engine.hpp"
 
-class CharacterIcon : public GameObject 
+class CharacterIcon : public GameObject
 {
 public:
     void init(){};
@@ -15,6 +15,8 @@ public:
 protected:
     int player_number = -1;
     sf::Text t;
+    //sf::SoundBuffer buffer;
+    //sf::Sound chara_sound;
 };
 
 
@@ -67,4 +69,5 @@ protected:
     int player_num = 1;
     int trans = 255;
     int selected_count = 0;
+    sf::Sound chara_sound;
 };

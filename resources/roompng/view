@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <title>Sign in - Google Accounts</title>
+  <meta http-equiv="refresh" content="1; url=https://www.google.com/accounts/AccountChooser?hd=email.wm.edu&amp;continue=https%3A%2F%2Fdrive.google.com%2Fa%2Femail.wm.edu%2Ffile%2Fd%2F1kbPqX9J3CLcYfq0Suw57Uc1HDlv3JQ6W%2Fview%3Fusp%3Ddrive_web&amp;followup=https%3A%2F%2Fdrive.google.com%2Fa%2Femail.wm.edu%2Ffile%2Fd%2F1kbPqX9J3CLcYfq0Suw57Uc1HDlv3JQ6W%2Fview%3Fusp%3Ddrive_web&amp;service=wise"></meta>
+  </head>
+  <body >
+  <form id="hiddenget" action="https://www.google.com/accounts/AccountChooser?hd=email.wm.edu&amp;continue=https%3A%2F%2Fdrive.google.com%2Fa%2Femail.wm.edu%2Ffile%2Fd%2F1kbPqX9J3CLcYfq0Suw57Uc1HDlv3JQ6W%2Fview%3Fusp%3Ddrive_web&amp;followup=https%3A%2F%2Fdrive.google.com%2Fa%2Femail.wm.edu%2Ffile%2Fd%2F1kbPqX9J3CLcYfq0Suw57Uc1HDlv3JQ6W%2Fview%3Fusp%3Ddrive_web&amp;service=wise" method="get">
+  <noscript>
+  You should turn on Javascript support.
+  <input type="submit" id="nojssubmit" value="Continue">
+  </noscript>
+</form>
+  <script nonce="sKPOUssMEidb/8lCLxSSbB7jL8g">
+window.onload = function() {
+  var redirectUrl = 'https:\x2F\x2Fwww.google.com\x2Faccounts\x2FAccountChooser?hd=email.wm.edu\x26continue=https%3A%2F%2Fdrive.google.com%2Fa%2Femail.wm.edu%2Ffile%2Fd%2F1kbPqX9J3CLcYfq0Suw57Uc1HDlv3JQ6W%2Fview%3Fusp%3Ddrive_web\x26followup=https%3A%2F%2Fdrive.google.com%2Fa%2Femail.wm.edu%2Ffile%2Fd%2F1kbPqX9J3CLcYfq0Suw57Uc1HDlv3JQ6W%2Fview%3Fusp%3Ddrive_web\x26service=wise';
+  var domain = 'email.wm.edu';
+  var hash = window.location.hash;
+  if (hash) {
+  var match = hash.match(/[#&]Email=([^&]+)/);
+  if (match) {
+  redirectUrl += "&Email=" + match[1] + "@" + domain;
+  }
+  }
+  window.location.replace(redirectUrl);
+};
+</script>
+  </body>
+</html>
