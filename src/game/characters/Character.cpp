@@ -326,14 +326,8 @@ void Character::onGamepadEvent(GamepadEvent e)
                         readClue = true; // open clue
                     }
                     else if(this->currentClue && readClue == true){
-                        // close clue
-<<<<<<< HEAD
-            
-                        readClue = false;
                         std::cout << "CLUE " << readClue << std::endl;
-=======
                         readClue = false; // close clue
->>>>>>> fab86b063900ccbf1e0dc2c31265202bf1fafab0
                     }
                     else{
                         this->attack();

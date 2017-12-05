@@ -227,7 +227,7 @@ void Room::setRoomType(int type)
         clueCoordinates.push_back(1);
         clueCoordinates.push_back(11);
         clueCoordinates.push_back(4);
-        clueCoordinates.push_back(1);z
+        clueCoordinates.push_back(1);
       break;
       case 7:
         room_setup = "lion";
