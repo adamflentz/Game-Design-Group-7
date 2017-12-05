@@ -14,7 +14,6 @@ public:
    void generateRoomGrid(int roomCount);
    bool isInsideRoom(sf::FloatRect hbox);
    sf::FloatRect getRoom(sf::FloatRect hbox);
-   std::list<std::unique_ptr<Room>> rooms;
    int totalRooms;
    Room* getRoom(int room_num);
    Room* getRoomInside(sf::FloatRect hbox);

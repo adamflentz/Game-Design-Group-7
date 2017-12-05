@@ -22,7 +22,7 @@ void PlayerView::init()
         // Cast to gamepad event
         auto gpe = dynamic_cast< GamepadEvent& >(*e);
         // Check that the index matches our player
-        if(gpe.index == playernumber){
+        if(gpe.index == entity_group->getCharacter(playernumber)->getGamepadIndex()){
             // Call our listener function personally
             entity_group->getCharacter(playernumber)->onGamepadEvent(gpe);
         }
