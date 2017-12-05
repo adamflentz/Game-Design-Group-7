@@ -35,7 +35,7 @@ public:
     void setRoomGroup(RoomGroup* group) { g = group; };
 
     void setPlayerNumber(int number){player_number = number;};
-    void hurt();
+
     /**
     * Captures gamepad events and updates the state of our
     * character accordingly
@@ -45,6 +45,10 @@ public:
     * Very simple collision checking
     */
     virtual void checkCollisions();
+    /**
+     * Rewriteable hurt method to be used by ghost and char
+     */
+    virtual void hurt();
 
     /* See GameObject Class*/
     virtual void init();
@@ -57,7 +61,12 @@ public:
     int maxHealth;
     bool invul;
     void checkClues();
+    void checkVillain();
+    void attack();
+    virtual bool isVillain(){return false;};
     bool readClue = false;
+
+protected:
     std::shared_ptr<Clue> currentClue;
 
 
@@ -86,6 +95,8 @@ protected:
     SpriteAnimation death_animation;
     sf::Clock clock;
     bool isStarted;
+    bool panic;
+
 
 };
 
