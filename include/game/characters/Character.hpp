@@ -68,15 +68,14 @@ public:
     virtual bool isVillain(){return false;};
     bool readClue = false;
     std::shared_ptr<Clue> currentClue;
-
+    sf::Vector2f direction;
+    Config::CHARACTER character;
 
 protected:
     int gamepad_index = -1;
     double speed = 120;
-    Config::CHARACTER character;
     RoomGroup* g;
     EntityGroup* entity_group;
-    sf::Vector2f direction;
     sf::Texture sprite_map;
     sf::Texture death_map;
     sf::Texture pain_sprite;

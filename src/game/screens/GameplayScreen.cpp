@@ -10,7 +10,21 @@
 void GameplayScreen::init()
 {
     clock.restart();
-    group.generateRoomGrid(8);
+    switch(num_players){
+        case 1:
+        group.generateRoomGrid(2);
+        break;
+        case 2:
+        group.generateRoomGrid(40);
+        break;
+        case 3:
+        group.generateRoomGrid(60);
+        break;
+        case 4:
+        group.generateRoomGrid(100);
+        break;
+    }
+    
 
     this->createClues();
     num_players = config->num_players;
