@@ -9,11 +9,15 @@
 
 void GameplayScreen::init()
 {
-    numplayers = 1;
+    clock.restart();
     group.generateRoomGrid(8);
 
     this->createClues();
-    this->createViews(numplayers);
+    num_players = config->num_players;
+    // If we let the playerview set its own viewport
+    // then we end up running the same code over and over inside PlayerView#init
+    this->createViews(num_players);
+
     // Create the ghost (this could easily be another function)
     // this->createVillain()
     ghost = std::make_shared<Villain>();
@@ -102,6 +106,13 @@ void GameplayScreen::onUpdate(float dt)
     // Update the rooms (not really necessary though)
     group.update(dt);
     entity_group.update(dt);
+
+    // std::cout << clock.getElapsedTime().asSeconds() << std::endl;
+    if (clock.getElapsedTime().asSeconds() >= config -> time_Per_Phase) {
+      std::cout << "phase ends" << std::endl;
+      clock.restart();
+    }
+
 }
 
 

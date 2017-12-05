@@ -33,14 +33,20 @@ public:
     void init();
     void onUpdate(float dt);
     void onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const;
+
 protected:
     void createViews(int numPlayers);
     void createClues();
-    int numplayers = 1;
+    int num_players = 1;
     // Entity 0 is the ghost
     std::map<int, std::shared_ptr <Clue>> clues;
+    // A map of entities (characters)
+    // Entity 0 is the ghost
+    std::map<int, std::shared_ptr<Character>> entities;
     // std::vector<std::shared_ptr<Character>> activeCharacters;
     // std::vector<std::unique_ptr<Room> > roomFac;
+
+    sf::Clock clock;
     RoomGroup group;
     std::shared_ptr<Villain> ghost;
     std::shared_ptr<Clue> clue;

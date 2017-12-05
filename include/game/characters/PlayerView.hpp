@@ -40,5 +40,10 @@ class PlayerView: public GameObject
         sf::View v;
         // Heads up display (Items, Health(?), etc)
         sf::View HUD;
+        sf::RectangleShape itemBar;
+        sf::Texture heartTexture;
+        sf::RectangleShape pain;
         void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
+        sf::Clock clock;
+        int painCount;
 };

@@ -35,6 +35,7 @@ public:
     void setRoomGroup(RoomGroup* group) { g = group; };
 
     void setPlayerNumber(int number){player_number = number;};
+    void hurt();
     /**
     * Captures gamepad events and updates the state of our 
     * character accordingly
@@ -52,6 +53,9 @@ public:
     int player_number = -1;
     // create a hitbox at bottom half of 32x32 character
     Hitbox hbox;
+    int health;
+    int maxHealth;
+    bool invul;
 protected:
     int gamepad_index = -1;
     double speed = 120;
@@ -59,14 +63,20 @@ protected:
     EntityGroup* entity_group;
     sf::Vector2f direction;
     sf::Texture sprite_map;
+    sf::Texture death_map;
+    sf::Texture pain_sprite;
     // The current animation
     SpriteAnimation* curr;
+    SpriteAnimation* ow;
     // create 4 sprite animations representing walking 
     // in the 4 cardinal directions
     SpriteAnimation walk_up;
     SpriteAnimation walk_down;
     SpriteAnimation walk_left;
     SpriteAnimation walk_right;
+    SpriteAnimation death_animation;
+    sf::Clock clock;
+    bool isStarted;
 
 };
 

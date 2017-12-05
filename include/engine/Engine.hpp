@@ -16,13 +16,14 @@
 #include "engine/Interpolate.hpp"
 #include "engine/Gamepad.hpp"
 #include "engine/Random.hpp"
-
+#include "engine/Config.hpp"
 // Game creation
 #include "engine/GameObject.hpp"
 #include "engine/EngineEvents.hpp"
 #include "engine/EventManager.hpp"
 #include "engine/GameScreen.hpp"
 #include "engine/GameEngine.hpp"
+#include "engine/ResourceManager.hpp"
 // #include "engine/ClueReader.hpp"
 
 #endif

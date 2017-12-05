@@ -29,7 +29,7 @@ private:
     sf::Vector2f offset;
     sf::RectangleShape shape;
     GameObject* tracker = NULL;
-    bool isDebugMode = true;
+    bool isDebugMode = false;
 };
 
 #endif

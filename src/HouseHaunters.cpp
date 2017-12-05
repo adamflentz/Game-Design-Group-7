@@ -12,13 +12,17 @@
 
 void HouseHauntersGame::init()
 {
+    config = std::make_shared<Config>();
     this->setName("House Haunters");
     // Setup the window position and dimensions
     this->setWindowRect(100, 100, 720, 480);
     // Initialize the game screendisableGamepads
     std::unique_ptr<GameScreen> screen_gameplay  = std::unique_ptr<GameScreen>(new GameplayScreen());
+    screen_gameplay->setConfig(config);
     std::unique_ptr<GameScreen> screen_gametitle = std::unique_ptr<GameScreen>(new GametitleScreen());
+    screen_gametitle->setConfig(config);
     std::unique_ptr<GameScreen> screen_character = std::unique_ptr<GameScreen>(new CharacterScreen());
+    screen_character->setConfig(config);
     // Add the game screen
     // since it's a unique pointer we have to move it firstdisableGamepads
     this->addGameScreen("Title", std::move(screen_gametitle) );
