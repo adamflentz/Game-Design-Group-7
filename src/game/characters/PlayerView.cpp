@@ -86,11 +86,17 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 
     // draw a clue
     if(entity_group->getCharacter(playernumber)->readClue == true){
-        std::string t = entity_group->getCharacter(playernumber)->currentClue->clueSpec;
+        std::string t;
+        if(entity_group->getCharacter(playernumber)->currentClue != NULL){
+            t = entity_group->getCharacter(playernumber)->currentClue->clueSpec;
+        }
+        
 
         sf::Text clueText;
         clueText.setFont(*ResourceManager::getFont("../resources/fonts/Underdog-Regular.ttf"));
-        clueText.setString(t);
+        if(t != ""){
+            clueText.setString(t);
+        }
         clueText.setCharacterSize(24);
         clueText.setColor(sf::Color::White);
         clueText.setStyle(sf::Text::Bold);

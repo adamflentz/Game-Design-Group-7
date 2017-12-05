@@ -65,8 +65,6 @@ public:
     void attack();
     virtual bool isVillain(){return false;};
     bool readClue = false;
-
-protected:
     std::shared_ptr<Clue> currentClue;
 
 

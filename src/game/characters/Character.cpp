@@ -284,9 +284,14 @@ void Character::onGamepadEvent(GamepadEvent e)
                 if(e.button == "A"){ // perform an action
                     std::cout << this->currentClue << std::endl;
                     if(this->currentClue && readClue == false){
-                        readClue = true; // open clue
-                    }else if(this->currentClue && readClue == true) {
-                        readClue = false; // close clue
+                        // open clue
+                        readClue = true;
+                        // std::cout << "CLUE " << readClue << std::endl;
+                    }
+                    else if(this->currentClue && readClue == false){
+                        // close clue
+                        readClue = false;
+                        std::cout << "CLUE " << readClue << std::endl;
                     }
                     else{
                         this->attack();
