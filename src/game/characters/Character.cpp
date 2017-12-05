@@ -157,6 +157,7 @@ void Character::checkClues(){
             this->stopUp = false;
             this->stopDown = false;
             this->currentClue = NULL;
+            readClue = false;
         }
     }
 }
@@ -326,7 +327,6 @@ void Character::onGamepadEvent(GamepadEvent e)
                         readClue = true; // open clue
                     }
                     else if(this->currentClue && readClue == true){
-                        // close clue
                         readClue = false; // close clue
                     }
                     else{

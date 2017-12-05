@@ -23,6 +23,7 @@ class PlayerView: public GameObject
         void setEntities(EntityGroup* ents) {entity_group = ents;};
         // Set the dimensions and viewport of the view
         void setView(sf::FloatRect dimensions, sf::FloatRect viewport);
+        sf::FloatRect viewDimensions;
         // Set the player's number (controls)
         void setEntityNumber(int number){playernumber = number;};
 
