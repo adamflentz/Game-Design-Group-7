@@ -58,6 +58,7 @@ public:
     bool invul;
     void checkClues();
 protected:
+    std::shared_ptr<Clue> currentClue;
     int gamepad_index = -1;
     double speed = 120;
     RoomGroup* g;

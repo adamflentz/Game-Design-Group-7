@@ -76,6 +76,7 @@ void Character::checkClues(){
                 this->stopDown = true;
                 // std::cout << "stop down" << std::endl;
             }
+            currentClue = c;
             this->hbox.setColor(sf::Color::Green);
         }
     else{
