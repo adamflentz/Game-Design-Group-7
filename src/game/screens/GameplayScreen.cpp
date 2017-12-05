@@ -20,11 +20,11 @@ void GameplayScreen::init()
     entity_group.init();
     // Create the ghost (this could easily be another function)
     // this->createVillain()
-    ghost = std::make_shared<Villain>();
-    ghost->setPlayerNumber(-1);
-    ghost->setRoomGroup(&group);
-    ghost->setEntities(&entity_group);
-    entity_group.addCharacter(std::move(ghost));
+    // ghost = std::make_shared<Villain>();
+    // ghost->setPlayerNumber(-1);
+    // ghost->setRoomGroup(&group);
+    // ghost->setEntities(&entity_group);
+    // entity_group.addCharacter(std::move(ghost));
     entity_group.init();
     // std::cout << group.rooms.size() << std::endl;
 }
