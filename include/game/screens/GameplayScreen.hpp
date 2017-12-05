@@ -37,6 +37,7 @@ public:
 protected:
     void createViews(int numPlayers);
     void createClues();
+    int phase = 1;
     int num_players = 1;
     // Entity 0 is the ghost
     std::map<int, std::shared_ptr <Clue>> clues;
