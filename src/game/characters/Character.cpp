@@ -16,33 +16,37 @@ void Character::init()
             std::cout << "Mom" << std::endl;
             // ++ intelligence
             // -- speed
-            intelligence *= 2;
-            speed /= 1.2;
+            // intelligence *= 2;
+            // speed /= 1.2;
+            health = 3;
+            maxHealth = 3;
             sprite_location = 0;
             break;
         case Config::CHARACTER::SIS:
             std::cout << "SIS" << std::endl;
             // ++ stealth 
             // -- strength
+            health = 3;
+            maxHealth = 3;
+
             sprite_location = 1;
-            stealth *= 2;
-            strength /= 2;
+            // stealth *= 2;
+            // strength /= 2;
             break;
         case Config::CHARACTER::BRO:
             std::cout << "BRO" << std::endl;
             // ++ speed 
             // -- stealth
+            health = 3;
+            maxHealth = 3;
             sprite_location = 2;
-            speed *= 1.3;
-            stealth /= 2;
+            // speed *= 1.3;
+            // stealth /= 2;
             break;
         case Config::CHARACTER::DAD:
             std::cout << "DAD" << std::endl;
-            // ++ strength 
-            // -- intelligence
-            strength *= 2;
-            intelligence /= 2;
-
+            health = 5;
+            maxHealth = 5;
             sprite_location = 3;
             break;
     }
@@ -66,6 +70,73 @@ void Character::init()
         {0}, {1}, {2}, {3}
     };
     attack_anim.addFrames(swipe_frames, 32, 32);
+    
+    if(g->getRoom(0)->room_setup == "armory"){
+        this->setPosition(
+            g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+            g->getRoom(0)->hbox.top + 160);
+    }
+    else if(g->getRoom(0)->room_setup == "throne"){
+        this->setPosition(
+        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+        g->getRoom(0)->hbox.top + 160);
+    }
+    else if(g->getRoom(0)->room_setup == "grave"){
+        this->setPosition(
+        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+        g->getRoom(0)->hbox.top + 128);
+    }
+    else if(g->getRoom(0)->room_setup == "parlor"){
+        this->setPosition(
+        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+        g->getRoom(0)->hbox.top + 128);
+    }
+    else if(g->getRoom(0)->room_setup == "lounge"){
+        this->setPosition(
+        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+        g->getRoom(0)->hbox.top + 160);
+    }
+    else if(g->getRoom(0)->room_setup == "kitchen"){
+        this->setPosition(
+        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+        g->getRoom(0)->hbox.top + 160);
+    }
+    else if(g->getRoom(0)->room_setup == "lion"){
+        this->setPosition(
+        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+        g->getRoom(0)->hbox.top + 160);
+    }
+    else if(g->getRoom(0)->room_setup == "barrels"){
+        this->setPosition(
+        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+        g->getRoom(0)->hbox.top + 160);
+    }
+    else if(g->getRoom(0)->room_setup == "dungeon"){
+        this->setPosition(
+        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+        g->getRoom(0)->hbox.top + 256);
+    }
+    else if(g->getRoom(0)->room_setup == "bedroom"){
+        this->setPosition(
+        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+        g->getRoom(0)->hbox.top + 160);
+    }
+    else if(g->getRoom(0)->room_setup == "wood_bedroom"){
+        this->setPosition(
+        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+        g->getRoom(0)->hbox.top + 128);
+    }
+    else if(g->getRoom(0)->room_setup == "bathroom"){
+        this->setPosition(
+        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
+        g->getRoom(0)->hbox.top + 96);
+    }
+    // this->setPosition(g->rooms.front()->getPosition().x + 20 + (32 * player_number), g->rooms.front()->getPosition().y + 20);
+    // 1p width, height
+    // 2p width/2 height
+    // 3p, 4p width/2 height/2
+    // v.setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
+    // v.setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
     // load the sprite map
     sprite_map.loadFromFile("../resources/sprites/character_sheet.png");
     // add animation frames
@@ -106,8 +177,6 @@ void Character::init()
     hbox = Hitbox(-8,0,16,16);
     hbox.follow(this);
     hbox.init();
-    health = 3;
-    maxHealth = 3;
     invul = false;
 }
 void Character::checkVillain(){
@@ -264,7 +333,7 @@ void Character::attack(){
     if(!(this->isAttacking)){
         this->isAttacking = true;
         attack_anim.play([=](){
-            std::cout << "Attack done" << std::endl;
+            // std::cout << "Attack done" << std::endl;
             attack_anim.stop();
             this->isAttacking = false;
         });
@@ -296,8 +365,11 @@ void Character::onGamepadEvent(GamepadEvent e)
                 else if((e.button == "LEFT") || (e.button == "RIGHT"))
                     this->direction.x = 0;
                 else if(e.button == "X"){
-
-                }
+                    if(character == Config::CHARACTER::BRO){
+                        // stop running
+                        this->speed /= 2;
+                    }
+                } 
                 if(this->direction.y <= -1) {
                     curr = &walk_up;
                 }
@@ -358,8 +430,15 @@ void Character::onGamepadEvent(GamepadEvent e)
                         this->direction.x = 0;
                     }
                 }
-                if(e.button == "X"){
+
+                if(e.button == "B"){
                     this->attack();
+                }
+
+                if(e.button == "X"){ // run
+                    if(character == Config::CHARACTER::BRO){
+                        this->speed *= 2;
+                    }
                 }
 
                 if(e.button == "A"){ // perform an action
@@ -369,9 +448,6 @@ void Character::onGamepadEvent(GamepadEvent e)
                     }
                     else if(this->currentClue && readClue == true){
                         readClue = false; // close clue
-                    }
-                    else{
-                        this->attack();
                     }
                 }
 

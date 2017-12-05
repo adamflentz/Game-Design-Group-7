@@ -44,6 +44,7 @@ void SpriteAnimation::nextFrame(float dt)
 
     if(performAfterPlayer && (curr_frame + 1 == m_frames.size())){
         onComplete();
+        stop();
         curr_frame = 0;
     }else{
         // loop 
