@@ -33,7 +33,6 @@ public:
     void init();
     void onUpdate(float dt);
     void onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const;
-    std::vector<std::shared_ptr<Clue>> clues;
 protected:
     void createViews(int numPlayers);
     void createClues();
