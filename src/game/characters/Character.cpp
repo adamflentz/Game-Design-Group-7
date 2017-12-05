@@ -76,15 +76,16 @@ void Character::checkClues(){
                 this->stopDown = true;
                 // std::cout << "stop down" << std::endl;
             }
-            currentClue = c;
+            this->currentClue = c;
             this->hbox.setColor(sf::Color::Green);
         }
-    else{
-        this->stopLeft = false;
-        this->stopRight = false;
-        this->stopUp = false;
-        this->stopDown = false;
-    }
+        else{
+            this->stopLeft = false;
+            this->stopRight = false;
+            this->stopUp = false;
+            this->stopDown = false;
+            this->currentClue = NULL;
+        }
     }
 }
 
