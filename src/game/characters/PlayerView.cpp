@@ -39,6 +39,6 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
     // draw the entity group
     if(entity_group)
         target.draw(*entity_group);
-    target.draw(*clue);
+    
 
 }

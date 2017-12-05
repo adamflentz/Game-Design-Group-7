@@ -31,7 +31,7 @@ void GameplayScreen::createClues()
     reader.readFile("../resources/items.xml");
     reader.selectItems();
 
-    std::vector<Clue> clues;
+   
     for(int i = 0; i < reader.getCluesSpec().size(); i++){
         clue = std::make_shared<Clue>();
         clue->setRoomGroup(&group);
@@ -40,7 +40,8 @@ void GameplayScreen::createClues()
         clue->clueVague = reader.getCluesVague()[i];
         clue->init();
 
-        clues.push_back(clue);
+        // add clues to our clue entity group
+        entity_group.addClue(std::move(clue));
     }
 }
 
@@ -92,7 +93,6 @@ void GameplayScreen::createViews(int numPlayers)
         entity_group.addCharacter(std::move(character));
         view->setEntities(&entity_group);
         view->setEntityNumber(playernum);
-        view->setClue(clue);
         // Add child to this view
         this->addChild(std::move(view));
     }

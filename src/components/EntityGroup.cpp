@@ -12,16 +12,34 @@ void EntityGroup::addCharacter(std::shared_ptr<Character> c)
 {
     characters.push_back(std::move(c));
 }
+void EntityGroup::addClue(std::shared_ptr<Clue> c)
+{
+    clues.push_back(std::move(c));
+}
 // convert our ordered set into an array
 std::vector< std::shared_ptr<Character> > EntityGroup::getCharacters()
 {
     return characters;
 }
 
+std::vector< std::shared_ptr<Clue> > EntityGroup::getClues()
+{
+    return clues;
+}
+
 std::shared_ptr<Character> EntityGroup::getCharacter(int pnum)
 {
     for(auto it = characters.begin(); it != characters.end(); it++){
         if ((*it)->player_number == pnum){
+            return *it;
+        }
+    }
+    return NULL;
+}
+std::shared_ptr<Clue> EntityGroup::getClue(int cnum)
+{
+    for(auto it = clues.begin(); it != clues.end(); it++){
+        if ((*it)->clue_number == cnum){
             return *it;
         }
     }
@@ -44,6 +62,9 @@ void EntityGroup::onUpdate(float dt)
 void EntityGroup::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const
 {
     for(auto it = characters.begin(); it != characters.end(); it++){
+        ctx.draw(**it);
+    }
+    for(auto it = clues.begin(); it != clues.end(); it++){
         ctx.draw(**it);
     }
 }

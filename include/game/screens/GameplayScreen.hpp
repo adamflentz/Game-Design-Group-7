@@ -37,13 +37,13 @@ protected:
     void createViews(int numPlayers);
     void createClues();
     int numplayers = 1;
-    // A map of entities (characters)
     // Entity 0 is the ghost
-    std::map<int, std::shared_ptr<Character>> entities;
+    std::map<int, std::shared_ptr <Clue>> clues;
     // std::vector<std::shared_ptr<Character>> activeCharacters;
     // std::vector<std::unique_ptr<Room> > roomFac;
     RoomGroup group;
     std::shared_ptr<Villain> ghost;
     std::shared_ptr<Clue> clue;
     EntityGroup entity_group;
+    EntityGroup clue_group;
 };

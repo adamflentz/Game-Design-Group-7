@@ -29,11 +29,13 @@ public:
     void setRoomGroup(RoomGroup* group) { g = group; };
     void setEntities(EntityGroup* entities){entity_group = entities;};
     void checkCollisions();
+    void setClueNumber(int number){clue_number = number;};
     Hitbox hbox;
 
     // the written information for the player
     std::string clueSpec;
     std::string clueVague;
+    int clue_number = -1;
 
 protected:
     RoomGroup* g;
@@ -41,6 +43,7 @@ protected:
     sf::Sprite sprite;
     sf::Texture texture;
     bool isOpen;
+    int clueNum;
 };
 
 #endif

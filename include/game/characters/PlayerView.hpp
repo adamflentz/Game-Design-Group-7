@@ -30,8 +30,6 @@ class PlayerView: public GameObject
         void setControllerIndex(int index){};
 
         void setRoomGroup(RoomGroup* g){this->rooms = g;};
-
-        void setClue(std::shared_ptr<Clue> c) {clue = c;};
     protected:
         RoomGroup* rooms;
         int playernumber;
@@ -39,7 +37,6 @@ class PlayerView: public GameObject
         // std::shared_ptr<Character> c;
         EntityGroup* entity_group;
         // std::vector<std::shared_ptr<Character>>& characters;
-        std::shared_ptr<Clue> clue;
         sf::View v;
         // Heads up display (Items, Health(?), etc)
         sf::View HUD;
