@@ -71,7 +71,7 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
     }
     // std::cout << entity_group->getCharacter(playernumber)->maxHealth << std::endl;
     for(int i = 0; i < entity_group->getCharacter(playernumber)->maxHealth; i++){
-        sf::Sprite heart;
+        sf::Sprite heart;   
         heart.setTexture(heartTexture);
         if(entity_group->getCharacter(playernumber)->health > i){
             heart.setTextureRect(sf::IntRect(0, 0, 300, 300));
