@@ -5,6 +5,7 @@
 #include "game/characters/Villain.hpp"
 #include "game/rooms/RoomGroup.hpp"
 #include "components/EntityGroup.hpp"
+#include "game/objects/Clue.hpp"
 
 ////////////////
 // PlayerView.hpp
@@ -27,7 +28,7 @@ class PlayerView: public GameObject
 
         // Set the controller index so we know which controller maps to this player
         void setControllerIndex(int index){};
-        
+
         void setRoomGroup(RoomGroup* g){this->rooms = g;};
     protected:
         RoomGroup* rooms;

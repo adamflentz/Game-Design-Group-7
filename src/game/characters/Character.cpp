@@ -83,10 +83,41 @@ void Character::init()
     invul = false;
 }
 
-// void Character::setCharacter(int character)
-// {
-
-// }
+void Character::checkClues(){
+    std::vector<std::shared_ptr<Clue>> entities = entity_group->getClues();
+    for(auto it = entities.begin(); it != entities.end(); it++){
+        std::shared_ptr<Clue> c = *it;
+        
+        if(c->hbox.intersects(this->hbox)){
+            // std::cout << c->hbox.top + c->hbox.height - this->hbox.top << std::endl;
+            if(this->hbox.left + this->hbox.width - c->hbox.left == 2){
+                this->stopRight = true;
+                // std::cout << "stop right" << std::endl;
+            }
+            else if(c->hbox.left + c->hbox.width - this->hbox.left == 2){
+                this->stopLeft = true;
+                // std::cout << "stop left" << std::endl;
+            }
+            else if(c->hbox.top + c->hbox.height - this->hbox.top == 2 ){
+                this->stopUp = true;
+                // std::cout << "stop up" << std::endl;
+            }
+            else if(this->hbox.top + this->hbox.height - c->hbox.top   == 2){
+                this->stopDown = true;
+                // std::cout << "stop down" << std::endl;
+            }
+            this->currentClue = c;
+            this->hbox.setColor(sf::Color::Green);
+        }
+        else{
+            this->stopLeft = false;
+            this->stopRight = false;
+            this->stopUp = false;
+            this->stopDown = false;
+            this->currentClue = NULL;
+        }
+    }
+}
 
 void Character::onUpdate(float dt)
 {
@@ -95,6 +126,19 @@ void Character::onUpdate(float dt)
 
     // check if inside any room 
     if(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height)) && health > 0){  
+        this->checkClues();
+        if(this->stopLeft == true && dx < 0){
+            dx = 0;
+        }
+        if(this->stopRight == true && dx > 0){
+            dx = 0;
+        }
+        if(this->stopUp == true && dy < 0){
+            dy = 0;
+        }
+        if(this->stopDown == true && dy > 0){
+            dy = 0;
+        }
         this->move(dx, dy);
     };
     if(invul == true && isStarted == false){
@@ -191,19 +235,40 @@ void Character::onGamepadEvent(GamepadEvent e)
                 if(e.button == "UP"){
                     // check if a y velocity
                     curr = &walk_up;
-                    this->direction.y = -1;
+                    if(stopUp == false){
+                        this->direction.y = -1;
+                    }
+                    else{
+                        this->direction.y = 0;
+                    }
+
                 }
                 if(e.button == "DOWN"){
                     curr = &walk_down;
-                    this->direction.y = 1;
+                    if(stopDown == false){
+                        this->direction.y = 1;
+                    }
+                    else{
+                        this->direction.y = 0;
+                    }
                 }
                 if(e.button == "LEFT"){
                     curr = &walk_left;
-                    this->direction.x = -1;
+                    if(stopLeft == false){
+                        this->direction.x = -1;
+                    }
+                    else{
+                        this->direction.x = 0;
+                    }
                 }
                 if(e.button == "RIGHT"){
                     curr = &walk_right;
-                    this->direction.x = 1;
+                    if(stopRight == false){
+                        this->direction.x = 1;
+                    }
+                    else{
+                        this->direction.x = 0;
+                    }
                 }
                 if(e.button == "X"){ // run
                     this->speed *= 2;

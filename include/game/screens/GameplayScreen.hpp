@@ -1,8 +1,10 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
+#include <vector>
 #include "engine/Engine.hpp"
 #include "game/characters/Character.hpp"
 #include "game/characters/Villain.hpp"
+#include "game/objects/Clue.hpp"
 #include "game/rooms/RoomGroup.hpp"
 #include "game/characters/PlayerView.hpp"
 #include "components/EntityGroup.hpp"
@@ -34,7 +36,10 @@ public:
 
 protected:
     void createViews(int numPlayers);
+    void createClues();
     int num_players = 1;
+    // Entity 0 is the ghost
+    std::map<int, std::shared_ptr <Clue>> clues;
     // A map of entities (characters)
     // Entity 0 is the ghost
     std::map<int, std::shared_ptr<Character>> entities;
@@ -42,5 +47,7 @@ protected:
     sf::Clock clock;
     RoomGroup group;
     std::shared_ptr<Villain> ghost;
+    std::shared_ptr<Clue> clue;
     EntityGroup entity_group;
+    ClueReader reader;
 };
