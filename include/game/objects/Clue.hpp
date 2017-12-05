@@ -22,6 +22,7 @@ class Clue: public GameObject
 public:
     void init();
     void onUpdate(float dt);
+    void setCoordinates(int x, int y, int w, int h);
     void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
     void open();
     void close();
@@ -35,9 +36,14 @@ public:
     // the written information for the player
     std::string clueSpec;
     std::string clueVague;
+    std::string clueWorthless;
     int clue_number = -1;
 
 protected:
+    int xPos;
+    int yPos;
+    int width;
+    int height;
     RoomGroup* g;
     EntityGroup* entity_group;
     sf::Sprite sprite;

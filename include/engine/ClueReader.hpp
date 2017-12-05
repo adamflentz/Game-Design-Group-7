@@ -17,6 +17,7 @@ public:
     std::vector<std::string> getInfo();
     std::vector<std::string> getCluesSpec();
     std::vector<std::string> getCluesVague();
+    std::vector<std::string> getCluesWorthless();
     Item getItemHigh();
     Item getItemLow();
 
@@ -28,6 +29,7 @@ private:
     std::vector<std::string> info;
     std::vector<std::string> cluesSpec;
     std::vector<std::string> cluesVague;
+    std::vector<std::string> cluesWorthless;
     rapidxml::xml_document<> doc;
     rapidxml::xml_node<> *root; // xml root node
 };

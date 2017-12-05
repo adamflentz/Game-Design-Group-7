@@ -44,8 +44,8 @@ void Room::setRoomType(int type)
         clueCoordinates.push_back(1);
         clueCoordinates.push_back(1);
         //hay?
-        clueCoordinates.push_back(9);
         clueCoordinates.push_back(2);
+        clueCoordinates.push_back(8);
         clueCoordinates.push_back(1);
         clueCoordinates.push_back(2);
         //chest
@@ -88,9 +88,9 @@ void Room::setRoomType(int type)
         clueCoordinates.push_back(2);
         //column
         clueCoordinates.push_back(2);
-        clueCoordinates.push_back(0);
+        clueCoordinates.push_back(2);
         clueCoordinates.push_back(1);
-        clueCoordinates.push_back(3);
+        clueCoordinates.push_back(1);
         //column
         clueCoordinates.push_back(2);
         clueCoordinates.push_back(8);
@@ -98,9 +98,9 @@ void Room::setRoomType(int type)
         clueCoordinates.push_back(3);
         //column
         clueCoordinates.push_back(13);
-        clueCoordinates.push_back(0);
+        clueCoordinates.push_back(2);
         clueCoordinates.push_back(1);
-        clueCoordinates.push_back(3);
+        clueCoordinates.push_back(1);
         //column
         clueCoordinates.push_back(13);
         clueCoordinates.push_back(8);
@@ -144,12 +144,12 @@ void Room::setRoomType(int type)
         clueCoordinates.push_back(2);
         //dresser
         clueCoordinates.push_back(3);
-        clueCoordinates.push_back(1);
         clueCoordinates.push_back(2);
         clueCoordinates.push_back(2);
+        clueCoordinates.push_back(1 );
         //table
-        clueCoordinates.push_back(7);
         clueCoordinates.push_back(2);
+        clueCoordinates.push_back(7);
         clueCoordinates.push_back(3);
         clueCoordinates.push_back(3);
         //plant1
@@ -187,9 +187,9 @@ void Room::setRoomType(int type)
         room_setup = "lounge";
         //candle
         clueCoordinates.push_back(1);
-        clueCoordinates.push_back(6);
+        clueCoordinates.push_back(7);
         clueCoordinates.push_back(1);
-        clueCoordinates.push_back(3);
+        clueCoordinates.push_back(2);
         //fireplace
         clueCoordinates.push_back(3);
         clueCoordinates.push_back(2);
@@ -206,7 +206,7 @@ void Room::setRoomType(int type)
         clueCoordinates.push_back(4);
         clueCoordinates.push_back(2);
         //china
-        clueCoordinates.push_back(10);
+        clueCoordinates.push_back(11);
         clueCoordinates.push_back(2);
         clueCoordinates.push_back(2);
         clueCoordinates.push_back(1);
@@ -216,18 +216,18 @@ void Room::setRoomType(int type)
         //furniture
         clueCoordinates.push_back(1);
         clueCoordinates.push_back(2);
+        clueCoordinates.push_back(5);
         clueCoordinates.push_back(1);
-        clueCoordinates.push_back(4);
         //tablechairs
         clueCoordinates.push_back(6);
         clueCoordinates.push_back(5);
-        clueCoordinates.push_back(2);
         clueCoordinates.push_back(5);
+        clueCoordinates.push_back(2);
         //kitchenstoveshit
         clueCoordinates.push_back(1);
         clueCoordinates.push_back(11);
         clueCoordinates.push_back(4);
-        clueCoordinates.push_back(1);
+        clueCoordinates.push_back(1); 
       break;
       case 7:
         room_setup = "lion";
@@ -291,9 +291,9 @@ void Room::setRoomType(int type)
         clueCoordinates.push_back(1);
         clueCoordinates.push_back(4);
         clueCoordinates.push_back(1);
-        clueCoordinates.push_back(2);
+        clueCoordinates.push_back(1);
         //torch2
-        clueCoordinates.push_back(0);
+        clueCoordinates.push_back(1);
         clueCoordinates.push_back(7);
         clueCoordinates.push_back(1);
         clueCoordinates.push_back(2);
@@ -301,7 +301,7 @@ void Room::setRoomType(int type)
         clueCoordinates.push_back(14);
         clueCoordinates.push_back(4);
         clueCoordinates.push_back(1);
-        clueCoordinates.push_back(2);
+        clueCoordinates.push_back(1);
         //torch4
         clueCoordinates.push_back(14);
         clueCoordinates.push_back(7);
@@ -435,7 +435,7 @@ void Room::setRoomType(int type)
       break;
     }
     std::string location = "../resources/roompng/room_" + std::to_string(type) + ".png";
-    std::cout << location << std::endl;
+    // std::cout << location << std::endl;
     room_sprite.setTexture(*ResourceManager::getTexture(location));
     // room_sprite.setPosition(-25, -25);
     // room_sprite.setScale(1.1, 1.1);

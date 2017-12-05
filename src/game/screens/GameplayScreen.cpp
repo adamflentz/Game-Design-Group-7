@@ -17,7 +17,7 @@ void GameplayScreen::init()
     // If we let the playerview set its own viewport
     // then we end up running the same code over and over inside PlayerView#init
     this->createViews(num_players);
-
+    entity_group.init();
     // Create the ghost (this could easily be another function)
     // this->createVillain()
     ghost = std::make_shared<Villain>();
@@ -34,17 +34,42 @@ void GameplayScreen::createClues()
     PlantSeeds(-1); // for random in clue reader
     reader.readFile("../resources/items.xml");
     reader.selectItems();
-
+    // std::cout << group.rooms.size() << std::endl;
+    for(auto it = group.rooms.begin(); it != group.rooms.end(); it++){
+        std::shared_ptr<Room> r = *it;
+        std::cout << r->room_setup << std::endl;
+        std::cout << r->clueCoordinates.size() << std:: endl;
+        for(auto j = r->clueCoordinates.begin(); j != r->clueCoordinates.end(); j++){
+            clue = std::make_shared<Clue>();
+            clue->setRoomGroup(&group);
+            clue->setEntities(&entity_group);
+            // std::cout << "success" << std::endl;
+            clue->clueSpec = reader.getCluesSpec()[0];
+            clue->clueVague = reader.getCluesVague()[0];
+            clue->clueWorthless = reader.getCluesWorthless()[0];
+            int x = (*it)->rect.getPosition().x + (32 * (*j));
+            std::cout << x;
+            std::cout << " ";
+            j++;
+            int y = (*it)->rect.getPosition().y + (32 * (*j));
+            std::cout << y;
+            std::cout << " ";
+            j++;
+            int width = 32 * (*j);
+            std::cout << width;
+            std::cout << " ";
+            j++;
+            int height = 32 * (*j);
+            std::cout << height << std::endl;
+            clue->setCoordinates(x, y, width, height);
+            clue->init();
+            entity_group.addClue(std::move(clue));
+        }
+    }
     for(int i = 0; i < reader.getCluesSpec().size(); i++){
-        clue = std::make_shared<Clue>();
-        clue->setRoomGroup(&group);
-        clue->setEntities(&entity_group);
-        clue->clueSpec = reader.getCluesSpec()[i];
-        clue->clueVague = reader.getCluesVague()[i];
-        clue->init();
 
         // add clues to our clue entity group
-        entity_group.addClue(std::move(clue));
+       
     }
 }
 
@@ -121,8 +146,17 @@ void GameplayScreen::onUpdate(float dt)
 
     // std::cout << clock.getElapsedTime().asSeconds() << std::endl;
     if (clock.getElapsedTime().asSeconds() >= config -> time_Per_Phase) {
-      std::cout << "phase ends" << std::endl;
-      clock.restart();
+        if(phase == 1){
+            std::cout << "phase ends" << std::endl;
+            ghost = std::make_shared<Villain>();
+            ghost->setPlayerNumber(-1);
+            ghost->setRoomGroup(&group);
+            ghost->setEntities(&entity_group);
+            ghost->init();
+            entity_group.addCharacter(std::move(ghost));
+            phase++;
+        }
+        clock.restart();
     }
 
 }

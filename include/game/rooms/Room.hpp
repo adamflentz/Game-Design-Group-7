@@ -1,7 +1,6 @@
 #ifndef ROOM_HPP
 #define ROOM_HPP
 
-#include <vector>
 #include "engine/Engine.hpp"
 #include <SFML/Graphics.hpp>
 #include "components/Hitbox.hpp"
@@ -15,7 +14,7 @@ public:
     sf::RectangleShape rect;
     sf::Sprite room_sprite;
     sf::Texture roomTexture;
-    std::vector<int> clueCoordinates;
+    std::list<int> clueCoordinates;
     std::string room_setup;
     Hitbox hbox;
     void setRoomType(int type);

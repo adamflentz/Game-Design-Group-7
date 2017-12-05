@@ -145,6 +145,7 @@ void Character::checkVillain(){
 }
 void Character::checkClues(){
     std::vector<std::shared_ptr<Clue>> entities = entity_group->getClues();
+    // std::cout << entities.size() << std::endl;
     for(auto it = entities.begin(); it != entities.end(); it++){
         std::shared_ptr<Clue> c = *it;
 
@@ -168,6 +169,7 @@ void Character::checkClues(){
             }
             this->currentClue = c;
             this->hbox.setColor(sf::Color::Green);
+            break;
         }
         else{
             this->stopLeft = false;
@@ -175,6 +177,7 @@ void Character::checkClues(){
             this->stopUp = false;
             this->stopDown = false;
             this->currentClue = NULL;
+            readClue = false;
         }
     }
 }
@@ -206,7 +209,8 @@ void Character::onUpdate(float dt)
         isStarted = true;
     }
 
-    if((int)this->clock.getElapsedTime().asSeconds() == 3 && this->invul == true){
+    // std::cout << (int) clock.getElapsedTime().asSeconds() << std::endl;
+    if(this->clock.getElapsedTime().asSeconds() >= 3 && this->invul == true){
         std::cout << "invul removed" << std::endl;
         this->invul = false;
         isStarted = false;
@@ -364,7 +368,6 @@ void Character::onGamepadEvent(GamepadEvent e)
                         readClue = true; // open clue
                     }
                     else if(this->currentClue && readClue == true){
-                        std::cout << "CLUE " << readClue << std::endl;
                         readClue = false; // close clue
                     }
                     else{
