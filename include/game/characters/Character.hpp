@@ -59,6 +59,7 @@ public:
     int player_number = -1;
     // create a hitbox at bottom half of 32x32 character
     Hitbox hbox;
+    Hitbox hurtbox; // hurtbox for the sword(?)
     int health;
     int maxHealth;
     bool invul;
@@ -68,11 +69,14 @@ public:
     virtual bool isVillain(){return false;};
     bool readClue = false;
     std::shared_ptr<Clue> currentClue;
-
+    // Base attributes 
+    double speed = 120;
+    double stealth = 100;
+    double strength = 100;
+    double intelligence = 100;
 
 protected:
     int gamepad_index = -1;
-    double speed = 120;
     Config::CHARACTER character;
     RoomGroup* g;
     EntityGroup* entity_group;
@@ -80,6 +84,8 @@ protected:
     sf::Texture sprite_map;
     sf::Texture death_map;
     sf::Texture pain_sprite;
+    // An attack animation
+    SpriteAnimation attack_anim;
     // The current animation
     SpriteAnimation* curr;
     SpriteAnimation* ow;
@@ -97,6 +103,7 @@ protected:
     sf::Clock clock;
     bool isStarted;
     bool panic;
+    bool isAttacking = false;
 
 
 };
