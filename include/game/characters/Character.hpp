@@ -85,6 +85,7 @@ protected:
     double strength = 100;
     double intelligence = 100;
     RoomGroup* g;
+    Room* current_room;
     EntityGroup* entity_group;
     sf::Texture sprite_map;
     sf::Texture death_map;
@@ -112,8 +113,6 @@ protected:
     bool panic;
     bool isAlive = true;
     bool isAttacking = false;
-
-
 };
 
 #endif

@@ -101,6 +101,11 @@ void CharacterSelection::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) 
 void CharacterScreen::init()
 {
   std::cout<< "CharacterScreen" << std::endl;
+  // Reset some things
+  this->char_selections.clear();
+  this->selected_count = 0;
+  this->trans = 255;
+  this->player_num = 1;
 
   chara_sound.setBuffer(*ResourceManager::getSoundBuffer("../resources/music/thunder.flac"));
 
@@ -169,9 +174,6 @@ void CharacterScreen::addPlayer(int index, int num)
 
 void CharacterScreen::onGamepadEvent(GamepadEvent e)
 {
-  if(this->changed)
-    return;
-
   // std::cout << e.index << std::endl;
   if(e.type == GamepadEvent::RELEASED){
     // Check if player in game already (add them if possible)
@@ -233,8 +235,8 @@ void CharacterScreen::onGamepadEvent(GamepadEvent e)
               config->char_map[player] = (*it)->getCharacter();
             }
           }
-
-          Events::queueEvent("change_screen", event);
+          Events::clearAll("gamepad_event");
+          Events::triggerEvent("change_screen", event);
           return;
         }
         for(auto it = char_selections.begin(); it != char_selections.end(); it++){

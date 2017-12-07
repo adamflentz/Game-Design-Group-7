@@ -10,6 +10,7 @@
 void GameplayScreen::init()
 {
     clock.restart();
+    entity_group = EntityGroup();
     switch(num_players){
         case 1:
         group.generateRoomGrid(20);
@@ -45,6 +46,7 @@ void GameplayScreen::init()
       if(--num_players == 0){
         std::cout << "All players died" << std::endl;
         auto event = std::make_shared< Event<std::string> >("GameEnd");
+        Events::clearAll("gamepad_event");
         Events::queueEvent("change_screen", event);
       };
 

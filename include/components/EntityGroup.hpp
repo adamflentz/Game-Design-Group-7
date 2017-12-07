@@ -31,6 +31,7 @@ public:
     std::shared_ptr<Character> getCharacter(int pnum);
     std::shared_ptr<Clue> getClue(int cnum);
     void onUpdate(float dt);
+    void drawInArea(sf::RenderTarget& ctx, sf::FloatRect box) const;
 protected:
     std::vector<std::shared_ptr<Character>> characters;
     std::vector<std::shared_ptr<Clue>> clues;

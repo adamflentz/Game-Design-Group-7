@@ -46,6 +46,15 @@ std::shared_ptr<Clue> EntityGroup::getClue(int cnum)
     return NULL;
 }
 
+void EntityGroup::drawInArea(sf::RenderTarget& ctx, sf::FloatRect box) const
+{
+    for(auto it = characters.begin(); it != characters.end(); it++){
+        if((*it)->hbox.intersects(box))
+            ctx.draw((**it));
+    }
+};
+
+
 // Update every entity
 void EntityGroup::onUpdate(float dt)
 {

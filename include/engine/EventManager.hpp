@@ -24,6 +24,12 @@ public:
     static void queueEvent(std::string, base_event_type e);
     // similar to post event except not added to a queue and immediately notifies
     static void triggerEvent(std::string, base_event_type e);
+    static void clearAll(std::string s){
+        listeners_map[s].clear();
+    };
+    static void clearEvent(){
+        events = std::queue< base_event_type >();
+    };
     static void notify();
 private:
     static std::map< std::string, event_list > listeners_map;

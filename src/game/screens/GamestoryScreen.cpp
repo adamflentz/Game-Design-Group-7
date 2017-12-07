@@ -46,14 +46,12 @@ void GamestoryScreen::onUpdate(float dt){
 };
 
 void GamestoryScreen::onGamepadEvent(GamepadEvent e){
-  if(this->changed)
-    return;
-
   // Set player 1
-  this->config->player_map[e.index] = 1;
   auto event = std::make_shared< Event<std::string> >("Title");
   this->changed = true;
-  Events::queueEvent("change_screen", event);
+  Events::clearAll("gamepad_event");
+  Events::triggerEvent("change_screen", event);
+  // Events::clearEvent();
 }
 
 void GamestoryScreen::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const

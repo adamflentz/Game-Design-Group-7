@@ -9,12 +9,10 @@ void PlayerView::init()
     itemBar.setFillColor(sf::Color::Transparent);
     itemBar.setOutlineThickness(2);
     //pain.setFillColor(sf::Color::Red);
-    pain.setFillColor(sf::Color(255, 0, 0, 100));
     painCount = 100;
+    pain.setFillColor(sf::Color(255, 0, 0, painCount));
 
-    if (!heartTexture.loadFromFile("../resources/sprites/heart.png")) {
-      return;
-    }
+    heartTexture = *ResourceManager::getTexture("../resources/sprites/heart.png");
 
     // setup event listeners (lazy method)
     Events::addEventListener("gamepad_event", [=](base_event_type e){
@@ -61,13 +59,15 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
     //
     if(rooms){
         Room* room = rooms->getRoomInside(entity_group->getCharacter(playernumber)->hbox);
-        if(NULL != room)
-          target.draw(*room);
-        target.draw(*rooms);
-    }
-    // draw the entity group
-    if(entity_group){
-        target.draw(*entity_group);
+        // Now this just draws the doors lol
+        if(NULL != room){
+            target.draw(*room);
+            target.draw(*rooms);
+            // draw the entities in the current room
+            if(entity_group){
+                entity_group->drawInArea(target, room->hbox);
+            }
+        }
     }
     // draw the HUD
     target.setView(HUD);
