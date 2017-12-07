@@ -4,6 +4,20 @@
 
 void PlayerView::init()
 {
+    if (!sf::Shader::isAvailable())
+	{
+		std::cout << "Shaders are not available on this machine." << std::endl;
+    }else{
+        lighting.setFillColor(sf::Color::Black);
+        lighting.setPosition(0, 0);
+        shader.loadFromMemory(VertexShader, RadialGradient);
+        shader.setUniform("windowHeight", 480.0f);
+        // shader.setUniform("alpha",  0);
+		shader.setUniform("center", lighting.getSize() / 2.0f );
+		shader.setUniform("radius", 200.f);
+		shader.setUniform("expand", 0.0f);
+    }
+    
     itemBar.setSize(sf::Vector2f(20, 20));
     itemBar.setOutlineColor(sf::Color::White);
     itemBar.setFillColor(sf::Color::Transparent);
@@ -49,6 +63,7 @@ void PlayerView::setView(sf::FloatRect dimensions, sf::FloatRect viewport)
     HUD.setViewport(viewport);
     itemBar.setPosition(viewport.left + dimensions.width - 40, viewport.top + dimensions.height - 40);
     pain.setSize(sf::Vector2f(dimensions.width, dimensions.height));
+    lighting.setSize({dimensions.width, dimensions.height});
 }
 
 void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -120,4 +135,5 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
         target.draw(bgBox);
         target.draw(clueText);
     }
+    target.draw(lighting, &shader);
 }
