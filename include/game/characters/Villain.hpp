@@ -31,9 +31,11 @@ public:
     void returnToCenter();
     void setDirection();
     void hurt();
+    void setItemDamage(int damage);
     bool checkCharacters();
     bool isVillain(){return true;};
 protected:
+    int healthCut;
     int randint;
     int health;
     std:: string previousString;
@@ -48,12 +50,9 @@ protected:
     bool fastSpeed;
     sf::FloatRect roomHbox;
     sf::FloatRect chaseHbox;
-<<<<<<< HEAD
     sf::Sound ghost_sound;
-=======
     sf::Texture death_map;
     SpriteAnimation death_animation;
->>>>>>> bdf4933ecc23c111a44fbdf9c22f3ebef5117c2e
 
 };
 

@@ -85,9 +85,12 @@ void GameEngine::changeGameScreen(std::string s)
 
     if(canChange)
     {
+        std::cout << "hello we can change" << std::endl;
         this->currScene = screens[s].get();
         if(this->currScene)
         {
+            std::cout << "initializing scene" << std::endl;
+            std::cout << this->currScene;
             this->currScene->init();
         }
     }

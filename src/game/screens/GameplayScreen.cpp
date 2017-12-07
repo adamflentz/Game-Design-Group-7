@@ -61,42 +61,47 @@ void GameplayScreen::createClues()
     // std::cout << group.rooms.size() << std::endl;
     for(auto it = group.rooms.begin(); it != group.rooms.end(); it++){
         std::shared_ptr<Room> r = *it;
-        std::cout << r->room_setup << std::endl;
-        std::cout << r->clueCoordinates.size() << std:: endl;
+        // std::cout << r->room_setup << std::endl;
+        // std::cout << r->clueCoordinates.size() << std:: endl;
         for(auto j = r->clueCoordinates.begin(); j != r->clueCoordinates.end(); j++){
             clue = std::make_shared<Clue>();
             clue->setRoomGroup(&group);
             clue->setEntities(&entity_group);
             // std::cout << "success" << std::endl;
-            clue->clueSpec = reader.getCluesSpec()[0];
-            clue->clueVague = reader.getCluesVague()[0];
-            clue->clueWorthless = reader.getCluesWorthless()[0];
-            int randint = rand() % 3;
-            switch(randint){
-                case 0:
-                clue->setClue = clue->clueSpec;
-                break;
-                case 1:
-                clue->setClue = clue->clueVague;
-                break;
-                case 2:
+            hiLow = rand() % 2;
+            clue->clueJackpot = reader.getCluesJackpot()[hiLow];
+            clue->clueSpec = reader.getCluesSpec()[hiLow];
+            clue->clueVague = reader.getCluesVague()[hiLow];
+            clue->clueWorthless = reader.getCluesWorthless()[hiLow];
+            clue->highLow = hiLow;
+            int randint = rand() % 100;
+            if (randint <= 50){
                 clue->setClue = clue->clueWorthless;
-                break;
+            }
+            else if(randint <= 80){
+                clue->setClue = clue->clueVague;
+            }
+            else if(randint <= 95){
+                clue->setClue = clue->clueSpec;
+            }
+            else{
+                clue->setClue = clue->clueJackpot;
+                clue->activatedItem = false;
             }
             int x = (*it)->rect.getPosition().x + (32 * (*j));
-            std::cout << x;
-            std::cout << " ";
+            // std::cout << x;
+            // std::cout << " ";
             j++;
             int y = (*it)->rect.getPosition().y + (32 * (*j));
-            std::cout << y;
-            std::cout << " ";
+            // std::cout << y;
+            // std::cout << " ";
             j++;
             int width = 32 * (*j);
-            std::cout << width;
-            std::cout << " ";
+            // std::cout << width;
+            // std::cout << " ";
             j++;
             int height = 32 * (*j);
-            std::cout << height << std::endl;
+            // std::cout << height << std::endl;
             clue->setCoordinates(x, y, width, height);
             clue->init();
             entity_group.addClue(std::move(clue));

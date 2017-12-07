@@ -49,9 +49,12 @@ void Villain::init()
     isChasing = false;
     needsCentering = false;
     fastSpeed = false;
-    health = 25;
+    health = 10;
 }
 
+void Villain::setItemDamage(int damage){
+    healthCut = damage;
+}
 void Villain::onUpdate(float dt)
 {
     // std::cout << health << std::endl;
@@ -166,7 +169,7 @@ bool Villain::checkCharacters(){
 }
 
 void Villain::hurt(){
-    health--;
+    health -= healthCut;
     this->randint = rand() % this->g->rooms.size();
     int count = 0;
     this->direction.x = 0;

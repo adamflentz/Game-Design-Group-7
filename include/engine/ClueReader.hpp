@@ -15,6 +15,7 @@ public:
     void readFile(std::string filename);
     void selectItems();
     std::vector<std::string> getInfo();
+    std::vector<std::string> getCluesJackpot();
     std::vector<std::string> getCluesSpec();
     std::vector<std::string> getCluesVague();
     std::vector<std::string> getCluesWorthless();
@@ -27,6 +28,7 @@ private:
     Item itemHigh;
     Item itemLow;
     std::vector<std::string> info;
+    std::vector<std::string> cluesJackpot;
     std::vector<std::string> cluesSpec;
     std::vector<std::string> cluesVague;
     std::vector<std::string> cluesWorthless;

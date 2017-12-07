@@ -1,13 +1,9 @@
-#include "game/screens/GametitleScreen.hpp"
+#include "game/screens/GamestoryScreen.hpp"
 #include <iostream>
 
-void GametitleScreen::init()
+void GamestoryScreen::init()
 {
-  std::cout<< "TitleScreen" << std::endl;
-
-  if (!music.openFromFile("../resources/music/2049.flac"))
-    return; // error
-  music.play();
+  std::cout<< "StoryScreen" << std::endl;
 
   Events::addEventListener("gamepad_event", [=](base_event_type e){
       // We'll need to delete this listener in the destructor or we'll have segfaults/undefined behavior eventually
@@ -19,7 +15,7 @@ void GametitleScreen::init()
   });
 
 
-  sprite.setTexture(*ResourceManager::getTexture("../resources/titlescreen.png"));
+  sprite.setTexture(*ResourceManager::getTexture("../resources/storyscreen.png"));
 
   blackness.setSize(sf::Vector2f(720, 480));
 
@@ -40,7 +36,7 @@ void GametitleScreen::init()
 
 }
 
-void GametitleScreen::onUpdate(float dt){
+void GamestoryScreen::onUpdate(float dt){
   // title screen emerges from darkness
 
   if (trans > 50) {
@@ -49,22 +45,18 @@ void GametitleScreen::onUpdate(float dt){
   }
 };
 
-void GametitleScreen::onGamepadEvent(GamepadEvent e){
+void GamestoryScreen::onGamepadEvent(GamepadEvent e){
   if(this->changed)
     return;
-  if(this->pressed == false){
-    this->pressed = true;
-  }
-  else{
-    // Set player 1
-    this->config->player_map[e.index] = 1;
-    auto event = std::make_shared< Event<std::string> >("Character");
-    this->changed = true;
-    Events::queueEvent("change_screen", event);
-  }
+
+  // Set player 1
+  this->config->player_map[e.index] = 1;
+  auto event = std::make_shared< Event<std::string> >("Title");
+  this->changed = true;
+  Events::queueEvent("change_screen", event);
 }
 
-void GametitleScreen::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const
+void GamestoryScreen::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const
 {
     // ctx.draw(group, states);
     ctx.draw(sprite);

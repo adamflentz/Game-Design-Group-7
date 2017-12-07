@@ -5,7 +5,7 @@
 #include "engine/ResourceManager.hpp"
 
 
-class GametitleScreen: public GameScreen
+class GamestoryScreen: public GameScreen
 {
 public:
     void init();
@@ -15,7 +15,6 @@ protected:
     sf::Music music;
     void onGamepadEvent(GamepadEvent e);
     bool changed;
-    bool pressed;
     sf::Sprite sprite;
     sf::Texture title;
     sf::RectangleShape blackness;

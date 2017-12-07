@@ -70,17 +70,16 @@ public:
     bool readClue = false;
     bool atClue = false;
     std::shared_ptr<Clue> currentClue;
-<<<<<<< HEAD
-    // Base attributes
-=======
     sf::Vector2f direction;
     Config::CHARACTER character;
+    bool hasItem;
+    int itemDamage;
+    virtual void setItemDamage(int itemDamage);
 
 protected:
     int gamepad_index = -1;
 
     // Base attributes 
->>>>>>> bdf4933ecc23c111a44fbdf9c22f3ebef5117c2e
     double speed = 120;
     double stealth = 100;
     double strength = 100;

@@ -53,6 +53,8 @@ void Character::init()
             sprite_location = 3;
             break;
     }
+    hasItem = false;
+    itemDamage = 1;
     // int sprite_location = static_cast<int>(character);
     int x = ((sprite_location) % 2);
     int y = ((sprite_location) / 2);
@@ -182,6 +184,10 @@ void Character::init()
     hbox.init();
     invul = false;
 }
+
+void Character::setItemDamage(int damaging){
+    itemDamage = damaging;
+}
 void Character::checkVillain(){
     std::vector<std::shared_ptr<Character>> entities = entity_group->getCharacters();
     for(auto it = entities.begin(); it != entities.end(); it++){
@@ -190,6 +196,7 @@ void Character::checkVillain(){
         // std::cout << " ";
         if(c->isVillain() == true){
             if((c->hbox) == this->hbox){continue;}
+            c->setItemDamage(itemDamage);
             // std::cout << c->hbox.left << std::endl;
             if(curr == &walk_right && this->hbox.left + this->hbox.width + 64 > c->hbox.left &&
                 this->hbox.left + this->hbox.width < c->hbox.left &&
@@ -402,6 +409,14 @@ void Character::onGamepadEvent(GamepadEvent e)
                 if(this->direction.x >= 1) {
                     curr = &walk_right;
                 }
+                if(e.button=="A"){
+                    if(readClue == true){
+                        if(this->currentClue != NULL){
+                            readClue = false; // open clue
+                            this->currentClue->close();
+                        }
+                    }
+                }
                 break;
             case GamepadEvent::TYPE::PRESSED:
                 if(e.button == "UP"){
@@ -466,11 +481,25 @@ void Character::onGamepadEvent(GamepadEvent e)
                 if(e.button == "A"){ // perform an action
                     std::cout << this->currentClue << std::endl;
                     if(readClue == false){
-                        readClue = true; // open clue
+                        if(this->currentClue != NULL){
+                            readClue = true; // open clue
+                            this->currentClue->open();
+                            if(this->currentClue->setClue == this->currentClue->clueJackpot && hasItem == false &&
+                            this->currentClue->activatedItem == false){
+                                if(this->currentClue->highLow == 1){
+                                    itemDamage = 5;
+                                    hasItem = true;
+                                }
+                                else{
+                                    itemDamage = 3;
+                                    hasItem = true;
+                                }
+                                std:: cout << "item damage: ";
+                                std::cout << itemDamage << std::endl;
+                            }
+                        }
                     }
-                    else if(readClue == true){
-                        readClue = false; // close clue
-                    }
+                    
                 }
 
                 break;

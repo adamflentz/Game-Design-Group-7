@@ -32,11 +32,15 @@ public:
     void checkCollisions();
     void setClueNumber(int number){clue_number = number;};
     Hitbox hbox;
+    bool isOpen;
+    int highLow;
+    bool activatedItem;
 
     // the written information for the player
     std::string clueSpec;
     std::string clueVague;
     std::string clueWorthless;
+    std::string clueJackpot;
     std::string setClue;
     int clue_number = -1;
 
@@ -49,7 +53,6 @@ protected:
     EntityGroup* entity_group;
     sf::Sprite sprite;
     sf::Texture texture;
-    bool isOpen;
     int clueNum;
 };
 

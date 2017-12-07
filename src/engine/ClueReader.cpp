@@ -44,6 +44,8 @@ void ClueReader::selectItems() {
 
     itemHigh.name = itemH->first_node("name")->value();
     itemHigh.type = itemH->first_node("type")->value();
+    std::cout << itemHigh.name << std::endl;
+    cluesJackpot.push_back(itemH->first_node("clues")->first_node("jackpot")->value());
     cluesSpec.push_back(itemH->first_node("clues")->first_node("specific")->value());
     cluesVague.push_back(itemH->first_node("clues")->first_node("vague")->value());
     cluesWorthless.push_back(itemH->first_node("clues")->first_node("worthless")->value());
@@ -59,6 +61,7 @@ void ClueReader::selectItems() {
 
     itemLow.name = itemL->first_node("name")->value();
     itemLow.type = itemL->first_node("type")->value();
+    cluesJackpot.push_back(itemL->first_node("clues")->first_node("jackpot")->value());
     cluesSpec.push_back(itemL->first_node("clues")->first_node("specific")->value());
     cluesVague.push_back(itemL->first_node("clues")->first_node("vague")->value());
     cluesWorthless.push_back(itemL->first_node("clues")->first_node("worthless")->value());
@@ -80,6 +83,9 @@ std::vector<std::string> ClueReader::getInfo() {
     return info;
 }
 
+std::vector<std::string> ClueReader::getCluesJackpot(){
+    return cluesJackpot;
+}
 std::vector<std::string> ClueReader::getCluesSpec() {
     return cluesSpec;
 }
