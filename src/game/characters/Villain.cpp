@@ -7,16 +7,10 @@
 void Villain::init()
 {
     ghost_sound.setBuffer(*ResourceManager::getSoundBuffer("../resources/music/ghost.wav"));
-    this->direction = sf::Vector2f(0,0);
     // Make sure player starts inside first room(?)
     // could also make them start inside a random room
     this->setPosition(g->rooms.front()->getPosition().x + ((512 / 2) - 16), g->rooms.front()->getPosition().y + ((384 / 2) - 24));
-    this->setDirection();
-    // 1p width, height
-    // 2p width/2 height
-    // 3p, 4p width/2 height/2
-    // v.setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
-    // v.setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
+
     // load the sprite map
     sprite_map.loadFromFile("../resources/sprites/ghost.png");
     // add animation frames
@@ -36,19 +30,20 @@ void Villain::init()
     walk_up.setSpriteSheet(sprite_map);
     walk_up.addFrames(up_frames, 32, 48);
     // Don't automatically play the animation
+
+    curr = &walk_down;
     curr->stop();
     // Death tombstone
+
     std::vector< std::vector<int> > death_frame = { {0} };
     death_map.loadFromFile("../resources/sprites/grave.png");
     death_animation.setSpriteSheet(death_map);
     death_animation.addFrames(death_frame, 32, 32);
     // set the hitbox up to follow this object
+
     hbox = Hitbox(0,16,32,16);
     hbox.follow(this);
     hbox.init();
-    isChasing = false;
-    needsCentering = false;
-    fastSpeed = false;
     health = 25;
 }
 
@@ -56,34 +51,14 @@ void Villain::onUpdate(float dt)
 {
     // std::cout << health << std::endl;
     roomHbox = g->getRoom(this->hbox);
+    this->checkCharacters();
+    this->checkDistance();
+    this->chase();
+
     // std::cout << this->getPosition().x << std::endl;
-    // std::cout << roomHbox.left + (256 / 2) - 16 << std::endl;
     int dx = this->direction.x * speed * dt;
     int dy = this->direction.y * speed * dt;
-    // check if characters are inside room with monster
-    if(this->checkCharacters() == false){
-        if(isChasing == true && (this->getPosition().x != roomHbox.left + (512 / 2) - 16 || this->getPosition().y != (roomHbox.top + (384 / 2) - 24))){
-            this->returnToCenter();
-            // std::cout << "centering" << std::endl;
-        }
-        else{
-            this->wander();
-            // std::cout << "wandering" << std::endl;
-        }
-    }
-    else{
-        if(fastSpeed == false){
-            speed *= 1.25;
-            fastSpeed = true;
-        }
-        if(isChasing == false){
-          ghost_sound.play();
-        }
-        isChasing = true;
-        this->chase();
-        // std::cout << "CHASING" << std::endl;
-    }
-    // Set z index
+
     this->z_index = this->getPosition().y + 20;
 
     // check for collisions
@@ -92,39 +67,11 @@ void Villain::onUpdate(float dt)
         curr = &death_animation;
     }
 
-    started = true;
+    //started = true;
     if(health > 0){
         this->move(dx, dy);
     }
-    
-    // check if inside room
-    if(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height)) == false){
-        std::cout << "accident" << std::endl;
-        this->randint = rand() % this->g->rooms.size();
-        std::cout << randint << std::endl;
-        int count = 0;
-        for(auto rmit = g->rooms.begin(); rmit != g->rooms.end(); rmit++){
-            if(count == randint){
-                if((*rmit)->hbox == g->getRoom(this->hbox) || (*rmit)->isDoor == true){
-                    this->randint = rand() % this->g->rooms.size();
-                    rmit = g->rooms.begin();
-                    count = 0;
-                }
-                else{
-                    if(fastSpeed == true){
-                        speed /= 1.25;
-                        fastSpeed = false;
-                    }
-                    std::cout << "escape" << std::endl;
-                    this->setPosition((*rmit)->hbox.left + (448/2) - 16, (*rmit)->hbox.top   + (288 / 2) - 24);
-                    this->possiblerooms.clear();
-                    this->setDirection();
-                    break;
-                }
-            }
-            count++;
-        }
-    }
+
     // if we're not moving don't animate anything
     if(dx == 0 && dy == 0){
         curr->stop();
@@ -145,33 +92,30 @@ void Villain::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
     // draw the hitbox
     target.draw(hbox);
 }
-bool Villain::checkCharacters(){
+
+void Villain::checkCharacters(){
+
     std::vector<std::shared_ptr<Character>> entities = entity_group->getCharacters();
     roomHbox = g->getRoom(this->hbox);
     for(auto it = entities.begin(); it != entities.end(); it++){
         std::shared_ptr<Character> c = *it;
         if(c.get() == this)
             continue;
-        if(c->character == Config::CHARACTER::SIS && c->direction.x == 0 && c->direction.y == 0){
-            continue;
-        }
-        if(c->hbox.intersects(roomHbox) && c->health > 0 && c->invul == false){
+        // if(c->character == Config::CHARACTER::SIS && c->direction.x == 0 && c->direction.y == 0){
+        //     continue;
+        // }
+        if(c->health > 0){
             this->hbox.setColor(sf::Color::Green);
             this->chaseHbox = c->hbox;
-            return true;
-
         }
     }
-    return false;
 }
 
 void Villain::hurt(){
+  std::cout << "4" << std::endl;
     health--;
     this->randint = rand() % this->g->rooms.size();
     int count = 0;
-    this->direction.x = 0;
-    this->direction.y = 0;
-    // std::cout << randint << std::endl;
     std::cout << randint << std::endl;
     for(auto rmit = g->rooms.begin(); rmit != g->rooms.end(); rmit++){
         if(count == randint){
@@ -181,314 +125,80 @@ void Villain::hurt(){
                 count = 0;
             }
             else{
-                if(fastSpeed == true){
-                    speed /= 1.25;
-                    fastSpeed = false;
-                }
                 if(health > 0){
                     std::cout << "escape" << std::endl;
                     this->setPosition((*rmit)->hbox.left + (448 / 2) - 16, (*rmit)->hbox.top   + (288 / 2) - 36);
-                    this->possiblerooms.clear();
-                    this->setDirection();
+
                     break;
                 }
             }
         }
         count++;
     }
-
 }
-void Villain::returnToCenter(){
-    if(fastSpeed == true){
-        speed /= 1.5;
-        fastSpeed = false;
-    }
-    int xloc = this->getPosition().x;
-    int yloc = this->getPosition().y;
-    roomHbox = g->getRoom(this->hbox);
-    // std::cout << roomHbox.left << std::endl;
-    if(xloc < roomHbox.left + (448 / 2) - 16){
-        this->direction.x = 1;
-        curr = &walk_right;
-    }
-    else if(xloc > roomHbox.left + (448 / 2) - 16){
-        this->direction.x = -1;
-        curr = &walk_left;
-    }
-    else{
-        this->direction.x = 0;
-    }
-    if(yloc > roomHbox.top + (288/2) - 36){
-        this->direction.y = -1;
-        curr = &walk_up;
-    }
-    else if(yloc < roomHbox.top + (288/2) - 36){
-        this->direction.y = 1;
-        curr = &walk_down;
-    }
-    else{
-        this->direction.y = 0;
-    }
-    if(this->getPosition().x == roomHbox.left + (448 / 2) - 16 - 1){
-        this->setPosition(this->getPosition().x + 1, this->getPosition().y);
 
 
-        this->direction.x = 0;
-    }
-    if(this->getPosition().x == roomHbox.left + (448 / 2) - 16 + 1){
-        this->setPosition(this->getPosition().x - 1, this->getPosition().y);
-
-
-        this->direction.x = 0;
-    }
-    if(this->getPosition().y == roomHbox.top + (288/2) - 36 - 1){
-        this->setPosition(this->getPosition().x, this->getPosition().y + 1);
-        this->direction.y = 0;
-    }
-    if(this->getPosition().y == roomHbox.top + (288/2) - 36 + 1){
-        this->setPosition(this->getPosition().x, this->getPosition().y - 1);
-
-
-        this->direction.y = 0;
-    }
-    if((this->getPosition().y == roomHbox.top + (288/2) - 36) && (this->getPosition().x == roomHbox.left + (448 / 2) - 16)){
-        this->setDirection();
-        // std::cout << "centered" << std::endl;
-        needsCentering = false;
-        isChasing = false;
-    }
-}
 void Villain::chase()
 {
 
-    needsCentering = true;
-    // std::cout << this->chaseHbox.top << std::endl;
-
-    // if ((this->chaseHbox.top < this->hbox.top)&&(this->chaseHbox.top-50 > this->hbox.top)) {
-    //     if(this->chaseHbox.left < this->hbox.left){
-    //         this->direction.y = 0;
-    //         this->direction.x = -1;
-    //         curr = &walk_left;
-    //     }
-    //     if(this->chaseHbox.left > this->hbox.left) {
-    //         this->direction.y = 0;
-    //         this->direction.x = 1;
-    //         curr = &walk_right;
-    //     }
-    // }
-    //
-    // if ((this->chaseHbox.left < this->hbox.left)&&(this->chaseHbox.left+50 > this->hbox.left)) {
-    //     if(this->chaseHbox.top > this->hbox.top){
-    //         this->direction.x = 0;
-    //         this->direction.y = 1;
-    //         curr = &walk_down;
-    //     }
-    //     if(this->chaseHbox.top < this->hbox.top){
-    //         this->direction.x = 0;
-    //         this->direction.y = -1;
-    //         curr = &walk_up;
-    //     }
-    // }
-    //
-    // else {
-    //     if(this->chaseHbox.left < this->hbox.left){
-    //         this->direction.x = -1;
-    //         curr = &walk_left;
-    //     }
-    //     if(this->chaseHbox.left > this->hbox.left) {
-    //         this->direction.x = 1;
-    //         curr = &walk_right;
-    //     }
-    //     if(this->chaseHbox.top > this->hbox.top){
-    //         this->direction.y = 1;
-    //         curr = &walk_down;
-    //     }
-    //     if(this->chaseHbox.top < this->hbox.top){
-    //         this->direction.y = -1;
-    //         curr = &walk_up;
-    //     }
-    // }
-
-    if(this->chaseHbox.left < this->hbox.left){
-        this->direction.x = -1;
-        curr = &walk_left;
-    }
-    if(this->chaseHbox.left - 10 > this->hbox.left) {
-        this->direction.x = 1;
-        curr = &walk_right;
-    }
-    if(this->chaseHbox.top - 10 > this->hbox.top){
-        this->direction.y = 1;
-        curr = &walk_down;
-    }
-    if(this->chaseHbox.top < this->hbox.top){
-        this->direction.y = -1;
-        curr = &walk_up;
-    }
-
-    std::vector<std::shared_ptr<Character>> entities = entity_group->getCharacters();
-    for(auto it = entities.begin(); it != entities.end(); it++){
-        std::shared_ptr<Character> c = *it;
-        if(c.get() == this)
-            continue;
-        if(this->hbox.intersects(c->hbox) && c->invul == false && c->health > 0 && this->health > 0){
-            c->hurt();
-            this->randint = rand() % this->g->rooms.size();
-            int count = 0;
-            // std::cout << randint << std::endl;
-            for(auto rmit = g->rooms.begin(); rmit != g->rooms.end(); rmit++){
-                if(count == randint){
-                    if((*rmit)->hbox == g->getRoom(this->hbox)){
-                        this->randint = rand() % this->g->rooms.size();
-                    }
-                    else{
-                        if(fastSpeed == true){
-                            speed /= 1.5;
-                            fastSpeed = false;
-                        }
-                        this->setPosition((*rmit)->hbox.left + (448 / 2) - 16, (*rmit)->hbox.top   + (288 / 2) - 36);
-                        this->possiblerooms.clear();
-                        this->setDirection();
-                        break;
-                    }
-                }
-                count++;
-            }
-
+    if ((this->chaseHbox.top < this->hbox.top)&&(this->chaseHbox.top+50 > this->hbox.top)) {
+        if(this->chaseHbox.left < this->hbox.left){
+            this->direction.y = 0;
+            this->direction.x = -1;
+            curr = &walk_left;
+        }
+        if(this->chaseHbox.left > this->hbox.left) {
+            this->direction.y = 0;
+            this->direction.x = 1;
+            curr = &walk_right;
         }
     }
 
+    if ((this->chaseHbox.left < this->hbox.left)&&(this->chaseHbox.left+50 > this->hbox.left)) {
+        if(this->chaseHbox.top > this->hbox.top){
+            this->direction.x = 0;
+            this->direction.y = 1;
+            curr = &walk_down;
+        }
+        if(this->chaseHbox.top < this->hbox.top){
+            this->direction.x = 0;
+            this->direction.y = -1;
+            curr = &walk_up;
+        }
+    }
 
-
+    else {
+        if(this->chaseHbox.left < this->hbox.left){
+            this->direction.x = -1;
+            curr = &walk_left;
+        }
+        if(this->chaseHbox.left > this->hbox.left) {
+            this->direction.x = 1;
+            curr = &walk_right;
+        }
+        if(this->chaseHbox.top > this->hbox.top){
+            this->direction.y = 1;
+            curr = &walk_down;
+        }
+        if(this->chaseHbox.top < this->hbox.top){
+            this->direction.y = -1;
+            curr = &walk_up;
+        }
+    }
 }
-void Villain::wander()
-{
-    int xloc = this->getPosition().x;
-    int yloc = this->getPosition().y;
-    if(needsCentering == true){
-        if(this->getPosition().x == roomHbox.left + (448 / 2) - 16 - 1){
-            this->setPosition(this->getPosition().x + 1, this->getPosition().y);
-            // std::cout << "correct" << std::endl;
-            needsCentering = false;
-            this->setDirection();
-        }
-        if(this->getPosition().x == roomHbox.left + (448 / 2) - 16 + 1){
-            this->setPosition(this->getPosition().x - 1, this->getPosition().y);
-            // std::cout << "correct" << std::endl;
-            needsCentering = false;
-            this->setDirection();
-        }
-        if(this->getPosition().y == roomHbox.top + (288/2) - 36 - 1){
-            this->setPosition(this->getPosition().x, this->getPosition().y + 1);
-            // std::cout << "correct" << std::endl;
-            needsCentering = false;
-            this->setDirection();
-        }
-        if(this->getPosition().y == roomHbox.top + (288/2) - 36 + 1){
-            this->setPosition(this->getPosition().x, this->getPosition().y - 1);
-            // std::cout << "correct" << std::endl;
-            needsCentering = false;
-            this->setDirection();
-        }
-    }
-    else{
-        if((xloc == roomHbox.left + (448 / 2) - 16) && yloc == roomHbox.top + (288/2) - 36){
-            this->possiblerooms.clear();
-            // std::cout << "choose new direction now" << std::endl;
-            this->setDirection();
-        }
-        else{
-            if((this->getPosition().x == roomHbox.left + (448 / 2) - 16 - 1) || (this->getPosition().x == roomHbox.left + (448/ 2) - 16 + 1) || (this->getPosition().y == roomHbox.top + (384 / 2) - 24 - 1) || (this->getPosition().y == roomHbox.top + (384 / 2) - 24 + 1)){
-                if((this->direction.x != 0) && (this->getPosition().y != roomHbox.top + (288/2)- 36)){
-                    this->setPosition(this->getPosition().x, roomHbox.top + (288/2) - 36);
 
-                    // std::cout << "yissues" << std::endl;
-                    // std::cout << "corrected" << std::endl;
-                }
-                if((this->direction.y != 0) && (this->getPosition().x != roomHbox.left + (448 / 2) - 16)){
-
-                    this->setPosition(roomHbox.left + (448 / 2) - 16, this->getPosition().y);
-                    this->setDirection();
-                    // std::cout << "xissues" << std::endl;
-                    // std::cout << "corrected" << std::endl;
-                }
-
-            }
-            // std::cout << xloc;
-            // std::cout << " ";
-            // std::cout << yloc << std::endl;
-        }
+void Villain::checkDistance() {
+    std::cout << distance << std::endl;
+    distance = sqrt(pow(this->chaseHbox.left - this->hbox.left, 2) + pow(this->chaseHbox.top - this->hbox.top, 2));
+    if (distance <= 300) {
+      speed = 100;
     }
 
-
-
-}
-void Villain::setDirection(){
-    if(g->isInsideRoom(sf::FloatRect(this->getPosition().x + 512, this->getPosition().y, hbox.width, hbox.height)) && previousString != "right"){
-        // std::cout << "right" << std::endl;
-        this->possiblerooms.push_back("right");
-    }
-    if(g->isInsideRoom(sf::FloatRect(this->getPosition().x - 512, this->getPosition().y, hbox.width, hbox.height))&& previousString != "left"){
-        // std::cout << "left" << std::endl;
-        this->possiblerooms.push_back("left");
-    }
-    if(g->isInsideRoom(sf::FloatRect(this->getPosition().x, this->getPosition().y + 384, hbox.width, hbox.height))&& previousString != "down"){
-        // std::cout << "down" << std::endl;
-        this->possiblerooms.push_back("down");
-    }
-    if(g->isInsideRoom(sf::FloatRect(this->getPosition().x, this->getPosition().y - 384, hbox.width, hbox.height))&& previousString != "up"){
-        // std::cout << "up" << std::endl;
-        this->possiblerooms.push_back("up");
-    }
-    // std::cout << this->possiblerooms.size() << std::endl;
-    if(this->possiblerooms.size() == 0){
-        // std::cout << this->previousString << std::endl;
-        // std::cout << "no rooms found" << std::endl;
-        if(this->previousString == "left"){
-           this->possiblerooms.push_back("left");
-        }
-        else if(this->previousString == "right"){
-            this->possiblerooms.push_back("right");
-        }
-        else if(this->previousString == "up"){
-            this->possiblerooms.push_back("up");
-        }
-        else if(this->previousString == "down"){
-            this->possiblerooms.push_back("down");
-        }
-    }
-    this->randint = rand() % this->possiblerooms.size();
-    // std::cout << "possible room random integer: ";
-    // std::cout << randint << std::endl;
-    // std::cout << possiblerooms.at(randint) << std::endl;
-    if(this->possiblerooms.at(randint) == "right"){
-        // std::cout << "moving right" << std::endl;
-        this-> previousString = "left";
-        this->direction.x = 1;
-        this->direction.y = 0;
-        curr = &walk_right;
-    }
-    if(this->possiblerooms.at(randint) == "left"){
-        // std::cout << "moving left" << std::endl;
-        this-> previousString = "right";
-        this->direction.x = -1;
-        this->direction.y = 0;
-        curr = &walk_left;
-
-    }
-    if(this->possiblerooms.at(randint) == "up"){
-        // std::cout << "moving up" << std::endl;
-        this-> previousString = "down";
-        this->direction.y = -1;
-        this->direction.x = 0;
-        curr = &walk_up;
-    }
-    if(this->possiblerooms.at(randint) == "down"){
-        // std::cout << "moving down" << std::endl;
-        this-> previousString = "up";
-        this->direction.y = 1;
-        this->direction.x = 0;
-        curr = &walk_down;
+    else if (distance >= 300 && distance <= 600) {
+      speed = 70;
     }
 
+    else {
+      speed = 500;
+    }
 }

@@ -26,34 +26,23 @@ public:
     void init();
     void onUpdate(float dt);
     void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
-    void wander();
     void chase();
-    void returnToCenter();
-    void setDirection();
     void hurt();
-    bool checkCharacters();
-    bool isVillain(){return true;};
+    void checkCharacters();
+    void checkDistance();
 protected:
     int randint;
     int health;
-    std:: string previousString;
-    std::vector<std::string> possiblerooms;
-    int roomCenterX;
-    int roomCenterY;
-    float previousLocationX;
-    float previousLocationY;
-    bool isChasing;
-    bool started;
-    bool needsCentering;
-    bool fastSpeed;
+    float distance;
+
     sf::FloatRect roomHbox;
     sf::FloatRect chaseHbox;
-<<<<<<< HEAD
+//<<<<<<< HEAD
     sf::Sound ghost_sound;
-=======
+//=======
     sf::Texture death_map;
     SpriteAnimation death_animation;
->>>>>>> bdf4933ecc23c111a44fbdf9c22f3ebef5117c2e
+//>>>>>>> bdf4933ecc23c111a44fbdf9c22f3ebef5117c2e
 
 };
 

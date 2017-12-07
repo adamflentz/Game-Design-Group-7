@@ -47,6 +47,7 @@ void PlayerView::setView(sf::FloatRect dimensions, sf::FloatRect viewport)
     viewDimensions = dimensions;
     v.reset(dimensions);
     v.setViewport(viewport);
+    v.zoom(2.5f);
     HUD.reset(dimensions);
     HUD.setViewport(viewport);
     itemBar.setPosition(viewport.left + dimensions.width - 40, viewport.top + dimensions.height - 40);
