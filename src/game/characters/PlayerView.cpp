@@ -14,7 +14,7 @@ void PlayerView::init()
         shader.setUniform("windowHeight", 480.0f);
         // shader.setUniform("alpha",  0);
 		shader.setUniform("center", lighting.getSize() / 2.0f );
-		shader.setUniform("radius", 200.f);
+		shader.setUniform("radius", lighting.getSize().y / (float) 3.2);
 		shader.setUniform("expand", 0.0f);
     }
     
@@ -93,6 +93,7 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
         target.draw(pain);
     }
     // std::cout << entity_group->getCharacter(playernumber)->maxHealth << std::endl;
+    target.draw(lighting, &shader);
     for(int i = 0; i < entity_group->getCharacter(playernumber)->maxHealth; i++){
         sf::Sprite heart;
         heart.setTexture(heartTexture);
@@ -135,5 +136,4 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
         target.draw(bgBox);
         target.draw(clueText);
     }
-    target.draw(lighting, &shader);
 }
