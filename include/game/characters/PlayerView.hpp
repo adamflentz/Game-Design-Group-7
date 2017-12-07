@@ -1,3 +1,6 @@
+#ifndef PLAYERVIEW_HPP
+#define PLAYERVIEW_HPP
+
 #include <memory>
 #include <SFML/Graphics.hpp>
 #include "engine/Engine.hpp"
@@ -6,35 +9,6 @@
 #include "game/rooms/RoomGroup.hpp"
 #include "components/EntityGroup.hpp"
 #include "game/objects/Clue.hpp"
-
-const std::string VertexShader =
-"void main()"
-"{"
-	"gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;"
-	"gl_TexCoord[0] = gl_TextureMatrix[0] * gl_MultiTexCoord0;"
-	"gl_FrontColor = gl_Color;"
-"}";
-
-const std::string RadialGradient =
-"uniform vec2 center;"
-"uniform float radius;"
-"uniform float expand;"
-"uniform float windowHeight;"
-"void main(void)"
-"{"
-"vec4 color = vec4(0.0, 0.0, 0.0, 0.0);"
-"vec2 centerFromSfml = vec2(center.x, windowHeight - center.y);"
-"vec2 p = (gl_FragCoord.xy - centerFromSfml) / radius;"
-	"float r = sqrt(dot(p, p));"
-	"if (r < 1.0)"
-	"{"
-		"gl_FragColor = mix(color, gl_Color, (r - expand) / (1.0 - expand));"
-	"}"
-	"else"
-	"{"
-		"gl_FragColor = gl_Color;"
-	"}"
-"}";
 
 ////////////////
 // PlayerView.hpp
@@ -61,6 +35,8 @@ class PlayerView: public GameObject
 
         void setRoomGroup(RoomGroup* g){this->rooms = g;};
     protected:
+        float viewport_x = 0;
+        float viewport_y = 0;
         sf::Shader shader;
         sf::RectangleShape lighting;
         RoomGroup* rooms;
@@ -79,3 +55,5 @@ class PlayerView: public GameObject
         sf::Clock clock;
         int painCount;
 };
+
+#endif

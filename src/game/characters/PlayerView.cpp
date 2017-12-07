@@ -9,13 +9,18 @@ void PlayerView::init()
 		std::cout << "Shaders are not available on this machine." << std::endl;
     }else{
         lighting.setFillColor(sf::Color::Black);
-        lighting.setPosition(0, 0);
-        shader.loadFromMemory(VertexShader, RadialGradient);
-        shader.setUniform("windowHeight", 480.0f);
-        // shader.setUniform("alpha",  0);
-		shader.setUniform("center", lighting.getSize() / 2.0f );
-		shader.setUniform("radius", lighting.getSize().y / (float) 3.2);
-		shader.setUniform("expand", 0.0f);
+        // lighting.setPosition(0, 0);
+        shader.loadFromFile("../resources/shaders/VertexShader.txt", "../resources/shaders/GradientShader.txt");
+        std::cout << "Position : " << lighting.getPosition().x << " " << lighting.getPosition().y;
+        std::cout << ", Dimensions : "  << lighting.getSize().x << " " << lighting.getSize().y;
+        std::cout << ", Viewport : " << viewport_x << " " << viewport_y << std::endl;
+        shader.setUniform("windowHeight", lighting.getSize().y);
+        shader.setUniform("windowWidth", lighting.getSize().x);
+        shader.setUniform("center", sf::Vector2f(
+            viewport_x + lighting.getSize().x / 2.0f, 
+            lighting.getSize().y / 2.0f));
+        shader.setUniform("radius", std::min(lighting.getSize().y, lighting.getSize().x) / 2.2f);
+        shader.setUniform("expand", 0.0f);
     }
     
     itemBar.setSize(sf::Vector2f(20, 20));
@@ -63,6 +68,9 @@ void PlayerView::setView(sf::FloatRect dimensions, sf::FloatRect viewport)
     HUD.setViewport(viewport);
     itemBar.setPosition(viewport.left + dimensions.width - 40, viewport.top + dimensions.height - 40);
     pain.setSize(sf::Vector2f(dimensions.width, dimensions.height));
+    lighting.setPosition(0, 0);
+    viewport_x = 720 * viewport.left; 
+    viewport_y = 480 * viewport.top;
     lighting.setSize({dimensions.width, dimensions.height});
 }
 
@@ -86,6 +94,7 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
     }
     // draw the HUD
     target.setView(HUD);
+    target.draw(lighting, &shader);
     // target.draw(itemBar);
     if(entity_group->getCharacter(playernumber)->invul == true){
         // pain.setFillColor(sf::Color(255, 0, 0, painCount));
@@ -93,7 +102,6 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
         target.draw(pain);
     }
     // std::cout << entity_group->getCharacter(playernumber)->maxHealth << std::endl;
-    target.draw(lighting, &shader);
     for(int i = 0; i < entity_group->getCharacter(playernumber)->maxHealth; i++){
         sf::Sprite heart;
         heart.setTexture(heartTexture);

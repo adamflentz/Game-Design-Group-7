@@ -10,6 +10,7 @@
 void GameplayScreen::init()
 {
     clock.restart();
+    this->views.clear();
     entity_group = EntityGroup();
     switch(num_players){
         case 1:
@@ -26,7 +27,6 @@ void GameplayScreen::init()
         break;
     }
     
-
     this->createClues();
     num_players = config->num_players;
     // If we let the playerview set its own viewport
@@ -175,14 +175,17 @@ void GameplayScreen::createViews(int numPlayers)
         entity_group.addCharacter(std::move(character));
         view->setEntities(&entity_group);
         view->setEntityNumber(playernum);
+        view->init();
         // Add child to this view
-        this->addChild(std::move(view));
+        this->views.push_back(std::move(view));
     }
 
 }
 
 void GameplayScreen::onUpdate(float dt)
 {
+    for(auto it = views.begin(); it != views.end(); it++)
+        (*it)->update(dt);
     // Update the rooms (not really necessary though)
     group.update(dt);
     entity_group.update(dt);
@@ -206,5 +209,6 @@ void GameplayScreen::onUpdate(float dt)
 
 void GameplayScreen::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const
 {
-
+    for(auto it = views.begin(); it != views.end(); it++)
+        ctx.draw(**it);
 }
