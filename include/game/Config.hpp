@@ -17,7 +17,7 @@ public:
 
     int num_players = 1;
 
-    float time_Per_Phase = 10.0;
+    float time_Per_Phase = 90.0;
 };
 
 #endif

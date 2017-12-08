@@ -8,6 +8,7 @@ void GametitleScreen::init()
   if (!music.openFromFile("../resources/music/2049.flac"))
     return; // error
   music.play();
+  music.setLoop(true);
 
   Events::addEventListener("gamepad_event", [=](base_event_type e){
       // We'll need to delete this listener in the destructor or we'll have segfaults/undefined behavior eventually
