@@ -8,19 +8,22 @@ void PlayerView::init()
 	{
 		std::cout << "Shaders are not available on this machine." << std::endl;
     }else{
-        lighting.setFillColor(sf::Color::Black);
         // lighting.setPosition(0, 0);
-        shader.loadFromFile("../resources/shaders/VertexShader.txt", "../resources/shaders/GradientShader.txt");
-        std::cout << "Position : " << lighting.getPosition().x << " " << lighting.getPosition().y;
-        std::cout << ", Dimensions : "  << lighting.getSize().x << " " << lighting.getSize().y;
-        std::cout << ", Viewport : " << viewport_x << " " << viewport_y << std::endl;
-        shader.setUniform("windowHeight", lighting.getSize().y);
-        shader.setUniform("windowWidth", lighting.getSize().x);
-        shader.setUniform("center", sf::Vector2f(
-            viewport_x + lighting.getSize().x / 2.0f, 
-            lighting.getSize().y / 2.0f));
-        shader.setUniform("radius", std::min(lighting.getSize().y, lighting.getSize().x) / 2.2f);
-        shader.setUniform("expand", 0.0f);
+        lighting.setFillColor(sf::Color(0,0,0,0));
+        if(shader.loadFromFile("../resources/shaders/VertexShader.txt", "../resources/shaders/GradientShader.txt"))
+        {
+            lighting.setFillColor(sf::Color::Black);
+            std::cout << "Position : " << lighting.getPosition().x << " " << lighting.getPosition().y;
+            std::cout << ", Dimensions : "  << lighting.getSize().x << " " << lighting.getSize().y;
+            std::cout << ", Viewport : " << viewport_x << " " << viewport_y << std::endl;
+            shader.setUniform("windowHeight", lighting.getSize().y);
+            shader.setUniform("windowWidth", lighting.getSize().x);
+            shader.setUniform("center", sf::Vector2f(
+                viewport_x + lighting.getSize().x / 2.0f, 
+                lighting.getSize().y / 2.0f));
+            shader.setUniform("radius", std::min(lighting.getSize().y, lighting.getSize().x) / 2.2f);
+            shader.setUniform("expand", 0.0f);
+        }
     }
     
     itemBar.setSize(sf::Vector2f(20, 20));

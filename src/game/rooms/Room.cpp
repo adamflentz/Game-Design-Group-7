@@ -35,6 +35,7 @@ void Room::init()
 
 void Room::setRoomType(int type)
 {
+    std::cout << "Room type " << type << std::endl;
     switch(type){
       case 1:
         room_setup = "armory";
@@ -437,8 +438,6 @@ void Room::setRoomType(int type)
     std::string location = "../resources/roompng/room_" + std::to_string(type) + ".png";
     // std::cout << location << std::endl;
     room_sprite.setTexture(*ResourceManager::getTexture(location));
-    // room_sprite.setPosition(-25, -25);
-    // room_sprite.setScale(1.1, 1.1);
 }
 
 void Room::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
