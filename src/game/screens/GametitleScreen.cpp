@@ -50,8 +50,6 @@ void GametitleScreen::onUpdate(float dt){
 };
 
 void GametitleScreen::onGamepadEvent(GamepadEvent e){
-  if(this->changed)
-    return;
   if(this->pressed == false){
     this->pressed = true;
   }
@@ -59,14 +57,13 @@ void GametitleScreen::onGamepadEvent(GamepadEvent e){
     // Set player 1
     this->config->player_map[e.index] = 1;
     auto event = std::make_shared< Event<std::string> >("Character");
-    this->changed = true;
-    Events::queueEvent("change_screen", event);
+    Events::clearAll("gamepad_event");
+    Events::triggerEvent("change_screen", event);
   }
 }
 
 void GametitleScreen::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const
 {
-    // ctx.draw(group, states);
     ctx.draw(sprite);
     ctx.draw(blackness);
 }

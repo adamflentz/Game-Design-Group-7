@@ -4,17 +4,34 @@
 
 void PlayerView::init()
 {
+    if (!sf::Shader::isAvailable())
+	{
+		std::cout << "Shaders are not available on this machine." << std::endl;
+    }else{
+        lighting.setFillColor(sf::Color::Black);
+        // lighting.setPosition(0, 0);
+        shader.loadFromFile("../resources/shaders/VertexShader.txt", "../resources/shaders/GradientShader.txt");
+        std::cout << "Position : " << lighting.getPosition().x << " " << lighting.getPosition().y;
+        std::cout << ", Dimensions : "  << lighting.getSize().x << " " << lighting.getSize().y;
+        std::cout << ", Viewport : " << viewport_x << " " << viewport_y << std::endl;
+        shader.setUniform("windowHeight", lighting.getSize().y);
+        shader.setUniform("windowWidth", lighting.getSize().x);
+        shader.setUniform("center", sf::Vector2f(
+            viewport_x + lighting.getSize().x / 2.0f, 
+            lighting.getSize().y / 2.0f));
+        shader.setUniform("radius", std::min(lighting.getSize().y, lighting.getSize().x) / 2.2f);
+        shader.setUniform("expand", 0.0f);
+    }
+    
     itemBar.setSize(sf::Vector2f(20, 20));
     itemBar.setOutlineColor(sf::Color::White);
     itemBar.setFillColor(sf::Color::Transparent);
     itemBar.setOutlineThickness(2);
     //pain.setFillColor(sf::Color::Red);
-    pain.setFillColor(sf::Color(255, 0, 0, 100));
     painCount = 100;
+    pain.setFillColor(sf::Color(255, 0, 0, painCount));
 
-    if (!heartTexture.loadFromFile("../resources/sprites/heart.png")) {
-      return;
-    }
+    heartTexture = *ResourceManager::getTexture("../resources/sprites/heart.png");
 
     // setup event listeners (lazy method)
     Events::addEventListener("gamepad_event", [=](base_event_type e){
@@ -51,6 +68,10 @@ void PlayerView::setView(sf::FloatRect dimensions, sf::FloatRect viewport)
     HUD.setViewport(viewport);
     itemBar.setPosition(viewport.left + dimensions.width - 40, viewport.top + dimensions.height - 40);
     pain.setSize(sf::Vector2f(dimensions.width, dimensions.height));
+    lighting.setPosition(0, 0);
+    viewport_x = 720 * viewport.left; 
+    viewport_y = 480 * viewport.top;
+    lighting.setSize({dimensions.width, dimensions.height});
 }
 
 void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -61,16 +82,19 @@ void PlayerView::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
     //
     if(rooms){
         Room* room = rooms->getRoomInside(entity_group->getCharacter(playernumber)->hbox);
-        if(NULL != room)
-          target.draw(*room);
-        target.draw(*rooms);
-    }
-    // draw the entity group
-    if(entity_group){
-        target.draw(*entity_group);
+        // Now this just draws the doors lol
+        if(NULL != room){
+            target.draw(*room);
+            target.draw(*rooms);
+            // draw the entities in the current room
+            if(entity_group){
+                entity_group->drawInArea(target, room->hbox);
+            }
+        }
     }
     // draw the HUD
     target.setView(HUD);
+    target.draw(lighting, &shader);
     // target.draw(itemBar);
     if(entity_group->getCharacter(playernumber)->invul == true){
         // pain.setFillColor(sf::Color(255, 0, 0, painCount));

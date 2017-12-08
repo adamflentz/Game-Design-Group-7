@@ -9,7 +9,9 @@ void Character::init()
 {
     chara_hurt.setBuffer(*ResourceManager::getSoundBuffer("../resources/music/hurt.wav"));
     chara_death.setBuffer(*ResourceManager::getSoundBuffer("../resources/music/dead.wav"));
+
     ghost_sound.setBuffer(*ResourceManager::getSoundBuffer("../resources/music/chase.wav"));
+
     this->direction = sf::Vector2f(0,0);
     this->setOrigin(16, 16);
     int sprite_location = -1;
@@ -56,85 +58,75 @@ void Character::init()
     hasItem = false;
     itemDamage = 1;
     // int sprite_location = static_cast<int>(character);
-    int x = ((sprite_location) % 2);
-    int y = ((sprite_location) / 2);
-    int mod = 3 * x + 24 * y;
+    
+    // Wow
+    int random_room = rand() % g->roomCount();
+    Room* room = g->getRoom(random_room);
 
-    std::cout << x << " " << y << std::endl;
-
-    // Make sure player starts inside first room(?)
-    // could also make them start inside a random room
-
-    this->setPosition(
-      g->getRoom(0)->hbox.left + 20 + (32 * player_number),
-      g->getRoom(0)->hbox.top + 20);
-
-    attack_anim.setSpriteSheet(*ResourceManager::getTexture("../resources/sprites/swipe.png"));
-    attack_anim.setPosition(16, 0);
-    std::vector< std::vector<int> > swipe_frames = {
-        {0}, {1}, {2}, {3}
-    };
-    attack_anim.addFrames(swipe_frames, 32, 32);
-
-    if(g->getRoom(0)->room_setup == "armory"){
+    if(room->room_setup == "armory"){
         this->setPosition(
-            g->getRoom(0)->hbox.left + 20 + (32 * player_number),
-            g->getRoom(0)->hbox.top + 160);
+            room->hbox.left + 20 + (32 * player_number),
+            room->hbox.top + 160);
     }
-    else if(g->getRoom(0)->room_setup == "throne"){
+    else if(room->room_setup == "throne"){
         this->setPosition(
-        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
-        g->getRoom(0)->hbox.top + 160);
+        room->hbox.left + 20 + (32 * player_number),
+        room->hbox.top + 160);
     }
-    else if(g->getRoom(0)->room_setup == "grave"){
+    else if(room->room_setup == "grave"){
         this->setPosition(
-        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
-        g->getRoom(0)->hbox.top + 128);
+        room->hbox.left + 20 + (32 * player_number),
+        room->hbox.top + 128);
     }
-    else if(g->getRoom(0)->room_setup == "parlor"){
+    else if(room->room_setup == "parlor"){
         this->setPosition(
-        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
-        g->getRoom(0)->hbox.top + 128);
+        room->hbox.left + 20 + (32 * player_number),
+        room->hbox.top + 128);
     }
-    else if(g->getRoom(0)->room_setup == "lounge"){
+    else if(room->room_setup == "lounge"){
         this->setPosition(
-        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
-        g->getRoom(0)->hbox.top + 160);
+        room->hbox.left + 20 + (32 * player_number),
+        room->hbox.top + 160);
     }
-    else if(g->getRoom(0)->room_setup == "kitchen"){
+    else if(room->room_setup == "kitchen"){
         this->setPosition(
-        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
-        g->getRoom(0)->hbox.top + 160);
+        room->hbox.left + 20 + (32 * player_number),
+        room->hbox.top + 160);
     }
-    else if(g->getRoom(0)->room_setup == "lion"){
+    else if(room->room_setup == "lion"){
         this->setPosition(
-        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
-        g->getRoom(0)->hbox.top + 160);
+        room->hbox.left + 20 + (32 * player_number),
+        room->hbox.top + 160);
     }
-    else if(g->getRoom(0)->room_setup == "barrels"){
+    else if(room->room_setup == "barrels"){
         this->setPosition(
-        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
-        g->getRoom(0)->hbox.top + 160);
+        room->hbox.left + 20 + (32 * player_number),
+        room->hbox.top + 160);
     }
-    else if(g->getRoom(0)->room_setup == "dungeon"){
+    else if(room->room_setup == "dungeon"){
         this->setPosition(
-        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
-        g->getRoom(0)->hbox.top + 256);
+        room->hbox.left + 20 + (32 * player_number),
+        room->hbox.top + 256);
     }
-    else if(g->getRoom(0)->room_setup == "bedroom"){
+    else if(room->room_setup == "bedroom"){
         this->setPosition(
-        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
-        g->getRoom(0)->hbox.top + 160);
+        room->hbox.left + 20 + (32 * player_number),
+        room->hbox.top + 160);
     }
-    else if(g->getRoom(0)->room_setup == "wood_bedroom"){
+    else if(room->room_setup == "wood_bedroom"){
         this->setPosition(
-        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
-        g->getRoom(0)->hbox.top + 128);
+        room->hbox.left + 20 + (32 * player_number),
+        room->hbox.top + 128);
     }
-    else if(g->getRoom(0)->room_setup == "bathroom"){
+    else if(room->room_setup == "bathroom"){
         this->setPosition(
-        g->getRoom(0)->hbox.left + 20 + (32 * player_number),
-        g->getRoom(0)->hbox.top + 96);
+        room->hbox.left + 20 + (32 * player_number),
+        room->hbox.top + 96);
+    }else{
+        this->setPosition(
+            room->hbox.left + 20 + (32 * player_number),
+            room->hbox.top + 160
+        );
     }
     // this->setPosition(g->rooms.front()->getPosition().x + 20 + (32 * player_number), g->rooms.front()->getPosition().y + 20);
     // 1p width, height
@@ -143,8 +135,19 @@ void Character::init()
     // v.setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
     // v.setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
     // load the sprite map
-    sprite_map.loadFromFile("../resources/sprites/character_sheet.png");
+    sprite_map = *ResourceManager::getTexture("../resources/sprites/character_sheet.png");
     // add animation frames
+    int x = ((sprite_location) % 2);
+    int y = ((sprite_location) / 2);
+    int mod = 3 * x + 24 * y;
+    
+    attack_anim.setSpriteSheet(*ResourceManager::getTexture("../resources/sprites/swipe.png"));
+    attack_anim.setPosition(16, 0);
+    std::vector< std::vector<int> > swipe_frames = {
+        {0}, {1}, {2}, {3}
+    };
+    attack_anim.addFrames(swipe_frames, 32, 32);
+    
     std::vector< std::vector<int> > down_frames = {
         {mod +  1}, {mod + 2}, {mod + 1}, { mod + 0}
     };

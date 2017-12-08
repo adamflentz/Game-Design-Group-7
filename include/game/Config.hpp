@@ -6,6 +6,9 @@
 class Config
 {
 public:
+    int width = 720;
+    int height = 480;
+
     enum CHARACTER { BRO = 0, SIS = 1, DAD = 2, MOM = 3};
     // Maps controller index to player number
     std::map<int, int> player_map;
@@ -14,7 +17,7 @@ public:
 
     int num_players = 1;
 
-    float time_Per_Phase = 5.0;
+    float time_Per_Phase = 10.0;
 };
 
 #endif

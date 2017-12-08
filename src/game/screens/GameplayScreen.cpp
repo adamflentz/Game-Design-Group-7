@@ -12,6 +12,8 @@ void GameplayScreen::init()
     hunt.setBuffer(*ResourceManager::getSoundBuffer("../resources/music/start.ogg"));
 
     clock.restart();
+    this->views.clear();
+    entity_group = EntityGroup();
     switch(num_players){
         case 1:
         group.generateRoomGrid(20);
@@ -26,7 +28,6 @@ void GameplayScreen::init()
         group.generateRoomGrid(100);
         break;
     }
-
 
     this->createClues();
     num_players = config->num_players;
@@ -47,6 +48,7 @@ void GameplayScreen::init()
       if(--num_players == 0){
         std::cout << "All players died" << std::endl;
         auto event = std::make_shared< Event<std::string> >("GameEnd");
+        Events::clearAll("gamepad_event");
         Events::queueEvent("change_screen", event);
       };
 
@@ -175,14 +177,17 @@ void GameplayScreen::createViews(int numPlayers)
         entity_group.addCharacter(std::move(character));
         view->setEntities(&entity_group);
         view->setEntityNumber(playernum);
+        view->init();
         // Add child to this view
-        this->addChild(std::move(view));
+        this->views.push_back(std::move(view));
     }
 
 }
 
 void GameplayScreen::onUpdate(float dt)
 {
+    for(auto it = views.begin(); it != views.end(); it++)
+        (*it)->update(dt);
     // Update the rooms (not really necessary though)
     group.update(dt);
     entity_group.update(dt);
@@ -208,5 +213,6 @@ void GameplayScreen::onUpdate(float dt)
 
 void GameplayScreen::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const
 {
-
+    for(auto it = views.begin(); it != views.end(); it++)
+        ctx.draw(**it);
 }

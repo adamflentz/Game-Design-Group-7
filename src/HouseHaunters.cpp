@@ -15,7 +15,7 @@ void HouseHauntersGame::init()
     config = std::make_shared<Config>();
     this->setName("House Haunters");
     // Setup the window position and dimensions
-    this->setWindowRect(100, 100, 720, 480);
+    this->setWindowRect(100, 100, config->width, config->height);
     // Initialize the game screendisableGamepads
     std::unique_ptr<GameScreen> screen_gamestory = std::unique_ptr<GameScreen>(new GamestoryScreen());
     screen_gamestory->setConfig(config);

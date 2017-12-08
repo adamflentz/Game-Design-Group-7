@@ -141,6 +141,21 @@ Room* RoomGroup::getRoom(int room_num)
     // if(room_num >= 0 && room_num < rooms.size())
     //     return rooms[room_num].get();
 }
+// 
+int RoomGroup::roomCount()
+{
+    if (this->num_rooms == 0){
+        for(auto it = rooms.begin(); it != rooms.end(); it++)
+            if(!((*it)->isDoor))
+                this->num_rooms++;
+    }
+    return this->num_rooms;
+}
+
+bool RoomGroup::inSameRoom(sf::FloatRect box1, sf::FloatRect box2)
+{
+    return (getRoomInside(box1) == getRoomInside(box2));
+}
 
 Room* RoomGroup::getRoomInside(sf::FloatRect hbox)
 {

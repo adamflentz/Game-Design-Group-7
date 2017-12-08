@@ -175,6 +175,12 @@ void Villain::hurt(){
     int count = 0;
     this->direction.x = 0;
     this->direction.y = 0;
+    // Lazy, but just go to game over screen
+    if(health <= 0){
+        auto event = std::make_shared< Event<std::string> >("GameEnd");
+        Events::clearAll("gamepad_event");
+        Events::triggerEvent("change_screen", event);
+    }
     // std::cout << randint << std::endl;
     std::cout << randint << std::endl;
     for(auto rmit = g->rooms.begin(); rmit != g->rooms.end(); rmit++){

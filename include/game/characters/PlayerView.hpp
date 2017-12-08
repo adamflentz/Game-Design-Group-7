@@ -1,3 +1,6 @@
+#ifndef PLAYERVIEW_HPP
+#define PLAYERVIEW_HPP
+
 #include <memory>
 #include <SFML/Graphics.hpp>
 #include "engine/Engine.hpp"
@@ -32,6 +35,10 @@ class PlayerView: public GameObject
 
         void setRoomGroup(RoomGroup* g){this->rooms = g;};
     protected:
+        float viewport_x = 0;
+        float viewport_y = 0;
+        sf::Shader shader;
+        sf::RectangleShape lighting;
         RoomGroup* rooms;
         int playernumber;
         // std::shared_ptr<Villain> g;
@@ -48,3 +55,5 @@ class PlayerView: public GameObject
         sf::Clock clock;
         int painCount;
 };
+
+#endif

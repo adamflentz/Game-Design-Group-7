@@ -48,6 +48,7 @@ protected:
 
     sf::Clock clock;
     RoomGroup group;
+    std::vector< std::unique_ptr<PlayerView> > views;
     std::shared_ptr<Villain> ghost;
     std::shared_ptr<Clue> clue;
     EntityGroup entity_group;
