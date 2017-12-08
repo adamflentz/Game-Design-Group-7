@@ -9,7 +9,9 @@ void Character::init()
 {
     chara_hurt.setBuffer(*ResourceManager::getSoundBuffer("../resources/music/hurt.wav"));
     chara_death.setBuffer(*ResourceManager::getSoundBuffer("../resources/music/dead.wav"));
-    // chara_death.play();
+
+    ghost_sound.setBuffer(*ResourceManager::getSoundBuffer("../resources/music/chase.wav"));
+
     this->direction = sf::Vector2f(0,0);
     this->setOrigin(16, 16);
     int sprite_location = -1;
@@ -349,6 +351,7 @@ void Character::hurt(){
     this->invul = true;
     if(health > 0){
         chara_hurt.play();
+        ghost_sound.play();
     }
     else{
         std::cout << "should play death" << std::endl;
@@ -500,7 +503,7 @@ void Character::onGamepadEvent(GamepadEvent e)
                             }
                         }
                     }
-                    
+
                 }
 
                 break;
