@@ -3,6 +3,11 @@
 ![WOW](resources/hh.png)
 Hunt or be Haunted
 
+# Running
+Use cmake and make to compile
+
+Run using the command `./HH`
+
 # Characters
 
 **The Brother**  
@@ -21,9 +26,10 @@ They say mother knows best, and well, this mother does. Now if only the rest of 
 ```
 Up to 4 controllers supported (including keyboard)
 ```
-The controls below refer to a PS4 controller setup (not tested with any other controller type)and a standard keyboard setup.
+The controls below refer to a PS4 controller setup (not tested with any other controller type) and a standard keyboard setup.
 
 Move - Arrow Keys / D-pad  
 Interact/Read Clue - Z / X button  
 Attack - X / Circle  
-Run(Brother only) - C / Square
+Run(Brother only) - C / Square  
+Sacrifice yourself to the haunting entity and witness the meaning of death - V / Triangle

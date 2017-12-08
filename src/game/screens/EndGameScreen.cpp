@@ -3,6 +3,7 @@
 
 void EndGameScreen::init() {
     clock.restart();
+    trans = 255;
     // Reset some things
     this->showing = false;
     this->can_leave = false;

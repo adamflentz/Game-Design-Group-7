@@ -1,5 +1,11 @@
 .vscode
 .DS_Store
 
+# Ignore build directories
+
 Debug/
 debug/
+release/
+Release/
+profile/
+Profile/
