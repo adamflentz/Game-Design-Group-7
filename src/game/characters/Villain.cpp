@@ -6,7 +6,7 @@
 
 void Villain::init()
 {
-    ghost_sound.setBuffer(*ResourceManager::getSoundBuffer("../resources/music/dead.wav"));
+    ghost_sound.setBuffer(*ResourceManager::getSoundBuffer("../resources/music/near.flac"));
     // Make sure player starts inside first room(?)
     // could also make them start inside a random room
     this->setPosition(g->rooms.front()->getPosition().x + ((512 / 2) - 16), g->rooms.front()->getPosition().y + ((384 / 2) - 24));
@@ -142,11 +142,11 @@ void Villain::chase()
 {
     if(this->chaseHbox.left < this->hbox.left){
         this->direction.x = -1;
-        curr = &walk_left;
+        //curr = &walk_left;
     }
     if(this->chaseHbox.left  > this->hbox.left) {
         this->direction.x = 1;
-        curr = &walk_right;
+        //curr = &walk_right;
     }
     if(this->chaseHbox.top  > this->hbox.top){
         this->direction.y = 1;
@@ -208,13 +208,13 @@ void Villain::checkDistance() {
     //std::cout << speed << std::endl;
     distance = sqrt(pow(this->chaseHbox.left - this->hbox.left, 2) + pow(this->chaseHbox.top - this->hbox.top, 2));
     if (distance <= 300) {
-      speed = 120;
+      speed = 105;
       if (distance >= 299 && distance >= 298 && gettingCloser(distance)) {
           ghost_sound.play();}
     }
 
     else if (distance >= 300 && distance <= 600) {
-      speed = 61;
+      speed = 181;
     }
 
     else {
