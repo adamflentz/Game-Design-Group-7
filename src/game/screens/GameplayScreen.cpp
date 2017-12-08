@@ -62,7 +62,7 @@ void GameplayScreen::init()
               Events::queueEvent("change_screen", event);
           }
       };
-    })
+    });
     // std::cout << group.rooms.size() << std::endl;
 }
 
