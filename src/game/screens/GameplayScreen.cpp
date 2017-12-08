@@ -49,9 +49,20 @@ void GameplayScreen::init()
         Events::clearAll("gamepad_event");
         Events::queueEvent("change_screen", event);
       };
+    
 
 
     });
+    Events::addEventListener("characters won", [=](base_event_type e){
+      for(auto i = entity_group.getCharacters().begin(); i != entity_group.getCharacters()end(); i++){
+          if((*i)->isVillain() && (*i)->health == 0){
+              std::cout << "Villain Died" << std::endl;
+              auto event = std::make_shared< Event<std::string> >("GameEnd");
+              Events::clearAll("gamepad_event");
+              Events::queueEvent("change_screen", event);
+          }
+      };
+    })
     // std::cout << group.rooms.size() << std::endl;
 }
 
