@@ -15,8 +15,6 @@ void ClueReader::readFile(std::string filename) {
     file.close();
     std::string content(buffer.str());
     doc.parse<0>(&content[0]);
-
-    root = doc.first_node();
 }
 
 // returns the number of children a node of a given xml node
@@ -32,9 +30,16 @@ int ClueReader::getNumChild(xml_node<> *parent) {
 // Then populates lists of clues and info based on the chosen items
 void ClueReader::selectItems() {
     SelectStream(1); // used for random
+    rapidxml::xml_node<> *root = doc.first_node();
+
+    cluesJackpot.clear();
+    cluesSpec.clear();
+    cluesVague.clear();
+    cluesWorthless.clear();
 
     // select a random high damage item
     int randH = Equilikely(0, getNumChild(root->first_node("high")) - 1);
+    std::cout << "Random Number " << randH << std::endl;
     int n = 0;
     xml_node<> *itemH = root->first_node("high")->first_node();
     while(n != randH){
@@ -45,10 +50,29 @@ void ClueReader::selectItems() {
     itemHigh.name = itemH->first_node("name")->value();
     itemHigh.type = itemH->first_node("type")->value();
     std::cout << itemHigh.name << std::endl;
-    cluesJackpot.push_back(itemH->first_node("clues")->first_node("jackpot")->value());
-    cluesSpec.push_back(itemH->first_node("clues")->first_node("specific")->value());
-    cluesVague.push_back(itemH->first_node("clues")->first_node("vague")->value());
-    cluesWorthless.push_back(itemH->first_node("clues")->first_node("worthless")->value());
+    auto clue_node = itemH->first_node("clues");
+    if(clue_node){
+        if(clue_node->first_node("jackpot")){
+            // std::cout << "Jackpot: " << std::endl;
+            // std::cout << itemH->first_node("clues")->first_node("jackpot")->value() << std::endl;
+            cluesJackpot.push_back(clue_node->first_node("jackpot")->value());
+        }
+        if(clue_node->first_node("specific")){
+            // std::cout << "Specific: " << std::endl;
+            // std::cout << clue_node->first_node("specific")->value() << std::endl;
+            cluesSpec.push_back(clue_node->first_node("specific")->value());
+        }
+        if(clue_node->first_node("vague")){
+            // std::cout << "Vague: " << std::endl;
+            // std::cout << clue_node->first_node("vague")->value() << std::endl;
+            cluesVague.push_back(clue_node->first_node("vague")->value());
+        }
+        if(clue_node->first_node("worthless")){
+            // std::cout << "Worthless: " << std::endl;
+            // std::cout << clue_node->first_node("worthless")->value() << std::endl;
+            cluesWorthless.push_back(clue_node->first_node("worthless")->value());
+        }
+    }
 
     // select a random low damage item
     int randL = Equilikely(0, getNumChild(root->first_node("low") - 1));

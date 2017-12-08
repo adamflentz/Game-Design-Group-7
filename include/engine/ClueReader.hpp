@@ -33,7 +33,6 @@ private:
     std::vector<std::string> cluesVague;
     std::vector<std::string> cluesWorthless;
     rapidxml::xml_document<> doc;
-    rapidxml::xml_node<> *root; // xml root node
 };
 
 #endif
