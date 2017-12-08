@@ -9,6 +9,8 @@
 
 void GameplayScreen::init()
 {
+    hunt.setBuffer(*ResourceManager::getSoundBuffer("../resources/music/start.ogg"));
+
     clock.restart();
     switch(num_players){
         case 1:
@@ -24,7 +26,7 @@ void GameplayScreen::init()
         group.generateRoomGrid(100);
         break;
     }
-    
+
 
     this->createClues();
     num_players = config->num_players;
@@ -110,7 +112,7 @@ void GameplayScreen::createClues()
     for(int i = 0; i < reader.getCluesSpec().size(); i++){
 
         // add clues to our clue entity group
-       
+
     }
 }
 
@@ -144,8 +146,8 @@ void GameplayScreen::createViews(int numPlayers)
         // Map i to a 2d array [2][2]
         int x = i % 2;
         int y = i / 2;
-        int playernum = i + 1; // Player Numbers start at 1 
-        // Find the gamepad by the player number 
+        int playernum = i + 1; // Player Numbers start at 1
+        // Find the gamepad by the player number
         int gamepad_index = -1;
         for(auto it = config->player_map.begin(); it != config->player_map.end(); it++){
             if( it->second == playernum ){
@@ -188,6 +190,8 @@ void GameplayScreen::onUpdate(float dt)
     // std::cout << clock.getElapsedTime().asSeconds() << std::endl;
     if (clock.getElapsedTime().asSeconds() >= config -> time_Per_Phase) {
         if(phase == 1){
+            hunt.play();
+
             std::cout << "phase ends" << std::endl;
             ghost = std::make_shared<Villain>();
             ghost->setPlayerNumber(-1);

@@ -6,7 +6,7 @@
 
 void Villain::init()
 {
-    ghost_sound.setBuffer(*ResourceManager::getSoundBuffer("../resources/music/ghost.wav"));
+    ghost_sound.setBuffer(*ResourceManager::getSoundBuffer("../resources/music/chase.wav"));
     this->direction = sf::Vector2f(0,0);
     // Make sure player starts inside first room(?)
     // could also make them start inside a random room
@@ -79,9 +79,9 @@ void Villain::onUpdate(float dt)
             speed *= 1.25;
             fastSpeed = true;
         }
-        if(isChasing == false){
-          ghost_sound.play();
-        }
+        // if(isChasing == false){
+        //   ghost_sound.play();
+        // }
         isChasing = true;
         this->chase();
         // std::cout << "CHASING" << std::endl;
@@ -99,7 +99,7 @@ void Villain::onUpdate(float dt)
     if(health > 0){
         this->move(dx, dy);
     }
-    
+
     // check if inside room
     if(g->isInsideRoom(sf::FloatRect(hbox.left + dx, hbox.top + dy, hbox.width, hbox.height)) == false){
         std::cout << "accident" << std::endl;
@@ -161,6 +161,7 @@ bool Villain::checkCharacters(){
         if(c->hbox.intersects(roomHbox) && c->health > 0 && c->invul == false){
             this->hbox.setColor(sf::Color::Green);
             this->chaseHbox = c->hbox;
+
             return true;
 
         }
@@ -265,6 +266,7 @@ void Villain::chase()
 {
 
     needsCentering = true;
+    ghost_sound.play();
     // std::cout << this->chaseHbox.top << std::endl;
 
     // if ((this->chaseHbox.top < this->hbox.top)&&(this->chaseHbox.top-50 > this->hbox.top)) {

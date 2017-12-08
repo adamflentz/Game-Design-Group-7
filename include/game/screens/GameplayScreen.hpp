@@ -52,4 +52,5 @@ protected:
     std::shared_ptr<Clue> clue;
     EntityGroup entity_group;
     ClueReader reader;
+    sf::Sound hunt;
 };
