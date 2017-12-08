@@ -79,7 +79,7 @@ public:
 protected:
     int gamepad_index = -1;
 
-    // Base attributes 
+    // Base attributes
     double speed = 120;
     double stealth = 100;
     double strength = 100;
@@ -91,6 +91,7 @@ protected:
     sf::Texture pain_sprite;
     sf::Sound chara_hurt;
     sf::Sound chara_death;
+    sf::Sound ghost_sound;
     // An attack animation
     SpriteAnimation attack_anim;
     // The current animation

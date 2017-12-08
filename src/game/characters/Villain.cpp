@@ -6,7 +6,7 @@
 
 void Villain::init()
 {
-    ghost_sound.setBuffer(*ResourceManager::getSoundBuffer("../resources/music/chase.wav"));
+    
     this->direction = sf::Vector2f(0,0);
     // Make sure player starts inside first room(?)
     // could also make them start inside a random room
@@ -266,7 +266,6 @@ void Villain::chase()
 {
 
     needsCentering = true;
-    ghost_sound.play();
     // std::cout << this->chaseHbox.top << std::endl;
 
     // if ((this->chaseHbox.top < this->hbox.top)&&(this->chaseHbox.top-50 > this->hbox.top)) {

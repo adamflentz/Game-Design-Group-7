@@ -26,6 +26,7 @@ void EndGameScreen::onUpdate(float dt){
 void EndGameScreen::onDraw(sf::RenderTarget& ctx, sf::RenderStates states) const
 {
     ctx.setView(ctx.getDefaultView());
-    ctx.draw(blackness);
+
     ctx.draw(text);
+    ctx.draw(blackness);
 };
