@@ -244,7 +244,7 @@ void CharacterScreen::onGamepadEvent(GamepadEvent e)
           if((*it)->hasPlayer(player)){
             (*it)->setPlayer(player);
             if(++selected_count == player_num)
-              teamFont.setString("PRESS A TO START");
+              teamFont.setString("PRESS A/Z TO START");
             break;
           }
         }
