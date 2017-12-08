@@ -30,10 +30,13 @@ public:
     void hurt();
     void checkCharacters();
     void checkDistance();
+    bool gettingCloser(float d);
+
 protected:
     int randint;
     int health;
     float distance;
+    sf::Clock clock;
 
     sf::FloatRect roomHbox;
     sf::FloatRect chaseHbox;
