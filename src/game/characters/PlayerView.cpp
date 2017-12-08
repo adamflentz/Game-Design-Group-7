@@ -15,12 +15,17 @@ void PlayerView::init()
             lighting.setFillColor(sf::Color::Black);
             std::cout << "Position : " << lighting.getPosition().x << " " << lighting.getPosition().y;
             std::cout << ", Dimensions : "  << lighting.getSize().x << " " << lighting.getSize().y;
-            std::cout << ", Viewport : " << viewport_x << " " << viewport_y << std::endl;
+            std::cout << ", Viewport : " << viewport_x << " " << viewport_y  << std::endl;;
             shader.setUniform("windowHeight", lighting.getSize().y);
-            shader.setUniform("windowWidth", lighting.getSize().x);
-            shader.setUniform("center", sf::Vector2f(
-                viewport_x + lighting.getSize().x / 2.0f, 
-                lighting.getSize().y / 2.0f));
+            // Hack
+            if(numPlayers >= 3)
+                shader.setUniform("center", sf::Vector2f(
+                    viewport_x + lighting.getSize().x / 2.0f, 
+                    viewport_y - lighting.getSize().y / 2.0f));
+            else 
+                shader.setUniform("center", sf::Vector2f(
+                    viewport_x + lighting.getSize().x / 2.0f, 
+                    lighting.getSize().y / 2.0f));
             shader.setUniform("radius", std::min(lighting.getSize().y, lighting.getSize().x) / 2.2f);
             shader.setUniform("expand", 0.0f);
         }

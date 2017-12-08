@@ -160,6 +160,8 @@ void GameplayScreen::createViews(int numPlayers)
 
         view = std::unique_ptr<PlayerView>(new PlayerView());
         view->setRoomGroup(&group);
+        // Quick hack
+        view->numPlayers = numPlayers;
         // Define player view (using math)
         view->setView(
             sf::FloatRect(0, 0, 720 * ratio_w, 480 * ratio_h),

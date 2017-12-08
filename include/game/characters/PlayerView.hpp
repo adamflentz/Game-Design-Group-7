@@ -34,6 +34,8 @@ class PlayerView: public GameObject
         void setControllerIndex(int index){};
 
         void setRoomGroup(RoomGroup* g){this->rooms = g;};
+        // A hack needed to calculate lighting
+        int numPlayers = -1;
     protected:
         float viewport_x = 0;
         float viewport_y = 0;

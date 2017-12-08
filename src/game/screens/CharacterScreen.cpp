@@ -105,7 +105,6 @@ void CharacterScreen::init()
   this->char_selections.clear();
   this->selected_count = 0;
   this->trans = 255;
-  this->player_num = 1;
 
   chara_sound.setBuffer(*ResourceManager::getSoundBuffer("../resources/music/thunder.flac"));
 
